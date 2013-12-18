@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="vzraycb" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/vzraycb" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="/home/kbaedal/Documentos/prog/vzraycb/src" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/vzraycb" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="/home/kbaedal/Documentos/prog/vzraycb/src" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="/home/kbaedal/Documentos/prog/vzraycb/src" />
+		</Compiler>
+		<Unit filename="src/aabb/aabb.cpp" />
+		<Unit filename="src/aabb/aabb.h" />
+		<Unit filename="src/camera/camera.h" />
+		<Unit filename="src/camera/pinhole.cpp" />
+		<Unit filename="src/camera/pinhole.h" />
+		<Unit filename="src/camera/thinlens.cpp" />
+		<Unit filename="src/camera/thinlens.h" />
+		<Unit filename="src/image.cpp" />
+		<Unit filename="src/image.h" />
+		<Unit filename="src/material/dielectricmaterial.cpp" />
+		<Unit filename="src/material/dielectricmaterial.h" />
+		<Unit filename="src/material/diffusematerial.cpp" />
+		<Unit filename="src/material/diffusematerial.h" />
+		<Unit filename="src/material/lightmaterial.cpp" />
+		<Unit filename="src/material/lightmaterial.h" />
+		<Unit filename="src/material/material.h" />
+		<Unit filename="src/material/specularmaterial.cpp" />
+		<Unit filename="src/material/specularmaterial.h" />
+		<Unit filename="src/matrix/matrix.cpp" />
+		<Unit filename="src/matrix/matrix.h" />
+		<Unit filename="src/matrix/transform.cpp" />
+		<Unit filename="src/matrix/transform.h" />
+		<Unit filename="src/onb.cpp" />
+		<Unit filename="src/onb.h" />
+		<Unit filename="src/parser/parser.cpp" />
+		<Unit filename="src/parser/parser.h" />
+		<Unit filename="src/point.cpp" />
+		<Unit filename="src/point.h" />
+		<Unit filename="src/randomc/randomc.cpp" />
+		<Unit filename="src/randomc/randomc.h" />
+		<Unit filename="src/ray.cpp" />
+		<Unit filename="src/ray.h" />
+		<Unit filename="src/renderer/directrenderer.cpp" />
+		<Unit filename="src/renderer/directrenderer.h" />
+		<Unit filename="src/renderer/pathrenderer.cpp" />
+		<Unit filename="src/renderer/pathrenderer.h" />
+		<Unit filename="src/renderer/renderer.h" />
+		<Unit filename="src/rgb.cpp" />
+		<Unit filename="src/rgb.h" />
+		<Unit filename="src/scene/scene.cpp" />
+		<Unit filename="src/scene/scene.h" />
+		<Unit filename="src/shapes/box.cpp" />
+		<Unit filename="src/shapes/box.h" />
+		<Unit filename="src/shapes/cylinder.cpp" />
+		<Unit filename="src/shapes/cylinder.h" />
+		<Unit filename="src/shapes/isecaux.cpp" />
+		<Unit filename="src/shapes/isecaux.h" />
+		<Unit filename="src/shapes/mesh.cpp" />
+		<Unit filename="src/shapes/mesh.h" />
+		<Unit filename="src/shapes/meshtriangle.cpp" />
+		<Unit filename="src/shapes/meshtriangle.h" />
+		<Unit filename="src/shapes/parallelogram.cpp" />
+		<Unit filename="src/shapes/parallelogram.h" />
+		<Unit filename="src/shapes/plane.cpp" />
+		<Unit filename="src/shapes/plane.h" />
+		<Unit filename="src/shapes/shape.h" />
+		<Unit filename="src/shapes/sphere.cpp" />
+		<Unit filename="src/shapes/sphere.h" />
+		<Unit filename="src/shapes/triangle.cpp" />
+		<Unit filename="src/shapes/triangle.h" />
+		<Unit filename="src/test.cpp" />
+		<Unit filename="src/test.h" />
+		<Unit filename="src/textures/simpletexture.h" />
+		<Unit filename="src/textures/texture.h" />
+		<Unit filename="src/utils/dllist.h" />
+		<Unit filename="src/vec2.cpp" />
+		<Unit filename="src/vec2.h" />
+		<Unit filename="src/vec3.cpp" />
+		<Unit filename="src/vec3.h" />
+		<Unit filename="src/vzray.cpp" />
+		<Unit filename="src/vzray.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

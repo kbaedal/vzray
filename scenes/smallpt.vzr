@@ -1,0 +1,206 @@
+<!--
+
+Fichero de descripción de escena de VZRay v0.0.1
+
+-->
+
+<!-- FORMATO NO DEFINITIVO - ES PREVISIBLE QUE HAYA CAMBIOS -->
+
+<!-- 
+	Cabecera, para configurar el renderer a usar, la camara, la imagen
+	a generar, etc. En definitiva, todos los datos necesarios para
+	producir la imagen excepto la definición geométrica de la escena.
+-->
+
+<config>
+	<renderer>
+		<type>path</type>
+		<samples>10</samples>
+		<max_depth>5</max_depth>
+	</renderer>
+	<camera>
+		<type>pinhole</type>
+		<pos>50, 52, 295.6</pos>
+		<gaze>0, -0.042612, -1</gaze>
+		<up>0, -1, 0</up>
+		<dist>1</dist>
+		<low_corner>0.34233, 0.25739</low_corner>
+		<high_corner>-0.34233, -0.25739</high_corner>
+		<push>140</push>
+	</camera>	
+	<image>
+		<res_x>512</res_x>
+		<res_y>384</res_y>
+		<bgcolor>0, 0, 0</bgcolor>
+	</image>
+</config>
+
+<!-- Fin de la cabecera -->
+
+<!-- Inicio de la descripción de la escena. -->
+
+<scene>
+	<!-- Textures -->
+	<texture>
+		<type>simple</type>
+		<id>White</id>
+		<color>0.75, 0.75, 0.75</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Red</id>
+		<color>0.75, 0.25, 0.25</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Green</id>
+		<color>0.25, 0.75, 0.25</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Blue</id>
+		<color>0.25, 0.25, 0.75</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>PureWhite</id>
+		<color>1.0, 1.0, 1.0</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>LightWhite</id>
+		<color>12.0, 12.0, 12.0</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>PureBlack</id>
+		<color>0.0, 0.0, 0.0</color>
+	</texture>
+	
+	<!-- Materials -->
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseWhite</id>
+		<texture_id>White</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseRed</id>
+		<texture_id>Red</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseGreen</id>
+		<texture_id>Green</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseBlue</id>
+		<texture_id>Blue</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffusePureBlack</id>
+		<texture_id>PureBlack</texture_id>
+	</material>
+	<material>
+		<type>specular</type>
+		<id>Specular</id>
+		<texture_id>PureWhite</texture_id>
+	</material>
+	<material>
+		<type>dielectric</type>
+		<id>Dielectric</id>
+		<texture_id>PureWhite</texture_id>
+		<ior>1.5</ior>
+	</material>
+	<material>
+		<type>light</type>
+		<id>Light</id>
+		<texture_id>LightWhite</texture_id>
+	</material>
+	
+	<!-- Objects -->
+	
+	<!-- Mirror sphere -->
+	<object>
+		<type>sphere</type>
+		<center>27, 16.5, 47</center>
+		<radius>16.5</radius>
+		<material>Specular</material>
+	</object>
+	
+	<!-- Glass sphere -->
+	<object>
+		<type>sphere</type>
+		<center>73, 16.5, 78</center>
+		<radius>16.5</radius>
+		<material>Dielectric</material>
+	</object>
+		
+	<!-- Left wall (red) -->
+	<object>
+		<type>plane</type>
+		<normal>1, 0, 0</normal>
+		<distance>-1</distance>
+		<material>DiffuseRed</material>
+	</object>
+	
+	<!-- Right wall (blue) -->
+	<object>
+		<type>plane</type>
+		<normal>-1, 0, 0</normal>
+		<distance>99</distance>
+		<material>DiffuseBlue</material>
+	</object>
+	
+	<!-- Back wall -->
+	<object>
+		<type>plane</type>
+		<normal>0, 0, 1</normal>
+		<distance>0</distance>
+		<material>DiffuseWhite</material>
+	</object>
+	
+	<!-- Front wall -->
+	<object>
+		<type>plane</type>
+		<normal>0, 0, -1</normal>
+		<distance>170</distance>
+		<material>DiffusePureBlack</material>
+	</object>
+	
+	<!-- Bottom wall -->
+	<object>
+		<type>plane</type>
+		<normal>0, 1, 0</normal>
+		<distance>0</distance>
+		<material>DiffuseWhite</material>
+	</object>
+		
+	<!-- Top wall -->
+	<object>
+		<type>plane</type>
+		<normal>0, -1, 0</normal>
+		<distance>81.6</distance>
+		<material>DiffuseWhite</material>
+	</object>	
+		
+	<!-- Light sphere
+	<object>
+		<type>sphere</type>
+		<center>50,681.33,81.6</center>
+		<radius>600</radius>
+		<material>Light</material>
+	</object>
+	-->
+	
+	<!-- Light parallelogram -->
+	<object>
+		<type>parallelogram</type>
+		<base>32.5,81.5,64.1</base>
+		<vec_u>35, 0, 0</vec_u>
+		<vec_v>0, 0, 35</vec_v>
+		<material>Light</material>
+	</object>	
+</scene>
