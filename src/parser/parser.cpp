@@ -1463,14 +1463,19 @@ bool Parser::processMesh()
 		return false;
 
 	if(strTemp == "vertex_list") {
-		if(!processMeshVertex(pShape, &MTList))
-			return false;
+        pShape = new Mesh();
+		if(!processMeshVertex(pShape, &MTList)) {
+            delete pShape;
+            return false;
+		}
+
 	}
 	else if(strTemp == "file") {
 		pShape = new Mesh();
-
-		if(!processMeshFile(pShape, &MTList))
-		return false;
+		if(!processMeshFile(pShape, &MTList)) {
+            delete pShape;
+            return false;
+		}
 	}
 	else // Etiqueta desconocida, descripción errónea de la malla
 		return false;
