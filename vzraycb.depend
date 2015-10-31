@@ -1278,9 +1278,10 @@
 1446132919 source:c:\prog\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1446140778 source:c:\prog\vzraycb\src\scene\scene.cpp
+1446285879 source:c:\prog\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
+	"statistics.h"
 	"ray.h"
 	"shapes/shape.h"
 	"aabb/aabb.h"
@@ -1316,8 +1317,9 @@
 	"onb.h"
 	"randomc/randomc.h"
 
-1446142605 source:c:\prog\vzraycb\src\shapes\isecaux.cpp
+1446294183 source:c:\prog\vzraycb\src\shapes\isecaux.cpp
 	"isecaux.h"
+	"statistics.h"
 
 1446046834 source:c:\prog\vzraycb\src\shapes\mesh.cpp
 	"mesh.h"
@@ -1329,7 +1331,7 @@
 	"mesh.h"
 	"meshtriangle.h"
 
-1446142863 source:c:\prog\vzraycb\src\shapes\parallelogram.cpp
+1446205497 source:c:\prog\vzraycb\src\shapes\parallelogram.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1340,7 +1342,7 @@
 	"parallelogram.h"
 	"onb.h"
 
-1446142921 source:c:\prog\vzraycb\src\shapes\plane.cpp
+1446293962 source:c:\prog\vzraycb\src\shapes\plane.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1350,6 +1352,7 @@
 	<float.h>
 	"shapes/plane.h"
 	"onb.h"
+	"statistics.h"
 
 1446204394 source:c:\prog\vzraycb\src\shapes\sphere.cpp
 	<cmath>
@@ -1387,4 +1390,23 @@
 	"point.h"
 	"randomc/randomc.h"
 	"onb.h"
+
+1446292944 source:c:\prog\vzraycb\src\vzray.cpp
+	<cmath>
+	<cstdlib>
+	<cstdio>
+	<iostream>
+	<fstream>
+	<vector>
+	<ctime>
+	<cstring>
+	"parser/parser.h"
+	"test.h"
+	"vzray.h"
+	"statistics.h"
+
+1446292730 c:\prog\vzraycb\src\statistics.h
+
+1446292750 source:c:\prog\vzraycb\src\statistics.cpp
+	"statistics.h"
 

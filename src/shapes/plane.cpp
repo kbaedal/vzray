@@ -10,10 +10,14 @@
 #include "shapes/plane.h"
 #include "onb.h"
 
+#include "statistics.h"
+
 const float Plane::kplane_epsilon = 1e-8;
 
 bool Plane::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
 {
+    ++Statistics::num_prim_tests;
+
 	float vd, vo, t;
 
     vd = dot(versor(normal), versor(r.direction()));
@@ -27,6 +31,7 @@ bool Plane::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) co
 			hit.normal      = versor(normal);
 			hit.material    = material;
 
+            ++Statistics::num_prim_isecs;
             return true;
         }
         else {

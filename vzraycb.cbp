@@ -101,6 +101,8 @@
 		<Unit filename="src/shapes/sphere.h" />
 		<Unit filename="src/shapes/triangle.cpp" />
 		<Unit filename="src/shapes/triangle.h" />
+		<Unit filename="src/statistics.cpp" />
+		<Unit filename="src/statistics.h" />
 		<Unit filename="src/test.cpp" />
 		<Unit filename="src/test.h" />
 		<Unit filename="src/textures/simpletexture.h" />

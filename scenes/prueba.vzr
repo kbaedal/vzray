@@ -15,7 +15,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 <config>
 	<renderer>
 		<type>whitted</type>
-		<samples>10</samples>
+		<samples>1</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -224,34 +224,37 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<object>
 		<type>sphere</type>
 		<center>0, 0, 0</center>
-		<radius>.01</radius>
+		<radius>.25</radius>
 		<material>DiffuseLight</material>
 		<transform>
-			<translate>0, 4.85, 0</translate>
+			<translate>0, 4.5, 0</translate>
 		</transform>
 	</object>
 
+	<!--
 	<object>
 		<type>sphere</type>
 		<center>-1, -1, -1</center>
 		<radius>.125</radius>
 		<material>DiffuseRed</material>
 	</object>
-
+	-->
+	
 	<object>
 		<type>sphere</type>
 		<center>0, 0, 0</center>
-		<radius>.125</radius>
+		<radius>1.5</radius>
 		<material>DiffuseGreen</material>
 	</object>
 
+	<!--
 	<object>
 		<type>sphere</type>
 		<center>1, 1, 1</center>
 		<radius>.125</radius>
 		<material>DiffuseBlue</material>
 	</object>
-
+	
 	<object>
 		<type>cylinder</type>
 		<center_0>1, 1, 1</center_0>
@@ -259,4 +262,5 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<radius>.25</radius>
 		<material>DiffuseWhite</material>
 	</object>
+	-->
 </scene>

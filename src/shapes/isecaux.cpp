@@ -1,4 +1,5 @@
 #include "isecaux.h"
+#include "statistics.h"
 
 bool isecaux::test_ray_box(
 	const Ray &r, 		    // Ray to test
@@ -8,6 +9,8 @@ bool isecaux::test_ray_box(
 	float max_dist,
 	float &dist)
 {
+    ++Statistics::num_prim_tests;
+
 	float t1 = (minimo.x() - r.origin().x()) * r.inv_dir().x();
 	float t2 = (maximo.x() - r.origin().x()) * r.inv_dir().x();
 	float t3 = (minimo.y() - r.origin().y()) * r.inv_dir().y();
@@ -31,6 +34,10 @@ bool isecaux::test_ray_box(
 		return false;
 
 	dist = tmin;
+	std::clog << "PUES SI\n";
+
+	++Statistics::num_prim_isecs;
+
 	return true;
 }
 
@@ -81,17 +88,17 @@ bool isecaux::test_ray_sphere(
 	const float max_dist,
 	float 		&dist)
 {
-	Vec3 origin;
+    ++Statistics::num_prim_tests;
 
-	origin.set(r.origin());
+    Vec3 o(r.origin());
 
 	// Se asume que la esfera tiene su centro en el origen (0,0,0) y que
 	// su radio es 1.
 	float a = dot(r.direction(), r.direction());
-	float b = 2.0f * dot(r.direction(), origin);
+	float b = 2.0f * dot(r.direction(), o);
 
 	// En el espacio de la esfera, el radio es 1 siempre.
-	float c = dot(origin, origin) - 1.0f;
+	float c = dot(o, o) - 1.0f;
 
 	float t0, t1;
 
@@ -106,6 +113,8 @@ bool isecaux::test_ray_sphere(
 	if((dist < min_dist) || (dist > max_dist))
 		return false;
 
+    ++Statistics::num_prim_isecs;
+
 	return true;
 }
 
@@ -118,6 +127,8 @@ bool isecaux::test_ray_triangle(
 	float max_dist,
 	float &dist)				// Dist to hit, if it happens
 {
+    ++Statistics::num_triangle_tests;
+
 	float a = p0.x() - p1.x();
 	float b = p0.y() - p1.y();
 	float c = p0.z() - p1.z();
@@ -154,6 +165,9 @@ bool isecaux::test_ray_triangle(
 	float temp = -(f*akjb + e*jcal + d*blkc) / denom;
 	if (temp >= min_dist && temp <= max_dist) {
 		dist = temp;
+
+		++Statistics::num_triangles_isec;
+
 		return true;
 	}
 
@@ -166,6 +180,8 @@ bool isecaux::test_ray_cylinder(
 	const float max_dist,
 	float 		&dist)
 {
+    ++Statistics::num_prim_tests;
+
 	// Se asume que el cilindro está situado a lo largo del eje Z,
 	// y que sus extremos son <0, 0, -1> y <0, 0, 1>
 
@@ -217,6 +233,8 @@ bool isecaux::test_ray_cylinder(
 				return false;
 		}
 	}
+
+    ++Statistics::num_prim_isecs;
 
 	return true;
 }

@@ -2,6 +2,8 @@
 
 #include "scene.h"
 
+#include "statistics.h"
+
 #include "ray.h"
 #include "shapes/shape.h"
 #include "aabb/aabb.h"
@@ -56,6 +58,8 @@ bool Scene::add_material(Material *new_material, std::string texture_id, std::st
 bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit)
 {
 	bool is_hit = false;
+
+    ++Statistics::num_primary_rays;
 
 	for(int i = 0; i < shapes->get_num_eltos(); i++) {
 		if(shapes->get_data(i)->hit(r, min_dist, max_dist, hit)) {

@@ -12,6 +12,7 @@
 #include "test.h"
 
 #include "vzray.h"
+#include "statistics.h"
 
 static void muestra_ayuda(std::string name)
 {
@@ -26,6 +27,7 @@ static void muestra_ayuda(std::string name)
 // Prints info of render process.
 void imprime_info(int linea_act, int lineas_tot);
 void print_time(string head, float ticks);
+void print_statistics();
 
 // Intiating data structures
 bool init_data(Globals *globales);
@@ -105,6 +107,7 @@ int main(int argc, char *argv[])
 		render_ticks = clock() - render_ticks;
 
 		print_time("\nRender Time: ", ((float)render_ticks)/CLOCKS_PER_SEC);
+		print_statistics();
 	}
 
 	std::clog.rdbuf(backup);		// Restauramos el streambuf de clog
@@ -200,56 +203,7 @@ bool start_render(Globals *globales)
 	ofstream 	os_image_file;
 
 	if(globales->output_file.size() == 0) {
-        /*
-		unsigned int    nPos = 0;
-		bool 	        bFileComp = false;
-
-		// Primera pasada: eliminar directorios, si los hay. Es decir,
-		// si tenemos una cadena del estilo "../un_dir/escena.vzr",
-		// nos quedamos con "escena.vzr".
-		// Recorremos la cadena del final al principio para encontrar
-		// el caracter '/', si lo hay. Copiamos el resto a partir
-		// de esa posicion.
-		for(int i = globales->strSceneFile.size(); i > 0; i--) {
-			switch(globales->strSceneFile[i]) {
-				case '/':
-					nPos = i+1; // Nos colocamos en el caracter adecuado.
-					bFileComp = true;
-					break;
-				default:
-					break;
-			}
-			if(bFileComp)
-				break;
-		}
-		// Copiamos la cadena.
-		for(;nPos < globales->strSceneFile.size(); nPos++)
-			strTemp += globales->strSceneFile[nPos];
-
-		// Segunda pasada: buscamos el primer '.' desde el final,
-		// que debe indicar el principio de la extensión. Copiamos
-		// hasta esa posicion. Es decir, para la cadena "escena.vzr"
-		// nos quedaremos con "escena".
-		nPos = 0;
-		bFileComp = false;
-		for(int i = strTemp.size(); i > 0; i--) {
-			switch(strTemp[i]) {
-				case '.':
-					nPos = i;
-					bFileComp = true;
-					break;
-				default:
-					break;
-			}
-			if(bFileComp)
-				break;
-		}
-		// Copiamos la cadena.
-		for(unsigned int i = 0; i < nPos; i++)
-			strImageFile += strTemp[i];
-        */
-
-		std::string	temp;
+        std::string	temp;
 
         // Averiguamos el nombre del fichero.
 		image_file_name(globales->scene_file, temp);
@@ -314,6 +268,19 @@ void print_time(std::string head, float ticks)
 
 	std::cout << head << hours << "h " << mins << "m ";
 	std::cout << std::fixed << std::setprecision(2) << ticks << "s" << std::endl << std::endl;
+}
+
+void print_statistics()
+{
+    std::cout 	<< "Rayos primarios lanzados:      " << Statistics::num_primary_rays << "\n"
+                << " ---\n"
+				<< "Numero triangulos:             " << Statistics::num_triangles << "\n"
+				<< "Test rayo-triangulo:           " << Statistics::num_triangle_tests << "\n"
+				<< "Intersecciones rayo-triangulo: " << Statistics::num_triangles_isec << "\n"
+				<< " ---\n"
+				<< "Otras primitivas:              " << Statistics::num_primitives << "\n"
+				<< "Tests rayo-primitiva:          " << Statistics::num_prim_tests << "\n"
+				<< "Intersecciones rayo-primtivia: " << Statistics::num_prim_isecs << "\n\n";
 }
 
 void image_file_name(const std::string &input_file, std::string &output_file)
