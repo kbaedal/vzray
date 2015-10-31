@@ -4,7 +4,7 @@
 #include "ray.h"
 
 /**
- * Clase abstracta de la que derivarán las clases que manejarán los
+ * \class Clase abstracta de la que derivarán las clases que manejarán los
  * diferentes tipos de cámaras.
  */
 class Camera {
@@ -19,7 +19,7 @@ class Camera {
 		 * @param sy Muestra del pixel, tal que 0 <= sy < 1.
 		 * @return Rayo generado por la camara.
 		 */
-		virtual Ray getRay(float x, float y, float sx, float sy) = 0;
+		virtual Ray get_ray(float x, float y, float sx, float sy) = 0;
 };
 
 #endif // __CAMERA_H__

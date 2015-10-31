@@ -41,106 +41,110 @@
 #include "shapes/mesh.h"
 #include "shapes/meshtriangle.h"
 
-Parser::Parser(void) : MAX_ETIQUETA(15), MAX_CONTENT(25)
-{
-	m_nError 	= -1; 		// No ha ocurrido ningún error aún.
-	m_nLine 	= 1;		// De ocurrir, ocurre como muy pronto en la primera linea
-	m_bEOF		= false;	// Mientras sea nulo, no hemos llegado al fin del fichero.
+const int Parser::kmax_etiqueta     = 15;
+const int Parser::kmax_contenido    = 25;
 
-    m_strTipoError[0].assign("Etiqueta desconocida.");
-    m_strTipoError[1].assign("Fin de archivo inesperado.");
-    m_strTipoError[2].assign("Contenido de etiqueta desconocido.");
-    m_strTipoError[3].assign("Numero (float o int) no valido.");
-    m_strTipoError[4].assign("Fichero no encontrado o algo raro (Badbit).");
-    m_strTipoError[5].assign("Fichero no encontrado o algo raro (Failbit).");
-    m_strTipoError[6].assign("Fichero no encontrado o algo raro (Eofbit).");
-    m_strTipoError[7].assign("Fichero ya abierto, so mongolo.");
-    m_strTipoError[8].assign("Caracter desconocido.");
-    m_strTipoError[10].assign("Fichero correcto.");
+Parser::Parser(void)
+{
+	num_error   = -1; 		// No ha ocurrido ningún error aún.
+	num_linea   = 1;		// De ocurrir, ocurre como muy pronto en la primera linea
+	eof		    = false;	// Mientras sea nulo, no hemos llegado al fin del fichero.
+
+    tipo_error[0].assign("Etiqueta desconocida.");
+    tipo_error[1].assign("Fin de archivo inesperado.");
+    tipo_error[2].assign("Contenido de etiqueta desconocido.");
+    tipo_error[3].assign("Numero (float o int) no valido.");
+    tipo_error[4].assign("Fichero no encontrado o algo raro (Badbit).");
+    tipo_error[5].assign("Fichero no encontrado o algo raro (Failbit).");
+    tipo_error[6].assign("Fichero no encontrado o algo raro (Eofbit).");
+    tipo_error[7].assign("Fichero ya abierto, so mongolo.");
+    tipo_error[8].assign("Caracter desconocido.");
+    tipo_error[10].assign("Fichero correcto.");
 }
 
 Parser::~Parser()
 {
-    m_fileEscena.close();
+    if(fichero_escena.is_open())
+        fichero_escena.close();
 }
 
-void Parser::getError(std::string &strError, int &nLine, int &nErrorCode)
+void Parser::get_error(std::string &a_tipo_error, int &a_num_linea, int &a_num_error)
 {
-    if(m_nError != -1)
-		strError.assign(m_strTipoError[m_nError]);
+    if(num_error != -1)
+		a_tipo_error.assign(tipo_error[num_error]);
     else
-        strError.assign("Sin error.");
+        a_tipo_error.assign("Sin error.");
 
-    nLine = m_nLine;
-    nErrorCode = m_nError;
+    a_num_linea = num_linea;
+    a_num_error = num_error;
 }
 
-bool Parser::leerFichero(const std::string &strName, Globals *pGlobals)
+bool Parser::leer_fichero(const std::string &fichero, Globals *datos_globales)
 {
-	m_pGlobals = pGlobals; // Inicializamos el puntero para rellenar los datos.
+	globales = datos_globales; // Inicializamos el puntero para rellenar los datos.
 
-    m_fileEscena.open(strName.c_str()); // Abrimos el fichero.
+    fichero_escena.open(fichero.c_str()); // Abrimos el fichero.
 
-    if(!m_fileEscena.is_open()) {
-        m_nError = 7;
+    if(!fichero_escena.is_open()) {
+        num_error = 7;
         return false;
     }
 
-    if(!m_fileEscena.good()) {
-        if(m_fileEscena.bad())
-            m_nError = 4;
-        else if(m_fileEscena.fail())
-            m_nError = 5;
-        else m_nError = 6;
+    if(!fichero_escena.good()) {
+        if(fichero_escena.bad())
+            num_error = 4;
+        else if(fichero_escena.fail())
+            num_error = 5;
+        else num_error = 6;
 
         return false;
     }
 
     do {
-		if(!ignorarChars()) {
-			if(!m_bEOF) // No hemos llegado al fin de archivo. Error.
+		if(!ignorar_chars()) {
+			if(!eof) // No hemos llegado al fin de archivo. Error.
 				return false;
 		}
 		else {
-			std::string strEtiqueta;
+			std::string etiqueta;
 
-			if(readToken(strEtiqueta))
+			if(read_token(etiqueta))
 			{
 				// Procesar las etiquetas encontradas.
-				if(strEtiqueta == "config") {
-					if(!processConfig())
+				if(etiqueta == "config") {
+					if(!process_config())
 						return false;
 				}
-				else if(strEtiqueta == "scene") {
-					if(!processScene())
+				else if(etiqueta == "scene") {
+					if(!process_scene())
 						return false;
 				}
 				else {
-					m_nError = 0; // Etiqueta desconocida.
+					num_error = 0; // Etiqueta desconocida.
 					return false;
 				}
 			}
 			else {
-				m_nError = 0; // Etiqueta desconocida.
+				num_error = 0; // Etiqueta desconocida.
 				return false;
 			}
 		}
 	}
-	while(!m_bEOF);
-    m_nError = 10;	// Si llegamos hasta aquí, es que el fichero se ha leido
+	while(!eof);
+    num_error = 10;	// Si llegamos hasta aquí, es que el fichero se ha leido
     return true;	// bien y al completo.
 }
 
-bool Parser::ignorarChars()
+bool Parser::ignorar_chars()
 {
-    bool bFindChar = false;
-    char cRead;
+    bool encontrado = false;
+    char c;
 
     do {
-        if(m_fileEscena.get(cRead)) { // No estamos al final del archivo si pasamos de aqui.
-			switch(cRead) {
+        if(fichero_escena.get(c)) { // No estamos al final del archivo si pasamos de aqui.
+			switch(c) {
 				// Ignoramos saltos de linea, espacios y tabuladores.
-                case '\n': m_nLine++;
+                case '\n': num_linea++;
                 case '\r':
                 case ' ':
                 case '\t':
@@ -148,264 +152,264 @@ bool Parser::ignorarChars()
                 case '<':
 					// Encontrado inicio de etiqueta. Devolvermos el control
 					// si no es un comentario.
-					if(isComment()) {
-						if(!processComment())
+					if(is_comment()) {
+						if(!process_comment())
 							return false;
 					}
 					else {
-						bFindChar = true;
+						encontrado = true;
 					}
                     break;
                 default: // Caracter erroneo o no esperado.
-					m_nError = 8;
+					num_error = 8;
                     return false;
                     break;
             }
         }
         else { // Fin de archivo.
-            m_nError = 1;
-            m_bEOF = true;
+            num_error = 1;
+            eof = true;
             return false;
         }
     }
-    while(!bFindChar);
+    while(!encontrado);
     return true;
 }
 
-bool Parser::readToken(std::string &strToken)
+bool Parser::read_token(std::string &token)
 {
-    int 		nCont = 0;
-    char 		cRead;
-    std::string strTemp(""); // Cadena inicializada sin caracteres.
+    int 		cont = 0;
+    char 		c;
+    std::string temp(""); // Cadena inicializada sin caracteres.
 
-    while(nCont < MAX_ETIQUETA) {
-        if(!m_fileEscena.get(cRead)) {
-            m_nError = 1; // Fin del fichero, devolvemos false.
+    while(cont < kmax_etiqueta) {
+        if(!fichero_escena.get(c)) {
+            num_error = 1; // Fin del fichero, devolvemos false.
             return false;
         }
         else {
-            if(cRead != '>')
+            if(c != '>')
 				// Añadimos el caracter leido a la cadena.
-                strTemp += cRead;
+                temp += c;
             else {
                 // Fin de la etiqueta, copiamos lo leido a nuestra
                 // cadena y devolvemos true.
-                strToken.assign(strTemp);
+                token = temp;
                 return true;
             }
         }
-        nCont++;
+        cont++;
     }
     // Superado el tamaño máximo de etiqueta, devolvemos false.
-    m_nError = 0; // Etiqueta desconocida.
+    num_error = 0; // Etiqueta desconocida.
     return false;
 }
 
-bool Parser::readContent(std::string &strContent, const char cStopChar)
+bool Parser::read_content(std::string &content, const char stop_char)
 {
-    int 		nCont = 0;
-    char 		cRead;
-    std::string	strTemp("");
+    int 		cont = 0;
+    char 		c;
+    std::string	temp("");
 
-    while(nCont < MAX_CONTENT) {
-        if(!m_fileEscena.get(cRead)) {
-            m_nError = 1; // Fin del fichero, devolvemos false.
+    while(cont < kmax_contenido) {
+        if(!fichero_escena.get(c)) {
+            num_error = 1; // Fin del fichero, devolvemos false.
             return false;
         }
         else {
-            if(cRead != cStopChar)
-                strTemp += cRead;
+            if(c != stop_char)
+                temp += c;
             else {
                 // Fin del contenido, copiamos los datos y volvemos.
-                strContent.assign(strTemp);
+                content= temp;
                 return true;
             }
         }
-        nCont++;
+        cont++;
     }
-    m_nError = 2; // Superado el tamaño máximo de contenido, devolvemos false.
+    num_error = 2; // Superado el tamaño máximo de contenido, devolvemos false.
     return false;
 }
 
-bool Parser::readFloat(float &dDato, const char cStopChar)
+bool Parser::read_float(float &dato, const char stop_char)
 {
-	std::string strTemp("");
+	std::string temp("");
 
 	// Leemos el contenido en una cadena.
-	readContent(strTemp, cStopChar);
+	read_content(temp, stop_char);
 
 	// Comprobamos que la cadena contenga un numero válido para pasarselo
 	// a atof() con total seguridad.
-	if(validFloat(strTemp)) {
-		dDato = atof(strTemp.c_str());
+	if(valid_float(temp)) {
+		dato = atof(temp.c_str());
 		return true;
 	}
 	else {
-		m_nError = 3;
+		num_error = 3;
 		return false;
 	}
 }
 
-bool Parser::readInt(int &nDato, const char cStopChar)
+bool Parser::read_int(int &dato, const char stop_char)
 {
-	std::string strTemp("");
+	std::string temp("");
 
 	// Leemos el contenido en una cadena.
-	readContent(strTemp, cStopChar);
+	read_content(temp, stop_char);
 
 	// Comprobamos que la cadena contenga un numero válido para pasarselo
 	// a atoi() con total seguridad.
-	if(validInt(strTemp)) {
-		nDato = atoi(strTemp.c_str());
+	if(valid_int(temp)) {
+		dato = atoi(temp.c_str());
 		return true;
 	}
 	else {
-		m_nError = 3;
+		num_error = 3;
 		return false;
 	}
 }
 
-bool Parser::readBloqueTxt(const std::string &strEtiqueta, std::string &strResultado)
+bool Parser::read_bloque_txt(const std::string &etiqueta, std::string &resultado)
 {
-    std::string strBufferEtq,
-				strBufferCnt,
-				strCierre("/");
+    std::string buffer_etiqueta,
+				buffer_contenido,
+				cierre("/");
 
 	// Ignoramos hasta llegar a la apertura de una etiqueta.
-    if(!ignorarChars())
+    if(!ignorar_chars())
         return false;
 
     // Leemos que etiqueta es.
-    if(!readToken(strBufferEtq))
+    if(!read_token(buffer_etiqueta))
         return false;
 
     // Si no es la etiqueta que buscamos, devolvemos error.
-    if(strEtiqueta != strBufferEtq)
+    if(etiqueta != buffer_etiqueta)
         return false;
 
     // Leemos el contenido.
-    if(!readContent(strBufferCnt, '<'))
+    if(!read_content(buffer_contenido, '<'))
         return false;
 
     // Antes de leer el cierre de la etiqueta, componemos la cadena para
     // comparar con dicho cierre. El cierre de la etiqueta debe ser igual
     // que la apertura pero con una barra delante:
     //	- Si apertura es <etiqueta>, el cierre debe ser </etiqueta>
-    strCierre += strBufferEtq;
-    strBufferEtq.clear();
+    cierre += buffer_etiqueta;
+    buffer_etiqueta.clear();
 
     // Leemos el cierre de la etiqueta.
-    if(!readToken(strBufferEtq))
+    if(!read_token(buffer_etiqueta))
         return false;
 
     // Y comprobamos que sea el cierre correcto.
-    if(strCierre != strBufferEtq)
+    if(cierre != buffer_etiqueta)
         return false;
 
 	// Copiamos el resultado para devolverlo.
-    strResultado = strBufferCnt;
+    resultado = buffer_contenido;
     return true;
 }
 
-// Leeremos, dentro de la etiqueta strEtiqueta, nNumF floats, que
+// Leeremos, dentro de la etiqueta etiqueta, nNumF floats, que
 // almacenaremos en el array de floats fltArray. Al llamar a este metodo
 // debemos garantizar que fltArray puede almacenar nNumF floats.
-bool Parser::readBloqueFloats(const std::string &strEtiqueta, const int nNumF, float *fltArray)
+bool Parser::read_bloque_floats(const std::string &etiqueta, const int cantidad, float *numeros)
 {
-	std::string	strBufferEtq,
-				strCierre("/");
-	char		cSep;
+	std::string	buffer_etiqueta,
+				cierre("/");
+	char		separador;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
         return false;
-    if(!readToken(strBufferEtq))
+    if(!read_token(buffer_etiqueta))
         return false;
-	if(strEtiqueta != strBufferEtq)
+	if(etiqueta != buffer_etiqueta)
         return false;
 
-	for(int i = 0; i < nNumF; i++) {
-		if(i == nNumF - 1) // Ultimo float a leer
-			cSep = '<';
+	for(int i = 0; i < cantidad; i++) {
+		if(i == cantidad - 1) // Ultimo float a leer
+			separador = '<';
 		else
-			cSep = ',';
+			separador = ',';
 
-		if(!readFloat(fltArray[i], cSep))
+		if(!read_float(numeros[i], separador))
 			return false;
 	}
 
-	strCierre += strBufferEtq;
-    strBufferEtq.clear();
+	cierre += buffer_etiqueta;
+    buffer_etiqueta.clear();
 
-    if(!readToken(strBufferEtq))
+    if(!read_token(buffer_etiqueta))
         return false;
 
-    if(strCierre != strBufferEtq)
+    if(cierre != buffer_etiqueta)
         return false;
 
     return true;
 }
 
-bool Parser::readBloqueInts(const std::string &strEtiqueta, const int nNumF, int *intArray)
+bool Parser::read_bloque_ints(const std::string &etiqueta, const int cantidad, int *numeros)
 {
-	std::string	strBufferEtq,
-				strCierre("/");
-	char		cSep;
+	std::string	buffer_etiqueta,
+				cierre("/");
+	char		separador;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
         return false;
-    if(!readToken(strBufferEtq))
+    if(!read_token(buffer_etiqueta))
         return false;
-	if(strEtiqueta != strBufferEtq)
+	if(etiqueta != buffer_etiqueta)
         return false;
 
-	for(int i = 0; i < nNumF; i++) {
-		if(i == nNumF - 1) // Ultimo float a leer
-			cSep = '<';
+	for(int i = 0; i < cantidad; i++) {
+		if(i == cantidad - 1) // Ultimo float a leer
+			separador = '<';
 		else
-			cSep = ',';
+			separador = ',';
 
-		if(!readInt(intArray[i], cSep))
+		if(!read_int(numeros[i], separador))
 			return false;
 
 	}
 
-	strCierre += strBufferEtq;
-    strBufferEtq.clear();
+	cierre += buffer_etiqueta;
+    buffer_etiqueta.clear();
 
-    if(!readToken(strBufferEtq))
+    if(!read_token(buffer_etiqueta))
         return false;
 
-    if(strCierre != strBufferEtq)
+    if(cierre != buffer_etiqueta)
         return false;
 
     return true;
 }
 
-bool Parser::readBloqueVec3(const std::string &strEtiqueta, Vec3 &v3Resultado)
+bool Parser::read_bloque_vec3(const std::string &etiqueta, Vec3 &v)
 {
-	float vArray[3];
+	float componentes[3];
 
-	if(!readBloqueFloats(strEtiqueta, 3, vArray))
+	if(!read_bloque_floats(etiqueta, 3, componentes))
 		return false;
 
-	v3Resultado.set(vArray[0], vArray[1], vArray[2]);
+	v.set(componentes);
 
 	return true;
 }
 
-bool Parser::readBloquePoint(const std::string &strEtiqueta, Point &p3Resultado)
+bool Parser::read_bloque_point(const std::string &etiqueta, Point &p)
 {
-	float vArray[3];
+	float componentes[3];
 
-	if(!readBloqueFloats(strEtiqueta, 3, vArray))
+	if(!read_bloque_floats(etiqueta, 3, componentes))
 		return false;
 
-	p3Resultado.set(vArray[0], vArray[1], vArray[2]);
+	p.set(componentes);
 
 	return true;
 }
 
-bool Parser::validFloat(const std::string &strFloat)
+bool Parser::valid_float(const std::string &num)
 {
 	// Para que una cadena contenga un float válido deben darse las
 	// siguientes condiciones:
@@ -419,29 +423,29 @@ bool Parser::validFloat(const std::string &strFloat)
 	//	- Tras la 'e' o la 'E' puede haber un signo.
 	//	- Tras la 'e' o la 'E' no puede haber un punto, sólo cifras.
 
-	unsigned int    nCont = 0;
-    bool	        bEnNumero 	= false,
-                    bFinNumero 	= false,
-                    bPunto 		= false,
-                    bSignoMan	= false,
-                    bSignoExp	= false,
-                    bEnExp		= false;
+	unsigned int    cont        = 0;
+    bool	        en_numero 	= false,
+                    fin_numero 	= false,
+                    punto 		= false,
+                    signo_man	= false,
+                    signo_exp	= false,
+                    en_exp		= false;
 
-	while(nCont < strFloat.length()) {
-		switch(strFloat[nCont]) {
+	while(cont < num.length()) {
+		switch(num[cont]) {
 			case ' ':
-				if(bEnNumero)
+				if(en_numero)
 					// Permitimos los espacios al principio y al final
 					// de la cadena.
-					bFinNumero = true;
+					fin_numero = true;
 				break;
 			case '.':
-				if(!bPunto && !bFinNumero) {
+				if(!punto && !fin_numero) {
 					// Hemos encontrado el punto decimal.
-					bPunto = true;
+					punto = true;
 					// Y puede que no haya cifra por delante, pero aún
 					// así es un numero válido: .56, por ejemplo.
-					bEnNumero = true;
+					en_numero = true;
 				}
 				else
 					// Hemos encontrado otro punto. Error.
@@ -449,17 +453,17 @@ bool Parser::validFloat(const std::string &strFloat)
 				break;
 			case '+':
 			case '-':
-				if(!bEnNumero && !bSignoMan && !bFinNumero) {
+				if(!en_numero && !signo_man && !fin_numero) {
 					// Encontramos el signo de la mantisa, antes
 					// de cualquier cifra.
-					bSignoMan = true;
+					signo_man = true;
 					// Y ya tenemos que procesar el número.
-					bEnNumero = true;
+					en_numero = true;
 				}
-				else if(bEnNumero && bEnExp && !bSignoExp) {
+				else if(en_numero && en_exp && !signo_exp) {
 					// Encontramos el signo del exponente, que debe venir
 					// detrás de la 'e' que lo indica.
-					bSignoExp = true;
+					signo_exp = true;
 				}
 				else
 					// Hemos encontrado un signo en un lugar en el que
@@ -468,10 +472,10 @@ bool Parser::validFloat(const std::string &strFloat)
 				break;
 			case 'e':
 			case 'E':
-				if(bEnNumero && !bEnExp && !bFinNumero)
+				if(en_numero && !en_exp && !fin_numero)
 					// Hemos encontrado la 'e' que indica el inicio
 					// del exponente.
-					bEnExp = true;
+					en_exp = true;
 				else
 					// Hemos encontrado la 'e' en un lugar en el que
 					// no debería estar, o ya había una e en el numero.
@@ -487,12 +491,12 @@ bool Parser::validFloat(const std::string &strFloat)
 			case '7':
 			case '8':
 			case '9':
-				if(!bEnNumero && !bFinNumero)
+				if(!en_numero && !fin_numero)
 					// Una cifra. Encontrada por primera vez nos marcará
 					// el inicio del número, a partir de aquí entran en
 					// juego las demás reglas.
-					bEnNumero = true;
-				else if(bFinNumero)
+					en_numero = true;
+				else if(fin_numero)
 					// Hemos encontrado una cifra después de haber leído
 					// un espacio que indicaba el final del número.
 					return false;
@@ -503,14 +507,14 @@ bool Parser::validFloat(const std::string &strFloat)
 				break;
 		}
 		// Avanzamos en la cadena.
-		nCont++;
+		cont++;
 	}
 	// Si hemos llegado hasta aquí, quiere decir que la cadena leída
 	// tiene el formato adecuado para ser convertida a float.
 	return true;
 }
 
-bool Parser::validInt(const std::string &strInt)
+bool Parser::valid_int(const std::string &num)
 {
 	// Para que una cadena contenga un int válido deben darse las
 	// siguientes condiciones:
@@ -519,25 +523,25 @@ bool Parser::validInt(const std::string &strInt)
 	//	- El primer caracter debe ser el signo, si lo hay, (+ o -).
 	//	- Tras el signo solo puede haber números, nunca otro signo.
 
-	unsigned int 	nCont = 0;
-    bool	        bEnNumero 	= false,
-                    bFinNumero 	= false;
+	unsigned int 	cont = 0;
+    bool	        en_numero 	= false,
+                    fin_numero 	= false;
 
-	while(nCont < strInt.length())
+	while(cont < num.length())
     {
-		switch(strInt[nCont]) {
+		switch(num[cont]) {
 			case ' ':
-				if(bEnNumero)
+				if(en_numero)
 					// Permitimos los espacios al principio y al final
 					// de la cadena.
-					bFinNumero = true;
+					fin_numero = true;
 				break;
 			case '+':
 			case '-':
-				if(!bEnNumero)
+				if(!en_numero)
 					// Encontramos el signo antes de cualquier cifra.
 					// Ya tenemos que procesar el número.
-					bEnNumero = true;
+					en_numero = true;
 				else
 					// Hemos encontrado un signo en un lugar en el que
 					// no debería estar.
@@ -553,12 +557,12 @@ bool Parser::validInt(const std::string &strInt)
 			case '7':
 			case '8':
 			case '9':
-				if(!bEnNumero && !bFinNumero)
+				if(!en_numero && !fin_numero)
 					// Una cifra. Encontrada por primera vez nos marcará
 					// el inicio del número, a partir de aquí entran en
 					// juego las demás reglas.
-					bEnNumero = true;
-				else if(bFinNumero)
+					en_numero = true;
+				else if(fin_numero)
 					// Hemos encontrado una cifra después de haber leído
 					// un espacio que indicaba el final del número.
 					return false;
@@ -569,122 +573,122 @@ bool Parser::validInt(const std::string &strInt)
 				break;
 		}
 		// Avanzamos en la cadena.
-		nCont++;
+		cont++;
 	}
 	// Si hemos llegado hasta aquí, quiere decir que la cadena leída
 	// tiene el formato adecuado para ser convertida a int.
 	return true;
 }
 
-bool Parser::isComment()
+bool Parser::is_comment()
 {
-	char cComment;
+	char c;
 
-	if(m_fileEscena.get(cComment)) {
+	if(fichero_escena.get(c)) {
 		// Retrocedemos la posicion del fichero, para que las proximas
-		// funciones puedan procesar correctamentela etiqueta encontrada,
+		// funciones puedan procesar correctamente la etiqueta encontrada,
 		// sea esta un comentario o no.
-		m_fileEscena.unget();
+		fichero_escena.unget();
 
-		if(cComment == '!') // Tenemos un comentario.
+		if(c == '!') // Tenemos un comentario.
 			return true;
 		else // No es un comentario.
 			return false;
 	}
 	else {
-		m_nError = 1; // Fin de fichero inesperado.
+		num_error = 1; // Fin de fichero inesperado.
 		return false;
 	}
 }
 
-bool Parser::processComment()
+bool Parser::process_comment()
 {
-	bool 		bComment = false;
-	char 		cBuffer;
-	std::string	strTemp("<"); // Este caracter ya está leído.
+	bool 		comment = false;
+	char 		c;
+	std::string	temp("<"); // Este caracter ya está leído.
 
 	// Recogemos los tres caracteres siguientes del archivo para comprobar
 	// que tenemos la apertura del comentario, que está compuesta por
 	// la cadena "<!--".
 	for(int i = 0; i < 3; i++)
-		if(m_fileEscena.get(cBuffer))
-			strTemp += cBuffer;
+		if(fichero_escena.get(c))
+			temp += c;
 		else {
-			m_nError = 1; // Fin de fichero inesperado.
+			num_error = 1; // Fin de fichero inesperado.
 			return false;
 		}
 
-	if(strTemp != "<!--") // Si no coincide, devolvemos false.
+	if(temp != "<!--") // Si no coincide, devolvemos false.
 		return false;
 
 	// Ahora buscaremos el primer signo '>', para comprobar que es parte
 	// de la etiqueta de cierre: "-->"
 	do {
-		if(m_fileEscena.get(cBuffer)) {
-			switch(cBuffer) {
+		if(fichero_escena.get(c)) {
+			switch(c) {
 				case '>': // Encontrado un '>'
 					// Encontrado un '>', retrocedemos tres posiciones nuestra
 					// posicion en el archivo y leemos tres caracteres.
-					for(int i = 0; i < 3; i++, m_fileEscena.unget());
+					for(int i = 0; i < 3; i++, fichero_escena.unget());
 
-					strTemp.clear();
+					temp.clear();
 
 					for(int i = 0; i < 3; i++) {
-						if(m_fileEscena.get(cBuffer))
-							strTemp += cBuffer;
+						if(fichero_escena.get(c))
+							temp += c;
 						else {
-							m_nError = 1; // Fin de fichero inesperado.
+							num_error = 1; // Fin de fichero inesperado.
 							return false;
 						}
 					}
 
-					if(strTemp == "-->") // Fin de comentario.
-						bComment = true;
+					if(temp == "-->") // Fin de comentario.
+						comment = true;
 					break;
-				case '\n': m_nLine++;
+				case '\n': num_linea++;
 					break;
 				default:
 					break;
 			}
 		}
 		else {
-			m_nError = 1; // Fin de fichero inesperado.
+			num_error = 1; // Fin de fichero inesperado.
 			return false;
 		}
 	}
-	while(!bComment);
+	while(!comment);
 
 	// Si llegamos aquí es que el comentario está correctamente construido.
 	return true;
 }
 
-bool Parser::processConfig()
+bool Parser::process_config()
 {
-	std::string strEtiqueta;
-    bool 		bFinBloque = false;
+	std::string etiqueta;
+    bool 		fin_bloque = false;
 
-    while(!bFinBloque) {
+    while(!fin_bloque) {
 		// Buscamos etiqueta.
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-        if(!readToken(strEtiqueta))
+        if(!read_token(etiqueta))
             return false;
 
-        if(strEtiqueta == "/config")
-			bFinBloque = true;
+        if(etiqueta == "/config")
+			fin_bloque = true;
         else
         {
-            if(strEtiqueta == "renderer") {
-				if(!processRenderer())
+            if(etiqueta == "renderer") {
+				if(!process_renderer())
 					return false;
             }
-            else if(strEtiqueta == "camera") {
-				if(!processCamera())
+            else if(etiqueta == "camera") {
+				if(!process_camera())
 					return false;
             }
-            else if(strEtiqueta == "image") {
-				if(!processImage())
+            else if(etiqueta == "image") {
+				if(!process_image())
 					return false;
             }
             else {
@@ -697,45 +701,45 @@ bool Parser::processConfig()
     return true;
 }
 
-bool Parser::processRenderer()
+bool Parser::process_renderer()
 {
-	std::string strType, // Tipo de renderer
-				strTemp; // Auxiliar para comprobaciones.
-	int			nNumSamples, nMaxDepth;
+	std::string tipo, // Tipo de renderer
+				temp; // Auxiliar para comprobaciones.
+	int			num_samples, max_depth;
 
-	if(!readBloqueTxt("type", strType))
+	if(!read_bloque_txt("type", tipo))
 		return false;
 
-	if(!readBloqueInts("samples", 1, &nNumSamples))
+	if(!read_bloque_ints("samples", 1, &num_samples))
 		return false;
 
-	if(!readBloqueInts("max_depth", 1, &nMaxDepth))
+	if(!read_bloque_ints("max_depth", 1, &max_depth))
 		return false;
 
-	if(nNumSamples > 0) // Otherwise, use default.
-		m_pGlobals->nSamplesPerPixel = nNumSamples;
+	if(num_samples > 0) // Otherwise, use default.
+		globales->samples_per_pixel = num_samples;
 
-	if(nMaxDepth > 0) // Otherwise, use default.
-		m_pGlobals->nMaxDepth = nMaxDepth;
+	if(max_depth > 0) // Otherwise, use default.
+		globales->max_depth = max_depth;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/renderer")
+	if(temp != "/renderer")
 		return false;
 
-	if(strType == "whitted") {
-		if(m_pGlobals->pRenderer == NULL)
-			m_pGlobals->pRenderer = new DirectRenderer(m_pGlobals->nMaxDepth);
+	if(tipo == "whitted") {
+		if(globales->renderer == NULL)
+			globales->renderer = new DirectRenderer(globales->max_depth);
 		else // Renderer ya creado, error.
 			return false;
 	}
-	else if(strType == "path") {
-		if(m_pGlobals->pRenderer == NULL)
-			m_pGlobals->pRenderer = new PathRenderer(m_pGlobals->nMaxDepth, time(NULL));
+	else if(tipo == "path") {
+		if(globales->renderer == NULL)
+			globales->renderer = new PathRenderer(globales->max_depth, time(NULL));
 		else
 			return false;
 	}
@@ -745,59 +749,59 @@ bool Parser::processRenderer()
 	return true;
 }
 
-bool Parser::processCamera()
+bool Parser::process_camera()
 {
-	std::string strType, // Tipo de camera
-				strTemp; // Auxiliar para comprobaciones.
-	Point		p3Pos;
-	Vec3		v3Gaze, v3Up;
-	float		dDist, dLowX, dLowY, dHighX, dHighY, dPush;
+	std::string tipo, // Tipo de camera
+				temp; // Auxiliar para comprobaciones.
+	Point		pos;
+	Vec3		gaze, up;
+	float		dist, low_x, low_y, high_x, high_y, push;
 
-	float		fltArray[2];
+	float		aux[2];
 
-	if(!readBloqueTxt("type", strType))
+	if(!read_bloque_txt("type", tipo))
 		return false;
 
-	if(!readBloquePoint("pos", p3Pos))
+	if(!read_bloque_point("pos", pos))
 		return false;
 
-	if(!readBloqueVec3("gaze", v3Gaze))
+	if(!read_bloque_vec3("gaze", gaze))
 		return false;
 
-	if(!readBloqueVec3("up", v3Up))
+	if(!read_bloque_vec3("up", up))
 		return false;
 
-	if(!readBloqueFloats("dist", 1, &dDist))
+	if(!read_bloque_floats("dist", 1, &dist))
 		return false;
 
-	if(!readBloqueFloats("low_corner", 2, fltArray))
+	if(!read_bloque_floats("low_corner", 2, aux))
 		return false;
 
-	dLowX = fltArray[0];
-	dLowY = fltArray[1];
+	low_x = aux[0];
+	low_y = aux[1];
 
-	if(!readBloqueFloats("high_corner", 2, fltArray))
+	if(!read_bloque_floats("high_corner", 2, aux))
 		return false;
 
-	dHighX = fltArray[0];
-	dHighY = fltArray[1];
+	high_x = aux[0];
+	high_y = aux[1];
 
-	if(!readBloqueFloats("push", 1, &dPush))
+	if(!read_bloque_floats("push", 1, &push))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/camera")
+	if(temp != "/camera")
 		return false;
 
-	if(strType == "pinhole") {
-		if(m_pGlobals->pCamera == NULL)
-			m_pGlobals->pCamera = new Pinhole(p3Pos, v3Gaze, v3Up, dDist,
-				dLowX, dLowY, dHighX, dHighY, dPush);
+	if(tipo == "pinhole") {
+		if(globales->camera == NULL)
+			globales->camera = new Pinhole(pos, gaze, up, dist,
+				low_x, low_y, high_x, high_y, push);
 		else // Camera ya creada, error.
 			return false;
 	}
@@ -808,75 +812,75 @@ bool Parser::processCamera()
 	return true;
 }
 
-bool Parser::processImage()
+bool Parser::process_image()
 {
-	std::string strTemp;
-	int			nResX, nResY;
-	float		dBGColor[3];
+	std::string temp;
+	int			res_x, res_y;
+	float		background_color[3];
 
-	if(!readBloqueInts("res_x", 1, &nResX))
+	if(!read_bloque_ints("res_x", 1, &res_x))
 		return false;
 
-	if(!readBloqueInts("res_y", 1, &nResY))
+	if(!read_bloque_ints("res_y", 1, &res_y))
 		return false;
 
-	if(!readBloqueFloats("bgcolor", 3, dBGColor))
+	if(!read_bloque_floats("bgcolor", 3, background_color))
 		return false;
 
-	if(nResX > 0) // Otherwise, use default.
-		m_pGlobals->nResX = nResX;
+	if(res_x > 0) // Otherwise, use default.
+		globales->res_x = res_x;
 
-	if(nResY > 0) // Otherwise, use default.
-		m_pGlobals->nResY = nResY;
+	if(res_y > 0) // Otherwise, use default.
+		globales->res_y = res_y;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/image")
+	if(temp != "/image")
 		return false;
 
-	if(m_pGlobals->pImage == NULL)
-		m_pGlobals->pImage = new Image(nResX, nResY,
-			RGB(dBGColor[0], dBGColor[1], dBGColor[2]));
+	if(globales->image == NULL)
+		globales->image = new Image(res_x, res_y,
+			RGB(background_color[0], background_color[1], background_color[2]));
 	else // Image ya creada, error.
 		return false;
 
 	return true;
 }
 
-bool Parser::processScene()
+bool Parser::process_scene()
 {
-	std::string strEtiqueta;
-    bool 		bFinBloque = false;
+	std::string etiqueta;
+    bool 		fin_bloque = false;
 
-	if(m_pGlobals->pScene == NULL) {
-		m_pGlobals->pScene = new Scene;
+	if(globales->scene == NULL) {
+		globales->scene = new Scene;
 
-		while(!bFinBloque) {
+		while(!fin_bloque) {
 			// Buscamos etiqueta.
-			if(!ignorarChars())
+			if(!ignorar_chars())
 				return false;
 
-			if(!readToken(strEtiqueta))
+			if(!read_token(etiqueta))
 				return false;
 
-			if(strEtiqueta == "/scene")
-				bFinBloque = true;
+			if(etiqueta == "/scene")
+				fin_bloque = true;
 			else
 			{
-				if(strEtiqueta == "texture") {
-					if(!processTexture())
+				if(etiqueta == "texture") {
+					if(!process_texture())
 						return false;
 				}
-				else if(strEtiqueta == "material") {
-					if(!processMaterial())
+				else if(etiqueta == "material") {
+					if(!process_material())
 						return false;
 				}
-				else if(strEtiqueta == "object") {
-					if(!processObject())
+				else if(etiqueta == "object") {
+					if(!process_object())
 						return false;
 				}
 				else // Etiqueta desconocida, no perteneciente a la seccion config.
@@ -890,15 +894,15 @@ bool Parser::processScene()
 	return true;
 }
 
-bool Parser::processTexture()
+bool Parser::process_texture()
 {
-	std::string strType;
+	std::string tipo;
 
-	if(!readBloqueTxt("type", strType))
+	if(!read_bloque_txt("type", tipo))
 		return false;
 
-	if(strType == "simple") {
-		if(!processSimpleTex())
+	if(tipo == "simple") {
+		if(!process_simple_tex())
 			return false;
 	}
 	else // Textura desconocida, error.
@@ -907,56 +911,56 @@ bool Parser::processTexture()
 	return true;
 }
 
-bool Parser::processSimpleTex()
+bool Parser::process_simple_tex()
 {
-	std::string	strID, strTemp;
-	Vec3		v3Color;
-	Texture		*pTexture;
+	std::string	id, temp;
+	Vec3		color;
+	Texture		*texture;
 
-	if(!readBloqueTxt("id", strID))
+	if(!read_bloque_txt("id", id))
 		return false;
 
-	if(!readBloqueVec3("color", v3Color))
+	if(!read_bloque_vec3("color", color))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/texture")
+	if(temp != "/texture")
 		return false;
 
-	pTexture = new SimpleTexture(RGB(v3Color.x(), v3Color.y(), v3Color.z()));
+	texture = new SimpleTexture(RGB(color.x(), color.y(), color.z()));
 
-	if(m_pGlobals->pScene->addTexture(pTexture, strID))
+	if(globales->scene->add_texture(texture, id))
 		return true;
 	else // Ya existe una textura que ese ID, error.
 		return false;
 }
 
-bool Parser::processMaterial()
+bool Parser::process_material()
 {
-	std::string strType;
+	std::string tipo;
 
-	if(!readBloqueTxt("type", strType))
+	if(!read_bloque_txt("type", tipo))
 		return false;
 
-	if(strType == "diffuse") {
-		if(!processDiffuseMat())
+	if(tipo == "diffuse") {
+		if(!process_diffuse_mat())
 			return false;
 	}
-	else if(strType == "specular") {
-		if(!processSpecularMat())
+	else if(tipo == "specular") {
+		if(!process_specular_mat())
 			return false;
 	}
-	else if(strType == "dielectric") {
-		if(!processDielectricMat())
+	else if(tipo == "dielectric") {
+		if(!process_dielectric_mat())
 			return false;
 	}
-	else if(strType == "light") {
-		if(!processLightMat())
+	else if(tipo == "light") {
+		if(!process_light_mat())
 			return false;
 	}
 	else // Material desconocido, error.
@@ -965,30 +969,30 @@ bool Parser::processMaterial()
 	return true;
 }
 
-bool Parser::processDiffuseMat()
+bool Parser::process_diffuse_mat()
 {
-	std::string strID, strTextureID, strTemp;
-	Material 	*pMaterial;
-	Texture		*pTexture;
+	std::string id, texture_id, temp;
+	Material 	*material;
+	Texture		*texture;
 
-	if(!readBloqueTxt("id", strID))
+	if(!read_bloque_txt("id", id))
 		return false;
 
-	if(!readBloqueTxt("texture_id", strTextureID))
+	if(!read_bloque_txt("texture_id", texture_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/material")
+	if(temp != "/material")
 		return false;
 
-	if((pTexture = m_pGlobals->pScene->getTexture(strTextureID)) != NULL) {
-		pMaterial = new DiffuseMaterial(m_pGlobals->pScene->getTexture(strTextureID));
-		if(!m_pGlobals->pScene->addMaterial(pMaterial, strTextureID, strID))
+	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+		material = new DiffuseMaterial(texture);
+		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
 	}
 	else // La textura asociada al material no existe.
@@ -997,30 +1001,30 @@ bool Parser::processDiffuseMat()
 	return true;
 }
 
-bool Parser::processSpecularMat()
+bool Parser::process_specular_mat()
 {
-	std::string strID, strTextureID, strTemp;
-	Material 	*pMaterial;
-	Texture		*pTexture;
+	std::string id, texture_id, temp;
+	Material 	*material;
+	Texture		*texture;
 
-	if(!readBloqueTxt("id", strID))
+	if(!read_bloque_txt("id", id))
 		return false;
 
-	if(!readBloqueTxt("texture_id", strTextureID))
+	if(!read_bloque_txt("texture_id", texture_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/material")
+	if(temp != "/material")
 		return false;
 
-	if((pTexture = m_pGlobals->pScene->getTexture(strTextureID)) != NULL) {
-		pMaterial = new SpecularMaterial(m_pGlobals->pScene->getTexture(strTextureID));
-		if(!m_pGlobals->pScene->addMaterial(pMaterial, strTextureID, strID))
+	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+		material = new SpecularMaterial(texture);
+		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
 	}
 	else // La textura asociada al material no existe.
@@ -1029,34 +1033,34 @@ bool Parser::processSpecularMat()
 	return true;
 }
 
-bool Parser::processDielectricMat()
+bool Parser::process_dielectric_mat()
 {
-	std::string strID, strTextureID, strTemp;
-	float		dIOR;
-	Material 	*pMaterial;
-	Texture		*pTexture;
+	std::string id, texture_id, temp;
+	float		ior;
+	Material 	*material;
+	Texture		*texture;
 
-	if(!readBloqueTxt("id", strID))
+	if(!read_bloque_txt("id", id))
 		return false;
 
-	if(!readBloqueTxt("texture_id", strTextureID))
+	if(!read_bloque_txt("texture_id", texture_id))
 		return false;
 
-	if(!readBloqueFloats("ior", 1, &dIOR))
+	if(!read_bloque_floats("ior", 1, &ior))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/material")
+	if(temp != "/material")
 		return false;
 
-	if((pTexture = m_pGlobals->pScene->getTexture(strTextureID)) != NULL) {
-		pMaterial = new DielectricMaterial(m_pGlobals->pScene->getTexture(strTextureID), dIOR);
-		if(!m_pGlobals->pScene->addMaterial(pMaterial, strTextureID, strID))
+	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+		material = new DielectricMaterial(texture, ior);
+		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
 	}
 	else // La textura asociada al material no existe.
@@ -1065,30 +1069,30 @@ bool Parser::processDielectricMat()
 	return true;
 }
 
-bool Parser::processLightMat()
+bool Parser::process_light_mat()
 {
-	std::string strID, strTextureID, strTemp;
-	Material 	*pMaterial;
-	Texture		*pTexture;
+	std::string id, texture_id, temp;
+	Material 	*material;
+	Texture		*texture;
 
-	if(!readBloqueTxt("id", strID))
+	if(!read_bloque_txt("id", id))
 		return false;
 
-	if(!readBloqueTxt("texture_id", strTextureID))
+	if(!read_bloque_txt("texture_id", texture_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp != "/material")
+	if(temp != "/material")
 		return false;
 
-	if((pTexture = m_pGlobals->pScene->getTexture(strTextureID)) != NULL) {
-		pMaterial = new LightMaterial(m_pGlobals->pScene->getTexture(strTextureID));
-		if(!m_pGlobals->pScene->addMaterial(pMaterial, strTextureID, strID))
+	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+		material = new LightMaterial(texture);
+		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
 	}
 	else // La textura asociada al material no existe.
@@ -1097,39 +1101,39 @@ bool Parser::processLightMat()
 	return true;
 }
 
-bool Parser::processObject()
+bool Parser::process_object()
 {
-	std::string strType;
+	std::string tipo;
 
-	if(!readBloqueTxt("type", strType))
+	if(!read_bloque_txt("type", tipo))
 		return false;
 
-	if(strType == "plane") {
-		if(!processPlane())
+	if(tipo == "plane") {
+		if(!process_plane())
 			return false;
 	}
-	else if(strType == "sphere") {
-		if(!processSphere())
+	else if(tipo == "sphere") {
+		if(!process_sphere())
 			return false;
 	}
-	else if(strType == "cylinder") {
-		if(!processCylinder())
+	else if(tipo == "cylinder") {
+		if(!process_cylinder())
 			return false;
 	}
-	else if(strType == "box") {
-		if(!processBox())
+	else if(tipo == "box") {
+		if(!process_box())
 			return false;
 	}
-	else if(strType == "parallelogram") {
-		if(!processParallelogram())
+	else if(tipo == "parallelogram") {
+		if(!process_parallelogram())
 			return false;
 	}
-	else if(strType == "triangle") {
-		if(!processTriangle())
+	else if(tipo == "triangle") {
+		if(!process_triangle())
 			return false;
 	}
-	else if(strType == "mesh") {
-		if(!processMesh())
+	else if(tipo == "mesh") {
+		if(!process_mesh())
 			return false;
 	}
 	else
@@ -1139,48 +1143,48 @@ bool Parser::processObject()
 	return true;
 }
 
-bool Parser::processPlane()
+bool Parser::process_plane()
 {
-	std::string strMaterial, strTemp;
-	Vec3		v3Normal;
-	float		dDist;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Vec3		normal;
+	float		dist;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
-	if(!readBloqueVec3("normal", v3Normal))
+	if(!read_bloque_vec3("normal", normal))
 		return false;
 
-	if(!readBloqueFloats("distance", 1, &dDist))
+	if(!read_bloque_floats("distance", 1, &dist))
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape = new Plane(v3Normal, dDist, pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape = new Plane(normal, dist, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1188,48 +1192,48 @@ bool Parser::processPlane()
 	return true;
 }
 
-bool Parser::processSphere()
+bool Parser::process_sphere()
 {
-	std::string strMaterial, strTemp;
-	Point		p3Center;
-	float		dRadius;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Point		center;
+	float		radius;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
-	if(!readBloquePoint("center", p3Center))
+	if(!read_bloque_point("center", center))
 		return false;
 
-	if(!readBloqueFloats("radius", 1, &dRadius))
+	if(!read_bloque_floats("radius", 1, &radius))
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape = new Sphere(p3Center, dRadius, pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape = new Sphere(center, radius, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1237,51 +1241,51 @@ bool Parser::processSphere()
 	return true;
 }
 
-bool Parser::processCylinder()
+bool Parser::process_cylinder()
 {
-	std::string strMaterial, strTemp;
-	Point		p3P0, p3P1;
-	float		dRadius;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Point		bottom, top;
+	float	    radius;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
-	if(!readBloquePoint("center_0", p3P0))
+	if(!read_bloque_point("center_0", bottom))
 		return false;
 
-	if(!readBloquePoint("center_1", p3P1))
+	if(!read_bloque_point("center_1", top))
 		return false;
 
-	if(!readBloqueFloats("radius", 1, &dRadius))
+	if(!read_bloque_floats("radius", 1, &radius))
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape = new Cylinder(p3P0, p3P1, dRadius, pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape = new Cylinder(bottom, top, radius, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1289,47 +1293,47 @@ bool Parser::processCylinder()
 	return true;
 }
 
-bool Parser::processBox()
+bool Parser::process_box()
 {
-	std::string strMaterial, strTemp;
-	Point		p3Min, p3Max;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Point		min_corner, max_corner;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
-	if(!readBloquePoint("min", p3Min))
+	if(!read_bloque_point("min", min_corner))
 		return false;
 
-	if(!readBloquePoint("max", p3Max))
+	if(!read_bloque_point("max", max_corner))
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape = new Box(p3Min, p3Max, pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape = new Box(min_corner, max_corner, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1337,52 +1341,52 @@ bool Parser::processBox()
 	return true;
 }
 
-bool Parser::processParallelogram()
+bool Parser::process_parallelogram()
 {
-	std::string strMaterial, strTemp;
-	Point		p3Base;
-	Vec3		v3VecU,
-				v3VecV;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Point		base;
+	Vec3		u,
+				v;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
-	if(!readBloquePoint("base", p3Base))
+	if(!read_bloque_point("base", base))
 		return false;
 
-	if(!readBloqueVec3("vec_u", v3VecU))
+	if(!read_bloque_vec3("vec_u", u))
 		return false;
 
-	if(!readBloqueVec3("vec_v", v3VecV))
+	if(!read_bloque_vec3("vec_v", v))
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape = new Parallelogram(p3Base, v3VecU, v3VecV, pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape = new Parallelogram(base, u, v, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1390,52 +1394,52 @@ bool Parser::processParallelogram()
 	return true;
 }
 
-bool Parser::processTriangle()
+bool Parser::process_triangle()
 {
-	std::string strMaterial, strTemp;
-	Point		p3P0,
-				p3P1,
-				p3P2;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Point		p0,
+				p1,
+				p2;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
-	if(!readBloquePoint("vertex", p3P0))
+	if(!read_bloque_point("vertex", p0))
 		return false;
 
-	if(!readBloquePoint("vertex", p3P1))
+	if(!read_bloque_point("vertex", p1))
 		return false;
 
-	if(!readBloquePoint("vertex", p3P2))
+	if(!read_bloque_point("vertex", p2))
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape = new Triangle(p3P0, p3P1, p3P2, pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape = new Triangle(p0, p1, p2, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1443,74 +1447,74 @@ bool Parser::processTriangle()
 	return true;
 }
 
-bool Parser::processMesh()
+bool Parser::process_mesh()
 {
-	std::string strMaterial, strTemp;
-	Material	*pMaterial;
-	Shape		*pShape;
-	Transform	tTrans;
+	std::string material_id, temp;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
 
 	// Lista de punteros a MeshTriangle a añadir a la escena, que será
 	// construida durante la lectura de la lista de vértices o del
 	// fichero .obj que se nos proporcione. Una vez construida, los
 	// añadiremos a la escena.
-	std::vector<MeshTriangle *> MTList;
+	std::vector<MeshTriangle *> triangulos;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 			return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "vertex_list") {
-        pShape = new Mesh();
-		if(!processMeshVertex(pShape, &MTList)) {
-            delete pShape;
+	if(temp == "vertex_list") {
+        shape = new Mesh();
+		if(!process_mesh_vertex(shape, &triangulos)) {
+            delete shape;
             return false;
 		}
 
 	}
-	else if(strTemp == "file") {
-		pShape = new Mesh();
-		if(!processMeshFile(pShape, &MTList)) {
-            delete pShape;
+	else if(temp == "file") {
+		shape = new Mesh();
+		if(!process_mesh_file(shape, &triangulos)) {
+            delete shape;
             return false;
 		}
 	}
 	else // Etiqueta desconocida, descripción errónea de la malla
 		return false;
 
-	if(!readBloqueTxt("material", strMaterial))
+	if(!read_bloque_txt("material", material_id))
 		return false;
 
-	if(!ignorarChars())
+	if(!ignorar_chars())
 		return false;
 
-	if(!readToken(strTemp))
+	if(!read_token(temp))
 		return false;
 
-	if(strTemp == "transform") {
-		if(!processTransform(&tTrans))
+	if(temp == "transform") {
+		if(!process_transform(&trans))
 			return false;
 
-		if(!ignorarChars())
+		if(!ignorar_chars())
 			return false;
 
-		if(!readToken(strTemp))
+		if(!read_token(temp))
 			return false;
 	}
 
-	if(strTemp != "/object")
+	if(temp != "/object")
 		return false;
 
-	if((pMaterial = m_pGlobals->pScene->getMaterial(strMaterial)) != NULL) {
-		pShape->setMaterial(pMaterial);
-		pShape->setTrans(&tTrans);
-		m_pGlobals->pScene->addObject(pShape, strMaterial, pMaterial->isLight());
+	if((material = globales->scene->get_material(material_id)) != NULL) {
+		shape->set_material(material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
 
 		// Añadimos ahora a la escena todos los triángulos que componen la malla
-		for(int i = 0; i < (int) MTList.size(); i++)
-			m_pGlobals->pScene->addObject((Shape *) MTList[i], strMaterial, pMaterial->isLight());
+		for(int i = 0; i < (int) triangulos.size(); i++)
+			globales->scene->add_object((Shape *) triangulos[i], material_id, material->is_light());
 	}
 	else // Material asociado al objeto desconocido.
 		return false;
@@ -1518,107 +1522,111 @@ bool Parser::processMesh()
 	return true;
 }
 
-bool Parser::processMeshVertex(Shape *pShape, std::vector<MeshTriangle *> *MTList)
+bool Parser::process_mesh_vertex(Shape *shape, std::vector<MeshTriangle *> *triangulos)
 {
-	std::string 	strEtiqueta;
+	std::string 	etiqueta;
 	Point			p0, p1, p2;
-	Mesh			*pMesh = dynamic_cast<Mesh *> (pShape);
+	Mesh			*mesh = dynamic_cast<Mesh *> (shape);
 
 	while(1) { // Always true
-		if(!ignorarChars())
+		if(!ignorar_chars())
 				return false;
 
-		if(!readToken(strEtiqueta))
+		if(!read_token(etiqueta))
 			return false;
 
-		if(strEtiqueta == "/vertex_list") {
+		if(etiqueta == "/vertex_list") {
 			// Fin del bloque de vertices
 			return true;
 		}
-		else if(strEtiqueta == "v") {
+		else if(etiqueta == "v") {
 			// Retrocedemos 3 posiciones en el archivo para poder leer
 			// correctamente el vector
-			for(int i=0; i < 3; i++, m_fileEscena.unget());
+			for(int i=0; i < 3; i++, fichero_escena.unget());
 
-			if(!readBloquePoint("v", p0))
+			if(!read_bloque_point("v", p0))
 				return false;
-			if(!readBloquePoint("v", p1))
+			if(!read_bloque_point("v", p1))
 				return false;
-			if(!readBloquePoint("v", p2))
+			if(!read_bloque_point("v", p2))
 				return false;
 
-			pMesh->addVertex(p0);
-			pMesh->addVertex(p1);
-			pMesh->addVertex(p2);
+			mesh->add_vertex(p0);
+			mesh->add_vertex(p1);
+			mesh->add_vertex(p2);
 
-			MeshFace 	NewMF(-1);
-			int			nCount = pMesh->getTriangleCount();
+			MeshFace 	face(-1);
+			int			num_triangles = mesh->get_triangle_count();
 
 			// Triangle vertex
-			NewMF.nVIndex[0] = (nCount * 3);
-			NewMF.nVIndex[1] = (nCount * 3) + 1;
-			NewMF.nVIndex[2] = (nCount * 3) + 2;
+			face.vertex_index[0] = (num_triangles * 3);
+			face.vertex_index[1] = (num_triangles * 3) + 1;
+			face.vertex_index[2] = (num_triangles * 3) + 2;
 
 			// No normal given, calculate from points.
 
 			// No texture given.
 
 			// Creamos el triangulo
-			MeshTriangle *pNewT = new MeshTriangle(NewMF, pMesh);
+			MeshTriangle *triangle = new MeshTriangle(face, mesh);
 
 			// Añadimos el triangulo a la lista
-			MTList->push_back(pNewT);
+			triangulos->push_back(triangle);
 
 			// Incrementamos el numero de triangulos que tiene la malla
-			pMesh->increaseTriangleCount();
+			mesh->increase_triangle_count();
 		}
 	}
 }
 
-bool Parser::processMeshFile(Shape *pShape, std::vector<MeshTriangle *> *MTList)
+bool Parser::process_mesh_file(Shape *shape, std::vector<MeshTriangle *> *triangulos)
 {
-	std::string 	strEtiqueta, strFile, strLine, strType;
-	std::ifstream 	fsFile;
+	std::string 	etiqueta,
+                    fichero,
+                    linea,
+                    tipo;
+	std::ifstream 	file_stream;
 
 	Point			v;	// Vertice
 	Vec3			n;	// Normal
 	Vec2			t;	// Textura
 
-	Mesh			*pMesh = dynamic_cast<Mesh *> (pShape);
+	Mesh			*mesh = dynamic_cast<Mesh *> (shape);
 
-	int				nVertex, nNormals, nTextures, nFaces;
+	int				vertex      = 0,
+                    normals     = 0,
+                    textures    = 0,
+                    faces       = 0;
 
-	// Para el log
-	nVertex = nNormals = nTextures = nFaces = 0;
 
-	if(!readContent(strFile, '<'))
+	if(!read_content(fichero, '<'))
         return false;
 
-	if(!readToken(strEtiqueta))
+	if(!read_token(etiqueta))
 		return false;
 
-	if(strEtiqueta != "/file")
+	if(etiqueta != "/file")
 		return false;
 
 	// Abrir fichero
-	fsFile.open(strFile.c_str());
+	file_stream.open(fichero.c_str());
 
 	// Leemos el fichero linea a linea
-	while(std::getline(fsFile, strLine)){
-		if((strLine[0] == 'v') && (strLine[1] == ' ')) { // Vertice
+	while(std::getline(file_stream, linea)){
+		if((linea[0] == 'v') && (linea[1] == ' ')) { // Vertice
 			// Procesar vertice
 
 			unsigned int i = 1; // Posicion en la linea
 
 			// Evitamos los espacios antes del primer numero, si los hay
-			while(strLine[i] == ' ') i++;
+			while(linea[i] == ' ') i++;
 
 			for(int j = 0; j < 3; j++) { // Tres veces para tres float
-				std::string strTemp("");
+				std::string temp("");
 
 				while(1) { // Hasta que no encontremos un espacio
-					if((strLine[i] != ' ') && (i < (strLine.length() -1))) {
-						strTemp = strTemp + strLine[i];
+					if((linea[i] != ' ') && (i < (linea.length() -1))) {
+						temp = temp + linea[i];
 						i++; // Siguiente caracter
 					}
 					else
@@ -1628,28 +1636,28 @@ bool Parser::processMeshFile(Shape *pShape, std::vector<MeshTriangle *> *MTList)
 					}
 				}
 
-				if(strTemp.length() > 0) {
-					if(validFloat(strTemp))
-						v.e[j] = atof(strTemp.c_str());
+				if(temp.length() > 0) {
+					if(valid_float(temp))
+						v.e[j] = atof(temp.c_str());
 					else {
 						// Lanzar error
 					}
 				}
 			}
 
-			pMesh->addVertex(v);
-            nVertex++;
+			mesh->add_vertex(v);
+            vertex++;
 		}
-		else if((strLine[0] == 'v') && (strLine[1] == 'n')) { // Normal
+		else if((linea[0] == 'v') && (linea[1] == 'n')) { // Normal
 			// Procesar normal
 
 			unsigned int i = 3; // Posicion en la linea
 			for(int j = 0; j < 3; j++) { // Tres veces para tres float
-				std::string strTemp("");
+				std::string temp("");
 
 				while(1) { // Hasta que no encontremos un espacio
-					if((strLine[i] != ' ') && (i < (strLine.length() -1))) {
-						strTemp = strTemp + strLine[i];
+					if((linea[i] != ' ') && (i < (linea.length() -1))) {
+						temp = temp + linea[i];
 						i++; // Siguiente caracter
 					}
 					else
@@ -1659,28 +1667,28 @@ bool Parser::processMeshFile(Shape *pShape, std::vector<MeshTriangle *> *MTList)
 					}
 				}
 
-				if(strTemp.length() > 0) {
-					if(validFloat(strTemp))
-						n.e[j] = atof(strTemp.c_str());
+				if(temp.length() > 0) {
+					if(valid_float(temp))
+						n.e[j] = atof(temp.c_str());
 					else {
 						// Lanzar error
 					}
 				}
 			}
 
-			pMesh->addNormal(n);
-            nNormals++;
+			mesh->add_normal(n);
+            normals++;
 		}
-		else if((strLine[0] == 'v') && (strLine[1] == 't')) { // Texture
+		else if((linea[0] == 'v') && (linea[1] == 't')) { // Texture
 			// Procesar textura
 
 			unsigned int i = 3; // Posicion en la linea
 			for(int j = 0; j < 2; j++) { // Dos veces para Dos float
-				std::string strTemp("");
+				std::string temp("");
 
 				while(1) { // Hasta que no encontremos un espacio
-					if((strLine[i] != ' ') && (i < (strLine.length() -1))) {
-						strTemp = strTemp + strLine[i];
+					if((linea[i] != ' ') && (i < (linea.length() -1))) {
+						temp = temp + linea[i];
 						i++; // Siguiente caracter
 					}
 					else
@@ -1690,38 +1698,39 @@ bool Parser::processMeshFile(Shape *pShape, std::vector<MeshTriangle *> *MTList)
 					}
 				}
 
-				if(strTemp.length() > 0) {
-					if(validFloat(strTemp))
-						t.e[j] = atof(strTemp.c_str());
+				if(temp.length() > 0) {
+					if(valid_float(temp))
+						t.e[j] = atof(temp.c_str());
 					else {
 						// Lanzar error
 					}
 				}
 			}
 
-            pMesh->addTexture(t);
-            nTextures++;
+            mesh->add_texture(t);
+            textures++;
 		}
-		else if((strLine[0] == 'f') && (strLine[1] == ' ')) { // Face
+		else if((linea[0] == 'f') && (linea[1] == ' ')) { // Face
 			// Procesar face
+			MeshFace        face(-1);
 
-			MeshFace mfFace(-1);
+			unsigned int    i       = 2,
+                            block   = 0;
 
-			unsigned int i = 2, nBlock = 0;
-			while(nBlock < 3) {
-				int nNumber = 0; 			// Primer numero del bloque
-				std::string strTemp(""); 	// Temporal para almacenar numeros
+			while(block < 3) {
+				int number = 0; 			// Primer numero del bloque
+				std::string temp(""); 	// Temporal para almacenar numeros
 
-				while(nNumber < 3) { // Repetir hasta el tercer numero
-					if(strLine[i] == '/') { // Fin de numero, excepto el ultimo del bloque
+				while(number < 3) { // Repetir hasta el tercer numero
+					if(linea[i] == '/') { // Fin de numero, excepto el ultimo del bloque
 						// Si la cadena temporal tiene un entero valido
-						if((strTemp.length() > 0) && validInt(strTemp)) {
-							switch(nNumber) { // Veamos que posicion tenemos
+						if((temp.length() > 0) && valid_int(temp)) {
+							switch(number) { // Veamos que posicion tenemos
 								case 0: // Vertice
-									mfFace.nVIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.vertex_index[block] = atoi(temp.c_str()) - 1;
 									break;
 								case 1: // Textura
-									mfFace.nTIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.texture_index[block] = atoi(temp.c_str()) - 1;
 									break;
 							}
 						}
@@ -1730,140 +1739,140 @@ bool Parser::processMeshFile(Shape *pShape, std::vector<MeshTriangle *> *MTList)
 						// con lo que el render sabrá qué hacer en caso de
 						// encontrarlo.
 
-						strTemp.clear(); 	// Limpiamos la cadena
-						nNumber++;			// Siguiente numero
+						temp.clear(); 	// Limpiamos la cadena
+						number++;			// Siguiente numero
 						i++;				// Avanzamos en la linea
 					}
-					else if(strLine[i] == ' ') { // Fin de bloque
+					else if(linea[i] == ' ') { // Fin de bloque
 						// Almacenamos el numero, si lo hay
-						if((strTemp.length() > 0) && validInt(strTemp)) {
-							switch(nNumber) {
+						if((temp.length() > 0) && valid_int(temp)) {
+							switch(number) {
 								case 0: // Vertice
-									mfFace.nVIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.vertex_index[block] = atoi(temp.c_str()) - 1;
 									break;
 								case 1: // Textura
-									mfFace.nTIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.texture_index[block] = atoi(temp.c_str()) - 1;
 									break;
 								case 2: // Normal
-									mfFace.nNIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.normal_index[block] = atoi(temp.c_str()) - 1;
 									break;
 							}
 						}
 
-						nNumber = 3;	// Salimos del while
-						nBlock++;		// Nuevo bloque
+						number = 3;	// Salimos del while
+						block++;		// Nuevo bloque
 						i++;			// Avanzamos por la cadena
 					}
-					else if(i == (strLine.length() - 1)) { // Final de linea
+					else if(i == (linea.length() - 1)) { // Final de linea
 						// Almacenamos el numero, si lo hay
-						if((strTemp.length() > 0) && validInt(strTemp)) {
-							switch(nNumber) {
+						if((temp.length() > 0) && valid_int(temp)) {
+							switch(number) {
 								case 0: // Vertice
-									mfFace.nVIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.vertex_index[block] = atoi(temp.c_str()) - 1;
 									break;
 								case 1: // Textura
-									mfFace.nTIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.texture_index[block] = atoi(temp.c_str()) - 1;
 									break;
 								case 2: // Normal
-									mfFace.nNIndex[nBlock] = atoi(strTemp.c_str()) - 1;
+									face.normal_index[block] = atoi(temp.c_str()) - 1;
 									break;
 							}
 						}
 
-						nNumber = 3;
-						nBlock = 3; 	// Salimos de ambos while
+						number = 3;
+						block = 3; 	// Salimos de ambos while
 					}
 					else { // Metemos el caracter en la cadena temporal, y seguimos
-						strTemp = strTemp + strLine[i];
+						temp = temp + linea[i];
 						i++;
 					}
 				}
 			}
 
 			// Creamos el nuevo triangulo.
-			MeshTriangle *pNewT = new MeshTriangle(mfFace, pMesh);
+			MeshTriangle *new_t = new MeshTriangle(face, mesh);
 			// Lo añadimos a la lista
-			MTList->push_back(pNewT);
+			triangulos->push_back(new_t);
 
 			// Incrementamos el numero de triangulos en la malla
-			pMesh->increaseTriangleCount();
+			mesh->increase_triangle_count();
 
-			nFaces++;
+			faces++;
 		}
 	}
-	fsFile.close();
+	file_stream.close();
 
 	return true;
 }
 
-bool Parser::processTransform(Transform *pTrans)
+bool Parser::process_transform(Transform *trans)
 {
-	std::string strEtiqueta;
-	Point		p3Temp;
+	std::string etiqueta;
+	Point		p;
 
 	while(1) { // Always true
-		if(!ignorarChars())
+		if(!ignorar_chars())
 				return false;
 
-		if(!readToken(strEtiqueta))
+		if(!read_token(etiqueta))
 			return false;
 
-		if(strEtiqueta == "/transform") {
+		if(etiqueta == "/transform") {
 			// Fin del bloque de transformaciones
 			return true;
 		}
 		else {
 			// Retrocedemos hasta el inicio de la etiqueta, para poder
 			// utilizar las funciones de lectura de datos.
-			for(unsigned int i = 0; i < strEtiqueta.length() + 2; i++, m_fileEscena.unget());
+			for(unsigned int i = 0; i < etiqueta.length() + 2; i++, fichero_escena.unget());
 
-			if(strEtiqueta == "translate") {
-				if(!readBloquePoint(strEtiqueta, p3Temp))
+			if(etiqueta == "translate") {
+				if(!read_bloque_point(etiqueta, p))
 					return false;
 
-				pTrans->translate(p3Temp);
+				trans->translate(p);
 			}
-			else if(strEtiqueta == "scale") {
-				if(!readBloquePoint(strEtiqueta, p3Temp))
+			else if(etiqueta == "scale") {
+				if(!read_bloque_point(etiqueta, p))
 					return false;
 
-				pTrans->scale(p3Temp);
+				trans->scale(p);
 			}
-			else if(strEtiqueta == "rotate_axis") {
-				float fltArray[4];
+			else if(etiqueta == "rotate_axis") {
+				float lista[4];
 
-				if(!readBloqueFloats(strEtiqueta, 4, fltArray))
+				if(!read_bloque_floats(etiqueta, 4, lista))
 					return false;
 
-				pTrans->rotate(fltArray[0], Vec3(fltArray[1], fltArray[2], fltArray[3]));
+				trans->rotate(lista[0], Vec3(lista[1], lista[2], lista[3]));
 			}
-			else if(strEtiqueta == "rotate_x") {
-				float dAng;
+			else if(etiqueta == "rotate_x") {
+				float ang;
 
-				if(!readBloqueFloats(strEtiqueta, 1, &dAng))
+				if(!read_bloque_floats(etiqueta, 1, &ang))
 					return false;
 
-				pTrans->rotateX(dAng);
+				trans->rotate_x(ang);
 			}
-			else if(strEtiqueta == "rotate_y") {
-				float dAng;
+			else if(etiqueta == "rotate_y") {
+				float ang;
 
-				if(!readBloqueFloats(strEtiqueta, 1, &dAng))
+				if(!read_bloque_floats(etiqueta, 1, &ang))
 					return false;
 
-				pTrans->rotateY(dAng);
+				trans->rotate_y(ang);
 			}
-			else if(strEtiqueta == "rotate_z") {
-				float dAng;
+			else if(etiqueta == "rotate_z") {
+				float ang;
 
-				if(!readBloqueFloats(strEtiqueta, 1, &dAng))
+				if(!read_bloque_floats(etiqueta, 1, &ang))
 					return false;
 
-				pTrans->rotateZ(dAng);
+				trans->rotate_z(ang);
 			}
 			else {
 				// Etiqueta desconocida.
-				m_nError = 0;
+				num_error = 0;
 				return false;
 			}
 		} // else

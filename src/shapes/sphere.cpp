@@ -14,7 +14,7 @@
 #include "onb.h"
 #include "randomc/randomc.h"
 
-Sphere::Sphere(Point a_p3Center, float a_dRadius, Material *a_pMat)
+Sphere::Sphere(Point a_center, float a_radius, Material *a_material)
 {
 		// El radio lo aplicaremos como una transformacion de escalado
 		// y la posicion como una transformación de traslacion, ya que
@@ -28,39 +28,38 @@ Sphere::Sphere(Point a_p3Center, float a_dRadius, Material *a_pMat)
 		// obtener la bbox en el espacio real.
 
 		// Creamos la matriz de transformación
-		m_pTrans = new Transform;
+		trans = new Transform;
 
-		m_pTrans->scale(a_dRadius, a_dRadius, a_dRadius);
-		m_pTrans->translate(a_p3Center);
+		trans->scale(a_radius, a_radius, a_radius);
+		trans->translate(a_center);
 
 		// Iniciamos nuestra bbox
-		m_abBox.set(Point(-1.f), Point(1.f));
+		aabb.set(Point(-1.0f), Point(1.0f));
 
 		// Y le aplicamos la transformación.
-		m_abBox = m_pTrans->updateAABB(m_abBox);
+		aabb = trans->update_AABB(aabb);
 
-		m_p3Center 	= Point(0.f);
-		m_dRadius 	= 1.f;
-		m_pMat 		= a_pMat;
-		bShadow		= true;
-		bBounds 	= true;
+		center 	    = Point(0.0f);
+		radius 	    = 1.0f;
+		material    = a_material;
+		shadow		= true;
+		bounds 	    = true;
 }
 
-bool Sphere::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const
+bool Sphere::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
 {
 	// Transformar el rayo
-	Ray rObjSpace = m_pTrans->sceneToObject(a_rRay);
+	Ray r_obj_space = trans->scene_to_object(r);
 
-	float 	dTVal;
-	Vec3	v3Normal;
+	float 	dist;
+	Vec3	normal;
 
+	if(isecaux::test_ray_sphere(r_obj_space, min_dist, max_dist, dist)) {
+		normal.set(r_obj_space.get_point(dist));
 
-	if(testRaySphere(rObjSpace, a_dMin, a_dMax, dTVal)) {
-		v3Normal.set(rObjSpace.getPoint(dTVal));
-
-		a_hrHitRcd.dDist 	= dTVal;
-		a_hrHitRcd.v3Normal = versor(m_pTrans->objectNormalToScene(v3Normal));
-		a_hrHitRcd.pMat		= m_pMat;
+		hit.dist 	    = dist;
+		hit.normal      = versor(trans->normal_to_scene(normal));
+		hit.material    = material;
 
 		return true;
 	}
@@ -68,78 +67,73 @@ bool Sphere::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrH
 	return false;
 }
 
-bool Sphere::shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const
+bool Sphere::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 {
-	if(bShadow) {
+	if(shadow) {
 		// Transformar el rayo
-		Ray rObjSpace = m_pTrans->sceneToObject(a_rRay);
+		Ray r_obj_space = trans->scene_to_object(r);
 
-		float dTVal;
+		float dist;
 
-		return testRaySphere(rObjSpace, a_dMin, a_dMax, dTVal);
+		return isecaux::test_ray_sphere(r_obj_space, min_dist, max_dist, dist);
 	}
 
 	return false;
 }
 
-bool Sphere::getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const
+bool Sphere::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 {
 	// Convertir el punto al espacio de la esfera
-	Point 	p3VPOS;
-	Vec3	v3Dist, v3W, v3DirToLight;
-	ONB		UVW;
+	Point 	pos;
+	Vec3	w, dir_to_light;
+	ONB		uvw;
 
-
-	p3VPOS = m_pTrans->sceneToObject(p3ViewPoint);
-	v3Dist.set(p3VPOS - m_p3Center);
+	pos = trans->scene_to_object(view_pos);
 
 	// En espacio de la esfera, el centro siempre es el origen.
-	float d = v3Dist.length(); /** float d = Vec3(v3ViewPoint - v3Center).length(); **/
+	float d = Vec3(pos).length();
 
-	if(d < m_dRadius) // Punto en el interior de la esfera.
+	if(d < radius) // Punto en el interior de la esfera.
 		return false;
 
-	int nCont = 0;
+	int cont = 0;
 	do {
-		float dSeedX = rngGen->Random();
-		float dSeedY = rngGen->Random();
+		float seed_x = rng->Random();
+		float seed_y = rng->Random();
 
 		// En espacio de la esfera, el radio es siempre 1.0
-		float dSinAlphaMax = m_dRadius / d;
-		float dCosAlphaMax = sqrt(1.f - dSinAlphaMax * dSinAlphaMax);
+		float sin_alpha_max = radius / d;
+		float cos_alpha_max = sqrt(1.0f - sin_alpha_max * sin_alpha_max);
 		//float q = 1.f / (2.f * M_PI * (1.f - dCosAlphaMax));
 
-		float dCosAlpha = 1.f + dSeedX * (dCosAlphaMax - 1.f);
-		float dSinAlpha = sqrt(1.f - dCosAlpha * dCosAlpha);
+		float cos_alpha = 1.0f + seed_x * (cos_alpha_max - 1.0f);
+		float sin_alpha = sqrt(1.0f - cos_alpha * cos_alpha);
 
-		float dPhi = 2.f * M_PI * dSeedY;
-		float dCosPhi = cos(dPhi);
-		float dSinPhi = sin(dPhi);
+		float phi = 2.0f * M_PI * seed_y;
+		float cos_phi = cos(phi);
+		float sin_phi = sin(phi);
 
-		Vec3 k_i(dCosPhi * dSinAlpha, dSinPhi * dSinAlpha, dCosAlpha);
+		Vec3 k_i(cos_phi * sin_alpha, sin_phi * sin_alpha, cos_alpha);
 
-		v3W.set(m_p3Center - p3VPOS);
-		UVW.initFromW(v3W);
-		v3DirToLight = k_i.x() * UVW.u() + k_i.y() * UVW.v() + k_i.z() * UVW.w();
+		w.set(center - pos);
+		uvw.init_from_w(w);
+		dir_to_light = k_i.x() * uvw.u() + k_i.y() * uvw.v() + k_i.z() * uvw.w();
 
-		// Tenemos el origen, v3VPOS, y la direccion del rayo, v3DirToLight.
+		// Tenemos el origen, pos, y la direccion del rayo, dir_to_light.
 		// Estos datos están en el espacio de la esfera, los transformamos
 		// al espacio del mundo porque al pasar un rayo a la funcion hit,
 		// ésta volvera a transformarlo al espacio de la esfera.
-		Ray rToLight = m_pTrans->objectToScene(Ray(p3VPOS, v3DirToLight));
+		Ray r_to_light = trans->object_to_scene(Ray(pos, dir_to_light));
 
-		HitRecord htRec;
-		if(this->hit(rToLight, 0.01, FLT_MAX, htRec)) {
-			p3LPoint = rToLight.getPoint(htRec.dDist);
+		HitRecord htr;
+		if(hit(r_to_light, 0.01, FLT_MAX, htr)) {
+			light_pos = r_to_light.get_point(htr.dist);
 
 			return true;
 		}
 
-		nCont++;
-	} while(nCont < 30);
+		cont++;
+	} while(cont < 30);
 
 	return false;
 }
-
-
-

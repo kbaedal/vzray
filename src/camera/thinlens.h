@@ -8,38 +8,38 @@
 #include "camera/camera.h"
 
 /**
- * Definición de una cámara de lente fina (ThinLens Camera)
+ * \class Definición de una cámara de lente fina (ThinLens Camera)
  */
 class ThinLens : public Camera {
 	public:
 		ThinLens() {}
-		ThinLens(Point a_p3Center, Vec3 a_v3Dir, Vec3 a_v3Up, float a_dAperture, 
-			float a_dDist, float a_u0, float a_v0, float a_u1, float a_v1)
+		ThinLens(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
+			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1)
 		{
-			this->set(a_p3Center, a_v3Dir, a_v3Up, a_dAperture, a_dDist, a_u0, a_v0, a_u1, a_v1);
+			set(a_center, a_dir, a_up, a_aperture, a_dist, a_u0, a_v0, a_u1, a_v1);
 		}
-		
-		void set(Point a_p3Center, Vec3 a_v3Dir, Vec3 a_v3Up, float a_dAperture, 
-			float a_dDist, float a_u0, float a_v0, float a_u1, float a_v1);
-			
-		Ray getRay(float x, float y, float sx, float sy);
-	private:
-		Point	m_p3Center,
-				m_p3Corner;
-				 
-		Vec3	m_v3Dir, 
-				m_v3Up, 				
-				m_v3XDir, 
-				m_v3YDir;
 
-		ONB 	m_uvw;
-		
-		float	m_dLensRadius,	///< Radio de la lente.
-				m_dDist,
-				m_u0,
-				m_v0,
-				m_u1,
-				m_v1;
+		void set(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
+			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1);
+
+		Ray get_ray(float x, float y, float sx, float sy);
+	private:
+		Point	center,
+				corner;
+
+		Vec3	dir,
+				up,
+				x_dir,
+				y_dir;
+
+		ONB 	uvw;
+
+		float	lens_radius,	///< Radio de la lente.
+				dist,
+				u0,
+				v0,
+				u1,
+				v1;
 };
 
 #endif // __THINLENS_H__

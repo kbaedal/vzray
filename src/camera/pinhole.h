@@ -9,40 +9,40 @@
 #include "ray.h"
 
 /**
- * Definicion de una camara estenopeica o pinhole.
+ * \class Definicion de una camara estenopeica o pinhole.
  */
 class Pinhole : public Camera {
 	public:
 		Pinhole() {}
-		Pinhole(Point a_p3Pinhole, Vec3 a_v3Dir, Vec3 a_v3Up,
-			float a_dDist, float a_u0, float a_v0, float a_u1, float a_v1, float a_dPush = 0.f)
+		Pinhole(Point a_pos, Vec3 a_dir, Vec3 a_up,
+			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1, float a_push = 0.0f)
 		{
-			this->set(a_p3Pinhole, a_v3Dir, a_v3Up, a_dDist, a_u0, a_v0, a_u1, a_v1, a_dPush);
+			set(a_pos, a_dir, a_up, a_dist, a_u0, a_v0, a_u1, a_v1, a_push);
 		}
-		
-		void set(Point a_p3Pinhole, Vec3 a_v3Dir, Vec3 a_v3Up,
-			float a_dDist, float a_u0, float a_v0, float a_u1, float a_v1, float a_dPush = 0.f);
-			
-		Ray getRay(float x, float y, float sx, float sy);
-		
+
+		void set(Point a_pos, Vec3 a_dir, Vec3 a_up,
+			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1, float a_push = 0.0f);
+
+		Ray get_ray(float x, float y, float sx, float sy) final;
+
 	private:
-		Point	m_p3Pinhole,	///< Punto en el que está situada la camara.
-				m_p3Corner; 	///< Esquina inferior de la imagen
-				
-		Vec3	m_v3Dir, 		///< Dirección en la que mira.
-				m_v3Up, 		///< Vector que define qué es arriba.
-				m_v3XDir, 		///< Vector x con el que avanzaremos por el	plano de la imagen.
-				m_v3YDir;		///< Vector y para lo mismo.
-				
-		ONB 	m_uvw;			///< Base ortonormal de la camara.
-		
-		float 	m_dDist, 		///< Distancia al plano de la imagen.
-				m_u0,			///< Coordenada u0 del plano de la imagen.
-				m_v0, 			///< Coordenada v0 del plano de la imagen.
-				m_u1, 			///< Coordenada u1 del plano de la imagen.
-				m_v1;			///< Coordenada v1 del plano de la imagen.
-		
-		float 	m_dPush; // Trick for test scenes.
+		Point	pos,	    ///< Punto en el que está situada la camara.
+				corner; 	///< Esquina inferior de la imagen
+
+		Vec3	dir, 		///< Dirección en la que mira.
+				up, 		///< Vector que define qué es arriba.
+				x_dir, 		///< Vector x con el que avanzaremos por el	plano de la imagen.
+				y_dir;		///< Vector y para lo mismo.
+
+		ONB 	uvw;		///< Base ortonormal de la camara.
+
+		float 	dist, 		///< Distancia al plano de la imagen.
+				u0,			///< Coordenada u0 del plano de la imagen.
+				v0, 		///< Coordenada v0 del plano de la imagen.
+				u1, 		///< Coordenada u1 del plano de la imagen.
+				v1;			///< Coordenada v1 del plano de la imagen.
+
+		float 	push;       // Trick for test scenes.
 };
 
 #endif // __PINHOLE_H__

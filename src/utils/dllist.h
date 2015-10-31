@@ -15,176 +15,182 @@ const unsigned int DLL_DELETE_DATA 	= 0x02; // 0000 0010
 
 template <class T> class DLListNode {
 	public:
-		DLListNode(std::string strID, T *a_pT, bool a_bDel = false)
+		DLListNode(std::string a_id, T *a_data, bool a_del = false)
 		{
-			m_pT = a_pT;
-			m_pSig = m_pAnt = NULL;
-			m_strID = strID;
-			m_bDel = a_bDel;
+			data    = a_data;
+			id      = a_id;
+			del     = a_del;
+
+			sig = ant = nullptr;
 		}
 
 		~DLListNode()
-		{			
-			if(m_pT != NULL && m_bDel)
-				delete m_pT;
-		}			
-	
-		void setData(T *a_pT) { m_pT = a_pT; }
-		T *getData() { return m_pT; }
-		
-		void setID(std::string a_strID) { m_strID = a_strID; };
-		std::string getID() { return m_strID; }
-		
-		void setSig(DLListNode<T> *pSig) { m_pSig = pSig; }
-		DLListNode *getSig() { return m_pSig; }
-		void setAnt(DLListNode<T> *pAnt) { m_pAnt = pAnt; }
-		DLListNode *getAnt() { return m_pAnt; }
+		{
+			if(data != nullptr && del)
+				delete data;
+		}
+
+		void set_data(T *a_data) { data = a_data; }
+		T *get_data() { return data; }
+
+		void set_id(std::string a_id) { id = a_id; };
+		std::string get_id() { return id; }
+
+		void set_sig(DLListNode<T> *a_sig) { sig = a_sig; }
+		DLListNode *get_sig() { return sig; }
+		void set_ant(DLListNode<T> *a_ant) { ant = a_ant; }
+		DLListNode *get_ant() { return ant; }
 	private:
-		T 				*m_pT;
-		std::string 	m_strID;		
-		DLListNode<T> 	*m_pSig, *m_pAnt;
-		bool			m_bDel;
+		T 				*data;
+		std::string 	id;
+		DLListNode<T> 	*sig, *ant;
+		bool			del;
 };
 
 template <class T> class DLList {
 	public:
-		DLList(unsigned int nFlags = 0x00)
+		DLList(unsigned int flags = 0x00)
 		{
-			m_pInicio = m_pFin = NULL;
-			m_nNumEltos = 0;
-			m_nUNIQUE_ID = nFlags & DLL_UNIQUE_ID;
-			m_nDELETE_DATA = nFlags & DLL_DELETE_DATA;		
+			num_eltos   = 0;
+			unique_id   = flags & DLL_UNIQUE_ID;
+			delete_data = flags & DLL_DELETE_DATA;
+
+			inicio = fin = nullptr;
 		}
 		~DLList();
-		
+
 		// Insertamos un nuevo elemento en la lista, y le asignamos un
 		// nombre que sera su identificador.
-		// Devuelve false en caso de error. 
-		bool insertar(std::string strID, T *pDatos);
-		
-		// Borramos el primer elemento de la lista que tenga el ID indicado. 
 		// Devuelve false en caso de error.
-		bool eliminar(std::string strID);
-		
-		// Borramos el elemento i-ésimo de la lista. 
+		bool insertar(std::string id, T *data);
+
+		// Borramos el primer elemento de la lista que tenga el ID indicado.
+		// Devuelve false en caso de error.
+		bool eliminar(std::string id);
+
+		// Borramos el elemento i-ésimo de la lista.
 		// Devuelve false en caso de error.
 		bool eliminar(int i);
-		
+
 		// Devolvemos los datos del primer elemento de la lista que tenga
 		// el ID indicado. Devuelve null si no existen los datos buscados.
-		T *getData(std::string strID);
-		
+		T *get_data(std::string id);
+
 		// Nos devolverá el elemento en la i-ésima posición de la
-		// lista, o NULL si esta fuera de rango.
-		T *getData(int i);
-		
+		// lista, o nullptr si esta fuera de rango.
+		T *get_data(int i);
+
 		// Devuelve el numero de elementos en la lista.
-		int getNumEltos() { return m_nNumEltos; }
-		
+		int get_num_eltos() { return num_eltos; }
+
 		// Devuelve el ID del elemento i-ésimo.
-		std::string getID(int i);
-		
+		std::string get_id(int i);
+
 	private:
-		int				m_nNumEltos;			// Numero de elementos de la lista
-		DLListNode<T> 	*m_pInicio, *m_pFin;	// Punteros para manejar la lista
+		int				num_eltos;		// Numero de elementos de la lista
+		DLListNode<T> 	*inicio, *fin;  // Punteros para manejar la lista
 		/*
 		 * Flags:
-		 * 	- m_nUNIQUE_ID: Si está activo, no se podrá insertar un nodo nuevo
+		 * 	- unique_id: Si está activo, no se podrá insertar un nodo nuevo
 		 * 		con un ID que ya tenga otro nodo.
-		 * 	- m_nDELETE_DATA: Si está activo, los datos a los que apuntan los
+		 * 	- delete_data: Si está activo, los datos a los que apuntan los
 		 * 		nodos de la lista serán eliminados al destruir la lista.
 		 */
-		unsigned int	m_nUNIQUE_ID, m_nDELETE_DATA;		
+		//unsigned int	unique_id, delete_data;
+		bool    unique_id,
+                delete_data;
 };
 
 template <class T>
-bool DLList<T>::insertar(std::string strID, T *pDatos)
+bool DLList<T>::insertar(std::string id, T *data)
 {
-	if(m_pInicio == NULL) { // Primer nodo de la lista.
-		m_pInicio = new DLListNode<T>(strID, pDatos);
-		m_pFin = m_pInicio;
+	if(inicio == nullptr) { // Primer nodo de la lista.
+		inicio = new DLListNode<T>(id, data);
+		fin = inicio;
 	}
-	else { // No es el primero, si es necesario, comprobamos el ID 
-		DLListNode<T> *pTemp = m_pInicio;
+	else { // No es el primero, si es necesario, comprobamos el ID
+		DLListNode<T> *temp = inicio;
 
-		if((m_nUNIQUE_ID & DLL_UNIQUE_ID) != 0)
+		//if((unique_id & DLL_UNIQUE_ID) != 0)
+		if(unique_id)
 		{
-			while (pTemp != NULL) {
-				if(strID.compare(pTemp->getID()) == 0)
+			while (temp != nullptr) {
+				if(id.compare(temp->get_id()) == 0)
 				// Si encontramos un ID igual, devolvemos error.
 					return false;
-					
-				pTemp = pTemp->getSig();
+
+				temp = temp->get_sig();
 			}
 		}
-		
+
 		// No hay un ID igual o no es necesario comprobarlo, insertamos.
 		// Pasaremos el flag m_nDELETE_DATA como ultimo argumento al constructor
 		// del nodo:
 		// 	- m_nDELETE_DATA & DLL_DELETE_DATA = true si m_nDELETE_DATA = 0x02,
 		//		falso en otra circunstancia.
-		pTemp = new DLListNode<T>(strID, pDatos, m_nDELETE_DATA & DLL_DELETE_DATA);
-		
-		m_pFin->setSig(pTemp);
-		pTemp->setAnt(m_pFin);
-		m_pFin = pTemp;
+		//temp = new DLListNode<T>(strID, pDatos, m_nDELETE_DATA & DLL_DELETE_DATA);
+		temp = new DLListNode<T>(id, data, delete_data);
+
+		fin->set_sig(temp);
+		temp->set_ant(fin);
+		fin = temp;
 	}
 	// Incrementamos nuestro contador de elementos en la lista.
-	m_nNumEltos++; 	
-	return true;	
+	++num_eltos;
+	return true;
 }
 
 template <class T>
-bool DLList<T>::eliminar(std::string strID)
+bool DLList<T>::eliminar(std::string id)
 {
-	bool 			bFound = false;
-	DLListNode<T> 	*pTemp = m_pInicio;
-	
-	while((pTemp != NULL) && !bFound) {
-		if(strID.compare(pTemp->getID()) == 0) {
-			bFound = true;
+	bool 			found   = false;
+	DLListNode<T> 	*temp   = inicio;
+
+	while((temp != nullptr) && !found) {
+		if(id.compare(temp->get_id()) == 0) {
+			found = true;
 		}
 		else { 	// Avanzamos por la lista si no encontramos conincidencia.
 				// En caso de encontrarla no avanzamos, para mantener
 				// el puntero temporal apuntado al nodo adecuado.
-			pTemp = pTemp->getSig();
+			temp = temp->get_sig();
 		}
 	}
-	
-	if(!bFound) { // No hemos encontrado nada que eliminar.
+
+	if(!found) { // No hemos encontrado nada que eliminar.
 		return false;
-	} 
-	else { // Encontrado. pTemp apunta a nuestro nodo.
-		if(m_pInicio == m_pFin) {
+	}
+	else { // Encontrado. temp apunta a nuestro nodo.
+		if(inicio == fin) {
 			// Tenemos un unico nodo en la lista. Eliminamos y ponemos
-			// lus punteros a NULL.
-			delete pTemp;
-			m_pInicio = m_pFin = NULL;
+			// lus punteros a nullptr.
+			delete temp;
+			inicio = fin = nullptr;
 		}
-		else if(pTemp == m_pInicio) {
+		else if(temp == inicio) {
 			// Borramos el nodo inicial, que no es el único.
-			m_pInicio = pTemp->getSig();
-			m_pInicio->setAnt(NULL);
-			
-			delete pTemp;
+			inicio = temp->get_sig();
+			inicio->set_ant(nullptr);
+
+			delete temp;
 		}
-		else if(pTemp == m_pFin) {
+		else if(temp == fin) {
 			// Lo mismo, pero para un nodo final.
-			m_pFin = pTemp->getAnt();
-			m_pFin->setSig(NULL);
-			
-			delete pTemp;
+			fin = temp->get_ant();
+			fin->set_sig(nullptr);
+
+			delete temp;
 		}
 		else {
 			// Nodo intermedio, que no es inicial ni final.
-			pTemp->getAnt()->setSig(pTemp->getSig());
-			pTemp->getSig()->setAnt(pTemp->getAnt());
-		
-			delete pTemp;
+			temp->get_ant()->set_sig(temp->get_sig());
+			temp->get_sig()->set_ant(temp->get_ant());
+
+			delete temp;
 		}
 	}
 	// Decrementamos nuestro contador de elementos.
-	m_nNumEltos--;
+	--num_eltos;
 	return true;
 }
 
@@ -192,116 +198,117 @@ bool DLList<T>::eliminar(std::string strID)
 template <class T>
 bool DLList<T>::eliminar(int i)
 {
-	if((i < 0) || (i >= m_nNumEltos)) 	// Si se nos pide un elemento fuera
+	if((i < 0) || (i >= num_eltos)) 	// Si se nos pide un elemento fuera
 		return false;					// de rango, devolvemos false.
 	else {
 		int 			n = 0;
-		DLListNode<T> 	*pTemp = m_pInicio;
-		
+		DLListNode<T> 	*temp = inicio;
+
 		while(i != n) {
-			pTemp = pTemp->getSig();
-			n++;
+			temp = temp->get_sig();
+			++n;
 		}
-		
-		// Encontrado. pTemp apunta a nuestro nodo.
-		if(m_pInicio == m_pFin) {
+
+		// Encontrado. temp apunta a nuestro nodo.
+		if(inicio == fin) {
 			// Tenemos un unico nodo en la lista. Eliminamos y ponemos
-			// lus punteros a NULL.
-			delete pTemp;
-			m_pInicio = m_pFin = NULL;
+			// lus punteros a nullptr.
+			delete temp;
+			inicio = fin = nullptr;
 		}
-		else if(pTemp == m_pInicio) {
+		else if(temp == inicio) {
 			// Borramos el nodo inicial, que no es el único.
-			m_pInicio = pTemp->getSig();
-			m_pInicio->setAnt(NULL);
-			
-			delete pTemp;
+			inicio = temp->get_sig();
+			inicio->set_ant(nullptr);
+
+			delete temp;
 		}
-		else if(pTemp == m_pFin) {
+		else if(temp == fin) {
 			// Lo mismo, pero para un nodo final.
-			m_pFin = pTemp->getAnt();
-			m_pFin->setSig(NULL);
-			
-			delete pTemp;
+			fin = temp->get_ant();
+			fin->set_sig(nullptr);
+
+			delete temp;
 		}
 		else {
 			// Nodo intermedio, que no es inicial ni final.
-			pTemp->getAnt()->setSig(pTemp->getSig());
-			pTemp->getSig()->setAnt(pTemp->getAnt());
-		
-			delete pTemp;
+			temp->get_ant()->set_sig(temp->get_sig());
+			temp->get_sig()->set_ant(temp->get_ant());
+
+			delete temp;
 		}
 	}
-	
+
 	// Decrementamos nuestro contador de elementos.
-	m_nNumEltos--;
+	--num_eltos;
 	return true;
 }
 
 template <class T>
-T *DLList<T>::getData(std::string strID)
+T *DLList<T>::get_data(std::string id)
 {
-	DLListNode<T> 	*pTemp = m_pInicio;
-	
-	while(pTemp != NULL) {		
-		if(strID.compare(pTemp->getID()) == 0)
-			return pTemp->getData();
-		pTemp = pTemp->getSig();
+	DLListNode<T> 	*temp = inicio;
+
+	while(temp != nullptr) {
+		if(id.compare(temp->get_id()) == 0)
+			return temp->get_data();
+		temp = temp->get_sig();
 	}
-	return NULL;		
+
+	return nullptr;
 }
 
 template <class T>
-T *DLList<T>::getData(int i)
+T *DLList<T>::get_data(int i)
 {
-	if((i < 0) || (i >= m_nNumEltos)) 	// Si se nos pide un elemento fuera
-		return NULL;					// de rango, devolvemos NULL.
+	if((i < 0) || (i >= num_eltos)) 	// Si se nos pide un elemento fuera
+		return nullptr;					// de rango, devolvemos nullptr.
 	else {
 		int 			n = 0;
-		DLListNode<T> 	*pTemp = m_pInicio;
-		
+		DLListNode<T> 	*temp = inicio;
+
 		while(i != n) {
-			pTemp = pTemp->getSig();
-			n++;
+			temp = temp->get_sig();
+			++n;
 		}
-		
-		return pTemp->getData();
+
+		return temp->get_data();
 	}
 }
 
 template <class T>
-std::string DLList<T>::getID(int i)
+std::string DLList<T>::get_id(int i)
 {
-	if((i < 0) || (i >= m_nNumEltos)) 	// Si se nos pide un elemento fuera
-		return NULL;					// de rango, devolvemos NULL.
+	if((i < 0) || (i >= num_eltos)) 	// Si se nos pide un elemento fuera
+		return nullptr;					// de rango, devolvemos nullptr.
 	else {
 		int 			n = 0;
-		DLListNode<T> 	*pTemp = m_pInicio;
-		
+		DLListNode<T> 	*temp = inicio;
+
 		while(i != n) {
-			pTemp = pTemp->getSig();
-			n++;
+			temp = temp->get_sig();
+			++n;
 		}
-		
-		return pTemp->getID();
+
+		return temp->get_id();
 	}
 }
 
 template <class T>
 DLList<T>::~DLList()
 {
-	if(m_pInicio != NULL) { // Si la lista no está vacía.
-		while(m_pInicio != m_pFin) { // Mientras quede más de un nodo
-			DLListNode<T> *pTemp = m_pFin;
-			
-			m_pFin = pTemp->getAnt();
-			m_pFin->setSig(NULL);
-			
-			delete pTemp;
+	if(inicio != nullptr) { // Si la lista no está vacía.
+		while(inicio != fin) { // Mientras quede más de un nodo
+			DLListNode<T> *temp = fin;
+
+			fin = temp->get_ant();
+			fin->set_sig(nullptr);
+
+			delete temp;
 		}
-		
+
 		// Nos queda el último nodo.
-		delete m_pInicio;
+		delete inicio;
 	}
 }
 

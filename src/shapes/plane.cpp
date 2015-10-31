@@ -10,28 +10,23 @@
 #include "shapes/plane.h"
 #include "onb.h"
 
-const float PLANE_EPSILON = 1e-8;
+const float Plane::kplane_epsilon = 1e-8;
 
-using namespace std;
+bool Plane::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+{
+	float vd, vo, t;
 
-bool Plane::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const
-{	  
-	float 	Vd, Vo, t;
-	Vec3	v3Origin;
-	
-	v3Origin.set(a_rRay.origin());
-			
-    Vd = dot(versor(m_v3Normal), versor(a_rRay.direction()));
-     if(Vd != 0.f) {
-        Vo = -(dot(versor(m_v3Normal), v3Origin) + m_dDist);
-        t = Vo / Vd;
+    vd = dot(versor(normal), versor(r.direction()));
+     if(vd != 0.0f) {
+        vo = -(dot(versor(normal), Vec3(r.origin())) + dist);
+        t = vo / vd;
 
-        if((t > PLANE_EPSILON) && (t > a_dMin) && (t < a_dMax)) // Hit. Fill HitRecord.
+        if((t > kplane_epsilon) && (t > min_dist) && (t < max_dist)) // Hit. Fill HitRecord.
         {
-            a_hrHitRcd.dDist 	= t;
-			a_hrHitRcd.v3Normal = versor(m_v3Normal);			
-			a_hrHitRcd.pMat		= m_pMat;
-			
+            hit.dist 	    = t;
+			hit.normal      = versor(normal);
+			hit.material    = material;
+
             return true;
         }
         else {
@@ -40,22 +35,19 @@ bool Plane::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHi
     }
     else {
         return false;
-    }	
+    }
 }
 
-bool Plane::shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const
+bool Plane::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 {
-	float 	Vd, Vo, t;
-	Vec3	v3Origin;
-	
-	v3Origin.set(a_rRay.origin());
-	
-    Vd = dot(versor(m_v3Normal), versor(a_rRay.direction()));
-    if(Vd != 0.f) {
-        Vo = -(dot(versor(m_v3Normal), v3Origin) + m_dDist);
-        t = Vo / Vd;
+	float vd, vo, t;
 
-        if((t > PLANE_EPSILON) && (t > a_dMin) && (t < a_dMax)) // Hit.
+    vd = dot(versor(normal), versor(r.direction()));
+     if(vd != 0.0f) {
+        vo = -(dot(versor(normal), Vec3(r.origin())) + dist);
+        t = vo / vd;
+
+        if((t > kplane_epsilon) && (t > min_dist) && (t < max_dist)) // Hit.
         {
 			return true;
         }
@@ -65,11 +57,11 @@ bool Plane::shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const
     }
     else {
         return false;
-    }    
+    }
 }
 
-bool Plane::getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const
+bool Plane::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 {
-	p3LPoint = Point(0.f);
+	light_pos = Point(0.0f);
 	return true;
 }

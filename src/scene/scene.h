@@ -2,6 +2,7 @@
 #define __SCENE_HPP__
 
 #include <string>
+#include <vector>
 
 #include "material/material.h"
 #include "shapes/shape.h"
@@ -15,91 +16,91 @@ class Scene {
 	public:
 		Scene()
 		{
-			Shapes 		= new DLList<Shape>(DLL_DELETE_DATA);
-			Lights 		= new DLList<Shape>(~DLL_DELETE_DATA); 
+			shapes 		= new DLList<Shape>(DLL_DELETE_DATA);
+			lights 		= new DLList<Shape>(~DLL_DELETE_DATA);
 			// No borramos los datos enlazados en esta lista, ya que como
 			// también están enlazados en la lista Shapes, al borrar la
 			// lista Shapes eliminamos los datos enlazados por la lista
 			// Lights. Así solamente borraremos la estructura creada,
 			// pues los datos ya han sido o van a ser borrados.
-			
-			Materials 	= new DLList<Material>(DLL_UNIQUE_ID | DLL_DELETE_DATA);
-			Textures 	= new DLList<Texture>(DLL_UNIQUE_ID | DLL_DELETE_DATA);
+
+			materials 	= new DLList<Material>(DLL_UNIQUE_ID | DLL_DELETE_DATA);
+			textures 	= new DLList<Texture>(DLL_UNIQUE_ID | DLL_DELETE_DATA);
 		}
 		~Scene()
 		{
-			delete Shapes;
-			delete Lights;
-			delete Materials;
-			delete Textures;
+			delete shapes;
+			delete lights;
+			delete materials;
+			delete textures;
 		}
-		
+
 		/***
 		 * Métodos para construir la escena. Devuelven false en caso de error.
 		 ***/
-		
-		// Añade un nuevo objeto a la escena. El objeto utilizará como 
-		// material el indicado por la string, que deberá existir en la 
+
+		// Añade un nuevo objeto a la escena. El objeto utilizará como
+		// material el indicado por la string, que deberá existir en la
 		// lista de materiales al añadir el objeto.
 		// Si la variable bLight es true, quiere decir que es una luz
 		// y hemos de añadirla también a nuestra lista de luces.
-		bool addObject(Shape *pNewObject, std::string strMatID, bool bLight = false);
-		
+		bool add_object(Shape *new_object, std::string material_id, bool is_light = false);
+
 		// Añade una nueva textura a la lista de texturas. Todas las
 		// texturas que se utilicen deben estar en esta lista. Tendrá
 		// la ID que se indique.
-		bool addTexture(Texture *pNewTexture, std::string strTextureID);
-		
+		bool add_texture(Texture *new_texture, std::string texture_id);
+
 		// Devuelve un puntero a la textura con el ID indicado.
-		Texture *getTexture(std::string strTextureID) { return Textures->getData(strTextureID); };
-		
+		Texture *get_texture(std::string texture_id) { return textures->get_data(texture_id); };
+
 		// Añade un nuevo material a nuestra lista de materiales. La textura
 		// que se indique debe estar anteriormente añadida a la lista de
 		// texturas. Tendrá la ID indicada.
-		bool addMaterial(Material *pNewMaterial, std::string strTextureID, std::string strMatID);
-		
+		bool add_material(Material *new_material, std::string texture_id, std::string material_id);
+
 		// Devuelve un puntero al material con el ID indicado.
-		Material *getMaterial(std::string strMaterialID) { return Materials->getData(strMaterialID); };
-		
+		Material *get_material(std::string material_id) { return materials->get_data(material_id); };
+
 		/***
 		 * Métodos para la consulta.
 		 * True si hay intersección (se rellenarán las estructuras convenientes,
 		 * en caso de que sea necesario) y false si no la hay.
 		 ***/
 		// Lanza el rayo a la escena y calcula la intersección más cercana, si la hubiera.
-		bool nearestIntersection(Ray a_rRay, float a_dMin, float a_dMax, HitRecord &htHit);
-		
+		bool nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit);
+
 		// Lanza un rayo y calcula si hay alguna intersección entre dist_min y dist_max.
-		bool shadowIntersection(Ray a_rRay, float fdist_min, float fdist_max);
-		
+		bool shadow_intersection(Ray r, float min_dist, float max_dist);
+
 		// Devuelve el numero de objetos de la escena (objetos + luces).
-		int getNumObjs() { return Shapes->getNumEltos(); };
-		
+		int get_num_objs() { return shapes->get_num_eltos(); };
+
 		// Devuelve el elemento i-ésimo de la lista de objetos.
-		Shape *getObject(int i) { return Shapes->getData(i); };
-				
+		Shape *get_object(int i) { return shapes->get_data(i); };
+
 		// Devuelve el numero de luces de la escena.
-		int getNumLights() { return Lights->getNumEltos(); };
-		
+		int get_num_lights() { return lights->get_num_eltos(); };
+
 		// Devuelve el elemento i-ésimo de la lista de luces.
-		Shape *getLight(int i) { return Lights->getData(i); };
-		
+		Shape *get_light(int i) { return lights->get_data(i); };
+
 		// Cambia el color de fondo de la escena.
-		void setBGColor(const RGB &a_rgbBGColor) { m_rgbBGColor = a_rgbBGColor; }
-		
+		void set_bg_color(const RGB &color) { bg_color = color; }
+
 		// Obtiene el color de fondo.
-		RGB getBGColor() const { return m_rgbBGColor; }
-		
+		RGB get_bg_color() const { return bg_color; }
+
 		// Incluye entre los elementos a mostrar las AABB.
-		bool showAABB();
-			
+		bool show_AABB();
+
 	private:
-		DLList<Shape> 		*Shapes;
-		DLList<Shape> 		*Lights;
-		DLList<Material> 	*Materials;
-		DLList<Texture>		*Textures;
-		
-		RGB					m_rgbBGColor;
+		DLList<Shape> 		*shapes;
+		DLList<Shape> 		*lights;
+		DLList<Material> 	*materials;
+		DLList<Texture>		*textures;
+
+		RGB					bg_color;
 };
 
 #endif // __SCENE_HPP__

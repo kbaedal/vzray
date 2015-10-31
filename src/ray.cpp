@@ -1,24 +1,24 @@
 #include "ray.h"
 
-Point Ray::getPoint(const float dDist)
+Point Ray::get_point(const float dist) const
 {
-	return Point(m_p3Orig + dDist * Point(m_v3Dir.x(), m_v3Dir.y(), m_v3Dir.z()));
+	return Point(orig + dist * Point(dir));
 }
 
-void Ray::refreshInv()
+void Ray::refresh_inv()
 {
 	// Inverted direction and signs, for ray-box tests
-	m_v3InvDir.set(1.f/m_v3Dir.x(), 1.f/m_v3Dir.y(), 1.f/m_v3Dir.z());
-	
+	i_dir.set(1.f/dir.x(), 1.f/dir.y(), 1.f/dir.z());
+
 	// Sign could be 0 or 1 (int values for false and true)
-	m_nSign[0] = (m_v3InvDir.x() < 0.f);
-	m_nSign[1] = (m_v3InvDir.y() < 0.f);
-	m_nSign[2] = (m_v3InvDir.z() < 0.f);
+	sign[0] = (i_dir.x() < 0.f);
+	sign[1] = (i_dir.y() < 0.f);
+	sign[2] = (i_dir.z() < 0.f);
 }
 
 std::ostream& operator<<(std::ostream &os, const Ray &r)
 {
 	os << "(" << r.origin() << ") + t(" << r.direction() << ")";
-	
+
 	return os;
 }

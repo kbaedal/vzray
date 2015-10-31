@@ -1,46 +1,47 @@
 #include "camera/pinhole.h"
 
-void Pinhole::set(Point a_p3Pinhole, Vec3 a_v3Dir, Vec3 a_v3Up,
-			float a_dDist, float a_u0, float a_v0, float a_u1, float a_v1, float a_dPush)
+void Pinhole::set(Point a_pos, Vec3 a_dir, Vec3 a_up,
+			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1, float a_push)
 {
-	Point	p3U, p3V, p3W;	// Auxiliares para calculos.
-	
-	m_p3Pinhole = a_p3Pinhole;	// eye
-	m_v3Dir		= a_v3Dir;		// gaze
-	m_v3Up		= a_v3Up;		// up
-	m_dDist		= a_dDist;		// s
-	m_u0		= a_u0;
-	m_v0		= a_v0;
-	m_u1		= a_u1;
-	m_v1		= a_v1;
-	
-	m_uvw.initFromWV(-m_v3Dir, m_v3Up);
-	
-	p3U.set(m_uvw.u());
-	p3V.set(m_uvw.v());
-	p3W.set(m_uvw.w());
-	
-	//m_p3Corner = m_p3Pinhole + m_u0 * m_uvw.u() + m_v0 * m_uvw.v() - m_dDist * m_uvw.w();
-	m_p3Corner = m_p3Pinhole + m_u0 * p3U + m_v0 * p3V - m_dDist * p3W;
-	
-	m_v3XDir = (m_u1 - m_u0) * m_uvw.u(); 
-	m_v3YDir = (m_v1 - m_v0) * m_uvw.v();
-	
-	m_dPush = a_dPush;
+	Point	u, v, w;	// Auxiliares para calculos.
+
+	pos     = a_pos;    // eye
+	dir		= a_dir;	// gaze
+	up		= a_up;		// up
+	dist	= a_dist;   // s
+	u0		= a_u0;
+	v0		= a_v0;
+	u1		= a_u1;
+	v1		= a_v1;
+
+	uvw.init_from_wv(-dir, up);
+
+	u.set(uvw.u());
+	v.set(uvw.v());
+	w.set(uvw.w());
+
+	//m_p3Corner = pos + m_u0 * m_uvw.u() + m_v0 * m_uvw.v() - m_dDist * m_uvw.w();
+	corner = pos + u0 * u + v0 * v - dist * w;
+
+	x_dir = (u1 - u0) * uvw.u();
+	y_dir = (v1 - v0) * uvw.v();
+
+	push = a_push;
 }
 
-Ray Pinhole::getRay(float x, float y, float sx, float sy)
+Ray Pinhole::get_ray(float x, float y, float sx, float sy)
 {
-	Point 	p3ImgPlane, p3XDir, p3YDir, p3PushDir;
-	Vec3	v3Dir;
-	
-	p3XDir.set(m_v3XDir);
-	p3YDir.set(m_v3YDir);
-	p3ImgPlane = m_p3Corner + x * p3XDir + y * p3YDir;
-	
-	v3Dir.set(p3ImgPlane - m_p3Pinhole);
-	v3Dir.normalize();
-	p3PushDir.set(v3Dir);
-		
-	return Ray(m_p3Pinhole + m_dPush * p3PushDir, v3Dir);
+	Point 	img_plane,                  // Destino en el plano de imagen del rayo.
+            t_xdir, t_ydir, t_pushdir;  // Convertiremos los vectores a puntos.
+	Vec3	ray_dir;
+
+	t_xdir.set(x_dir);
+	t_ydir.set(y_dir);
+	img_plane = corner + x * t_xdir + y * t_ydir;
+
+	ray_dir.set(img_plane - pos);
+	ray_dir.normalize();
+	t_pushdir.set(ray_dir);
+
+	return Ray(pos + push * t_pushdir, ray_dir);
 }

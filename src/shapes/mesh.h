@@ -13,22 +13,22 @@
 
 class MeshFace {
 	public:
-		MeshFace(int nValor) { 
-			this->set(nValor);
+		MeshFace(int n) {
+			set(n);
 		}
-		MeshFace() { this->set(0); }
-		
-		void set(int nValor) { // Iniciamos los datos todos al mismo valor
+		MeshFace() { set(0); }
+
+		void set(int n) { // Iniciamos los datos todos al mismo valor
 			for(int i = 0; i < 3; i++) {
-				nVIndex[i] = nValor;
-				nNIndex[i] = nValor;
-				nTIndex[i] = nValor;
+				vertex_index[i] = n;
+				normal_index[i] = n;
+				texture_index[i] = n;
 			}
 		}
-		
-		int nVIndex[3]; // Vertex index in m_v3VertexArray 
-		int nNIndex[3];	// Normal index in m_v3NormalArray
-		int nTIndex[3];	// Texture index in m_v2TextureArray
+
+		int vertex_index[3]; // Vertex index in m_v3VertexArray
+		int normal_index[3];	// Normal index in m_v3NormalArray
+		int texture_index[3];	// Texture index in m_v2TextureArray
 };
 
 class Mesh : public Shape
@@ -36,46 +36,46 @@ class Mesh : public Shape
 	public:
 		Mesh()
 		{
-			m_nNumT	= 0;
-			m_pTrans = new Transform;
+			num_triangles	= 0;
+			trans           = new Transform;
 		}
-	
-		~Mesh()	{ if(m_pTrans != NULL) delete m_pTrans; }
-	
-		
+
+		~Mesh()	{ if(trans != NULL) delete trans; }
+
+
 		// A Mesh cannot be intersected
-		bool hit(const Ray &rRay, float dMin, float dMax, HitRecord &hrHitRcd) const
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
 		{
 			return false;
 		}
-		bool shadowHit(const Ray &rRay, float dMin, float dMax) const
+		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const
 		{
 			return false;
 		}
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 		{
 			return false;
-		}		
-		
+		}
+
 		// Add info to internal arrays
-		void addVertex(const Point &p);
-		void addNormal(const Vec3 &n);
-		void addTexture(const Vec2 &t);
-		
+		void add_vertex(const Point &p);
+		void add_normal(const Vec3 &n);
+		void add_texture(const Vec2 &t);
+
 		// Add triangle info (vertex index, normal index and texture index)
 		// void addTriangle(const MeshFace &mfFace);
-		
-		int getTriangleCount() { return m_nNumT; }
-		void increaseTriangleCount() { m_nNumT++; }
-		
+
+		int get_triangle_count() { return num_triangles; }
+		void increase_triangle_count() { ++num_triangles; }
+
 		friend class MeshTriangle;
-		
+
 	private:
-		int						m_nNumT;
-		
-		std::vector<Point> 		m_p3VertexArray;
-		std::vector<Vec3>		m_v3NormalArray;
-		std::vector<Vec2>		m_v2TextureArray;
+		int						num_triangles;
+
+		std::vector<Point> 		vertex_list;
+		std::vector<Vec3>		normal_list;
+		std::vector<Vec2>		texture_list;
 };
 
 #endif // __MESH_HPP__

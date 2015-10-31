@@ -2,12 +2,10 @@
 
 #include "matrix/transform.h"
 
-// Constantes utiles
-const float PI 		= 3.14159265358979323846;
-const float MINV 	= 0.00001;
+const float Transform::kpi          = 3.14159265358979323846;
+const float Transform::kmin_value   = 0.00001;
 
-// Para el qsort de la transformacion de bbox
-int compareF(const void * a, const void * b)
+int compare_float(const void * a, const void * b)
 {
 	float f1 = *reinterpret_cast<const float*>(a);
     float f2 = *reinterpret_cast<const float*>(b);
@@ -17,229 +15,229 @@ int compareF(const void * a, const void * b)
 }
 
 // Actualiza la matriz y su inversa con los datos de otra transformacion.
-void Transform::update(const Transform &a_tTrans)
+void Transform::update(const Transform &t)
 {
-	m_mtxM = a_tTrans.m_mtxM * m_mtxM;
-	
-	m_mtxI = m_mtxM.getInv();
-}	
+	mtx = t.mtx * mtx;
+
+	inv = mtx.get_inv();
+}
 
 // Actualiza la matriz y su inversa con los datos de una matriz.
-void Transform::update(const Matrix4x4 &a_mtxM)
+void Transform::update(const Matrix4x4 &m)
 {
-	m_mtxM = a_mtxM * m_mtxM;
-	m_mtxI = m_mtxM.getInv();
-}
-	
-void Transform::translate(float dX, float dY, float dZ)
-{
-	Matrix4x4 mtxTemp;
-	
-    mtxTemp.e[0][3] = dX;
-    mtxTemp.e[1][3] = dY;
-    mtxTemp.e[2][3] = dZ;
-	
-    m_mtxM = mtxTemp * m_mtxM; 
-    	
-    m_mtxI = m_mtxM.getInv();
+	mtx = m * mtx;
+	inv = mtx.get_inv();
 }
 
-void Transform::scale(float dX, float dY, float dZ)
+void Transform::translate(float x, float y, float z)
 {
-    Matrix4x4 mtxTemp;
+	Matrix4x4 mtemp;
 
-    mtxTemp.e[0][0] = dX;
-    mtxTemp.e[1][1] = dY;
-    mtxTemp.e[2][2] = dZ;
-    
-    m_mtxM = mtxTemp * m_mtxM; 
+    mtemp.e[0][3] = x;
+    mtemp.e[1][3] = y;
+    mtemp.e[2][3] = z;
 
-    m_mtxI = m_mtxM.getInv();
+    mtx = mtemp * mtx;
+
+    inv = mtx.get_inv();
 }
 
-void Transform::rotate(float dAng, const Vec3 &a_v3Axis)
+void Transform::scale(float x, float y, float z)
 {
-	Matrix4x4 mtxTemp;
-	
-	Vec3 v3Axis = versor(a_v3Axis);
-	float dSin = sin(dAng * (PI/180.f));
-	float dCos = cos(dAng * (PI/180.f));
-		
-	if(dSin < MINV)
-		dSin = 0.f;
+    Matrix4x4 mtemp;
 
-	if(dCos < MINV)
-		dCos = 0.f;
-	
-	mtxTemp.e[0][0] = dCos + v3Axis.x() * v3Axis.x() * (1.f - dCos);
-	mtxTemp.e[0][1] = v3Axis.x() * v3Axis.y() * (1.f - dCos) - v3Axis.z() * dSin;
-	mtxTemp.e[0][2] = v3Axis.x() * v3Axis.z() * (1.f - dCos) + v3Axis.y() * dSin;
-	mtxTemp.e[0][3] = 0.f;
-	
-	mtxTemp.e[1][0] = v3Axis.x() * v3Axis.y() * (1.f - dCos) + v3Axis.z() * dSin;
-	mtxTemp.e[1][1] = dCos + v3Axis.y() * v3Axis.y() * (1.f - dCos);
-	mtxTemp.e[1][2] = v3Axis.y() * v3Axis.z() * (1.f - dCos) - v3Axis.x() * dSin;
-	mtxTemp.e[1][3] = 0.f;
-	
-	mtxTemp.e[2][0] = v3Axis.x() * v3Axis.z() * (1.f - dCos) - v3Axis.y() * dSin;
-	mtxTemp.e[2][1] = v3Axis.x() * v3Axis.z() * (1.f - dCos) + v3Axis.x() * dSin;
-	mtxTemp.e[2][2] = dCos + v3Axis.z() * v3Axis.z() * (1.f - dCos);
-	mtxTemp.e[2][3] = 0.f;
-	
-	mtxTemp.e[3][0] = 0.f;
-	mtxTemp.e[3][1] = 0.f;
-	mtxTemp.e[3][2] = 0.f;
-	mtxTemp.e[3][3] = 1.f;	
-	
-	m_mtxM = mtxTemp * m_mtxM;
+    mtemp.e[0][0] = x;
+    mtemp.e[1][1] = y;
+    mtemp.e[2][2] = z;
 
-	m_mtxI = m_mtxM.getInv();
+    mtx = mtemp * mtx;
+
+    inv = mtx.get_inv();
 }
 
-void Transform::rotateX(float dAng)
+void Transform::rotate(float angle, const Vec3 &axis)
 {
-    Matrix4x4 mtxTemp;
+	Matrix4x4 mtemp;
 
-    float dAngRad = dAng * (PI/180.0f);
-    float dSinAng = sin(dAngRad);
-    float dCosAng = cos(dAngRad);
-	
-	if(dSinAng < MINV)
-		dSinAng = 0.f;
+	Vec3 vtemp = versor(axis);
+	float sin_a = sin(angle * (kpi/180.f));
+	float cos_a = cos(angle * (kpi/180.f));
 
-	if(dCosAng < MINV)
-		dCosAng = 0.f;
- 
-    mtxTemp.e[1][1] = dCosAng;
-    mtxTemp.e[1][2] = -dSinAng;
-    mtxTemp.e[2][1] = dSinAng;
-    mtxTemp.e[2][2] = dCosAng;
-    
-    m_mtxM = mtxTemp * m_mtxM;
+	if(sin_a < kmin_value)
+		sin_a = 0.0f;
 
-    m_mtxI = m_mtxM.getInv();
+	if(cos_a < kmin_value)
+		cos_a = 0.0f;
+
+	mtemp.e[0][0] = cos_a + vtemp.x() * vtemp.x() * (1.0f - cos_a);
+	mtemp.e[0][1] = vtemp.x() * vtemp.y() * (1.0f - cos_a) - vtemp.z() * sin_a;
+	mtemp.e[0][2] = vtemp.x() * vtemp.z() * (1.0f - cos_a) + vtemp.y() * sin_a;
+	mtemp.e[0][3] = 0.0f;
+
+	mtemp.e[1][0] = vtemp.x() * vtemp.y() * (1.0f - cos_a) + vtemp.z() * sin_a;
+	mtemp.e[1][1] = cos_a + vtemp.y() * vtemp.y() * (1.0f - cos_a);
+	mtemp.e[1][2] = vtemp.y() * vtemp.z() * (1.0f - cos_a) - vtemp.x() * sin_a;
+	mtemp.e[1][3] = 0.0f;
+
+	mtemp.e[2][0] = vtemp.x() * vtemp.z() * (1.0f - cos_a) - vtemp.y() * sin_a;
+	mtemp.e[2][1] = vtemp.x() * vtemp.z() * (1.0f - cos_a) + vtemp.x() * sin_a;
+	mtemp.e[2][2] = cos_a + vtemp.z() * vtemp.z() * (1.0f - cos_a);
+	mtemp.e[2][3] = 0.0f;
+
+	mtemp.e[3][0] = 0.0f;
+	mtemp.e[3][1] = 0.0f;
+	mtemp.e[3][2] = 0.0f;
+	mtemp.e[3][3] = 1.0f;
+
+	mtx = mtemp * mtx;
+
+	inv = mtx.get_inv();
 }
 
-void Transform::rotateY(float dAng)
+void Transform::rotate_x(float angle)
 {
-    Matrix4x4 mtxTemp;
+    Matrix4x4 mtemp;
 
-    float dAngRad = dAng * (PI/180.0f);
-    float dSinAng = sin(dAngRad);
-    float dCosAng = cos(dAngRad);
-    
-    if(dSinAng < MINV)
-		dSinAng = 0.f;
+    float rad_a = angle * (kpi/180.0f);
+    float sin_a = sin(rad_a);
+    float cos_a = cos(rad_a);
 
-	if(dCosAng < MINV)
-		dCosAng = 0.f;
+	if(sin_a < kmin_value)
+		sin_a = 0.0f;
 
-    mtxTemp.e[0][0] = dCosAng;
-    mtxTemp.e[0][2] = dSinAng;
-    mtxTemp.e[2][0] = -dSinAng;
-    mtxTemp.e[2][2] = dCosAng;
+	if(cos_a < kmin_value)
+		cos_a = 0.0f;
 
-    m_mtxM = mtxTemp * m_mtxM;
+    mtemp.e[1][1] = cos_a;
+    mtemp.e[1][2] = -sin_a;
+    mtemp.e[2][1] = sin_a;
+    mtemp.e[2][2] = cos_a;
 
-    m_mtxI = m_mtxM.getInv();
+    mtx = mtemp * mtx;
+
+    inv = mtx.get_inv();
 }
 
-void Transform::rotateZ(float dAng)
+void Transform::rotate_y(float angle)
 {
-    Matrix4x4 mtxTemp;
+    Matrix4x4 mtemp;
 
-    float dAngRad = dAng * (PI/180.0f);
-    float dSinAng = sin(dAngRad);
-    float dCosAng = cos(dAngRad);
-    
-    if(dSinAng < MINV)
-		dSinAng = 0.f;
+    float rad_a = angle * (kpi/180.0f);
+    float sin_a = sin(rad_a);
+    float cos_a = cos(rad_a);
 
-	if(dCosAng < MINV)
-		dCosAng = 0.f;
+	if(sin_a < kmin_value)
+		sin_a = 0.0f;
 
-    mtxTemp.e[0][0] = dCosAng;
-    mtxTemp.e[0][1] = -dSinAng;
-    mtxTemp.e[1][0] = dSinAng;
-    mtxTemp.e[1][1] = dCosAng;
+	if(cos_a < kmin_value)
+		cos_a = 0.0f;
 
-    m_mtxM = mtxTemp * m_mtxM;
+    mtemp.e[0][0] = cos_a;
+    mtemp.e[0][2] = sin_a;
+    mtemp.e[2][0] = -sin_a;
+    mtemp.e[2][2] = cos_a;
 
-    m_mtxI = m_mtxM.getInv();
+    mtx = mtemp * mtx;
+
+    inv = mtx.get_inv();
 }
 
-void Transform::freeTrans(const Matrix4x4 &mtxF)
+void Transform::rotate_z(float angle)
 {
-    m_mtxM = m_mtxM * mtxF;
+    Matrix4x4 mtemp;
 
-    m_mtxI = m_mtxM.getInv();
+    float rad_a = angle * (kpi/180.0f);
+    float sin_a = sin(rad_a);
+    float cos_a = cos(rad_a);
+
+	if(sin_a < kmin_value)
+		sin_a = 0.0f;
+
+	if(cos_a < kmin_value)
+		cos_a = 0.0f;
+
+    mtemp.e[0][0] = cos_a;
+    mtemp.e[0][1] = -sin_a;
+    mtemp.e[1][0] = sin_a;
+    mtemp.e[1][1] = cos_a;
+
+    mtx = mtemp * mtx;
+
+    inv = mtx.get_inv();
 }
 
-Ray Transform::sceneToObject(const Ray &rayIn)
+void Transform::free_transform(const Matrix4x4 &m)
 {
-	Ray rayTemp(
-		m_mtxI.transform(rayIn.origin()),
-		m_mtxI.transform(rayIn.direction())
+    mtx = mtx * m;
+
+    inv = mtx.get_inv();
+}
+
+Ray Transform::scene_to_object(const Ray &r)
+{
+	Ray t(
+		inv.transform(r.origin()),
+		inv.transform(r.direction())
 	);
-		
-	rayTemp.refreshInv();
-	
-	return rayTemp;	
+
+	t.refresh_inv();
+
+	return t;
 }
 
-Point Transform::sceneToObject(const Point &p3Point)
+Point Transform::scene_to_object(const Point &p)
 {
-	return m_mtxI.transform(p3Point);	
+	return inv.transform(p);
 }
 
-Vec3 Transform::objectNormalToScene(const Vec3 &v3Normal)
+Vec3 Transform::normal_to_scene(const Vec3 &n)
 {
-	return m_mtxI.getTrans().transform(v3Normal);
+	return inv.get_trans().transform(n);
 }
 
-Ray Transform::objectToScene(const Ray &rayIn)
+Ray Transform::object_to_scene(const Ray &r)
 {
-	Ray rayTemp(
-		m_mtxM.transform(rayIn.origin()),
-		m_mtxM.transform(rayIn.direction())
+	Ray t(
+		mtx.transform(r.origin()),
+		mtx.transform(r.direction())
 	);
-	
-	rayTemp.refreshInv();
-	
-	return rayTemp;	
+
+	t.refresh_inv();
+
+	return t;
 }
 
-Point Transform::objectToScene(const Point &p3Point)
+Point Transform::object_to_scene(const Point &p)
 {
-	return m_mtxM.transform(p3Point);	
+	return mtx.transform(p);
 }
 
-AABB Transform::updateAABB(const AABB &abBox)
+AABB Transform::update_AABB(const AABB &b)
 {
 	// A partir de los puntos min y max de la bbox tenemos que hallar
 	// todos los puntos que la forman:
-	//                                                      	
+	//
 	//     7 --------- 8   Partiendo de los puntos que tenemos:
 	//    /|          /|     1 = (a, b, c)  -> bbox.min
-	//   / |         / |     8 = (d, e, f)  -> bbox.max                                    
+	//   / |         / |     8 = (d, e, f)  -> bbox.max
 	//  /  |        /  |   El resto son:
-	// 3 --+------ 4   |     2 = (d, b, c)                           
-	// |   5 ------+-- 6     3 = (a, e, c)                           
-	// |  /        |  /      4 = (d, e, c)                           
-	// | /         | /       5 = (a, b, f)                           
-	// |/          |/        6 = (d, b, f)                           	
-	// 1 --------- 2         7 = (a, e, f)                          
-	//                                                      
+	// 3 --+------ 4   |     2 = (d, b, c)
+	// |   5 ------+-- 6     3 = (a, e, c)
+	// |  /        |  /      4 = (d, e, c)
+	// | /         | /       5 = (a, b, f)
+	// |/          |/        6 = (d, b, f)
+	// 1 --------- 2         7 = (a, e, f)
+	//
 	// Una vez calculados, les aplicamos la transformación y calculamos
 	// cuales son los máximos y mínimos de cada coordenada. Devolvemos
 	// una nueva bbox con estos valores.
-	
+
 	Point v[8];
-	
-	// Mínimo y máximo:	
-	v[0] = abBox.m_p3Min;
-	v[7] = abBox.m_p3Max;
-	
+
+	// Mínimo y máximo:
+	v[0] = b.minimo;
+	v[7] = b.maximo;
+
 	// Resto de puntos:
 	v[1].set(v[7].x(), v[0].y(), v[0].z());
 	v[2].set(v[0].x(), v[7].y(), v[0].z());
@@ -247,28 +245,28 @@ AABB Transform::updateAABB(const AABB &abBox)
 	v[4].set(v[0].x(), v[0].y(), v[7].z());
 	v[5].set(v[7].x(), v[0].y(), v[7].z());
 	v[6].set(v[0].x(), v[7].y(), v[7].z());
-	
-	// Transformamos:	
+
+	// Transformamos:
 	for(int i = 0; i < 8; i++)
-		v[i] = m_mtxM.transform(v[i]);
-		
+		v[i] = mtx.transform(v[i]);
+
 	// Crearemos tres arrays de floats. En cada uno metermos todas
-	// las coordenadas de los puntos (en uno las x, en otro las y, etc)
+	// las coordenadas de los puntos (en uno las x, en otro las y, etc.)
 	// y le aplicaremos el qsort de la biblioteca estandard. Asi tendremos
-	// para cada uno de los arrays, el minimo en la primera posicion y 
+	// para cada uno de los arrays, el minimo en la primera posicion y
 	// el máximo en la ultima.
 	float x[8], y[8], z[8];
-	
+
 	for(int i = 0; i < 8; i++) {
 		x[i] = v[i].x();
 		y[i] = v[i].y();
 		z[i] = v[i].z();
 	}
-	
-	std::qsort(x, 8, sizeof(float), compareF);
-	std::qsort(y, 8, sizeof(float), compareF);
-	std::qsort(z, 8, sizeof(float), compareF);
-	
+
+	std::qsort(x, 8, sizeof(float), compare_float);
+	std::qsort(y, 8, sizeof(float), compare_float);
+	std::qsort(z, 8, sizeof(float), compare_float);
+
 	// Valores ordenados, solo nos queda devolver la bbox
 	return AABB(Point(x[0], y[0], z[0]), Point(x[7], y[7], z[7]));
 }
@@ -276,9 +274,9 @@ AABB Transform::updateAABB(const AABB &abBox)
 std::ostream& operator<<(std::ostream &os, const Transform &t)
 {
 	os << "M:" << std::endl;
-	os << t.m_mtxM << std::endl;
+	os << t.mtx << std::endl;
 	os << "I:" << std::endl;
-	os << t.m_mtxI << std::endl;
-		
+	os << t.inv << std::endl;
+
 	return os;
 }

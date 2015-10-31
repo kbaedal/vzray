@@ -6,7 +6,7 @@
 #include "point.h"
 
 /**
- * Clase para el manejo de Axis Aligned Bounding Boxes.
+ * \class Clase para el manejo de Axis Aligned Bounding Boxes.
  */
 class AABB
 {
@@ -16,53 +16,59 @@ class AABB
 			// Bounding Box degenerada (min > max) para asegurarnos
 			// de que las operaciones sobre BB vacías como esta se
 			// realizan correctamente.
-			m_p3Min.set(INFINITY, INFINITY, INFINITY);
-			m_p3Max.set(-INFINITY, -INFINITY, -INFINITY);
+			minimo.set(INFINITY, INFINITY, INFINITY);
+			maximo.set(-INFINITY, -INFINITY, -INFINITY);
 		}
-		AABB(const Point &a_p3Min, const Point &a_p3Max)
+		AABB(const Point &a_min, const Point &a_max)
 		{
-			this->set(a_p3Min, a_p3Max);
+			set(minimo, maximo);
 		}
-		AABB(const Point &p3Point)
+		AABB(const Point &p)
 		{
-			m_p3Min.set(p3Point);
-			m_p3Max.set(p3Point);
+			minimo.set(p);
+			maximo.set(p);
 		}
-				
-		void set(const Point &a_p3Min, const Point &a_p3Max);
-		
+
+		void set(const Point &a_min, const Point &a_max);
+
 		/**
-		 * Calcula si otra AABB intersecta en algun punto con esta.
+		 * \brief Calcula si otra AABB intersecta en algun punto con esta.
+		 *
+		 * \param bb AABB a comprobar.
 		 */
-		bool overlaps(const AABB &bb);
-		
+		bool overlaps(const AABB &b);
+
 		/**
-		 * Calcula si un punto está dentro del espacio delimitado
+		 * \brief Calcula si un punto está dentro del espacio delimitado
 		 * por la AABB.
+		 *
+		 * \param p Punto a comprobar.
 		 */
 		bool inside(const Point &p);
-		
+
 		/**
-		 * Calcula una nueva AABB que contenga a las dos AABB pasadas
+		 * \brief Calcula una nueva AABB que contenga a las dos AABB pasadas
 		 * como argumentos.
-		 * @param bb1 Una AABB.
-		 * @param bb2 Otra AABB.
-		 * @return Una AABB que contiene a ambas.
-		 */		 
-		friend AABB surround(const AABB &bb1, const AABB &bb2);
-		
+		 *
+		 * \param bb1 Una AABB.
+		 * \param bb2 Otra AABB.
+		 * \return Una AABB que contiene a ambas.
+		 */
+		friend AABB surround(const AABB &b1, const AABB &b2);
+
 		/**
-		 * Calcula una nueva AABB que contenga a la AABB y al punto
+		 * \brief Calcula una nueva AABB que contenga a la AABB y al punto
 		 * pasados como argumentos.
-		 * @param bb Una AABB.
-		 * @param v3Point El punto.
-		 * @return Una AABB que contiene a ambos.
-		 */		 
-		friend AABB surround(const AABB &bb, const Point &p3Point);
-		
-		Point 	m_p3Min,	///< Punto mínimo de la AABB.
-				m_p3Max;	///< Punto máximo de la AABB.
-		
+		 *
+		 * \param bb Una AABB.
+		 * \param v3Point El punto.
+		 * \return Una AABB que contiene a ambos.
+		 */
+		friend AABB surround(const AABB &b, const Point &p);
+
+		Point 	minimo,     ///< Punto mínimo de la AABB.
+				maximo;	    ///< Punto máximo de la AABB.
+
 };
 
 #endif // __AABB_H__

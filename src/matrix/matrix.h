@@ -8,112 +8,113 @@
 #include "point.h"
 
 /**
- * Definicion de una matriz cuadrada de 4x4 elementos.
+ * \class Definicion de una matriz cuadrada de 4x4 elementos.
  */
 class Matrix4x4 {
     public:
-    
+
         Matrix4x4();
-        Matrix4x4(float dMatrix[4][4])
+        Matrix4x4(float m[4][4])
         {
-			this->set(dMatrix);
+			set(m);
 		}
-		Matrix4x4(float dMatrix[16])
+		Matrix4x4(float m[16])
         {
-			this->set(dMatrix);
+			set(m);
 		}
 
-        void set(float dMatrix[4][4]);
-        void set(float dMatrix[16]);
-		
+        void set(float m[4][4]);
+        void set(float m[16]);
+
 		/**
-		 * Transforma la matriz en su inversa.
+		 * \brief Transforma la matriz en su inversa.
 		 */
 		void invert()
 		{
-			*this = this->getInv();
+			*this = get_inv();
 		}
-		
+
 		/**
-		 * Devuelve la inversa de la matriz, sin modificarla.
+		 * \brief Devuelve la inversa de la matriz, sin modificarla.
 		 */
-        Matrix4x4 getInv();
-        
+        Matrix4x4 get_inv();
+
         /**
-		 * Trasforma la matriz en su traspuesta.
+		 * \brief Trasforma la matriz en su traspuesta.
 		 */
         void transpose()
         {
-			*this = this->getTrans();
+			*this = get_trans();
 		}
-        
+
         /**
-		 * Devuelve la traspuesta de la matriz, sin modificarla.
+		 * \brief Devuelve la traspuesta de la matriz, sin modificarla.
 		 */
-        Matrix4x4 getTrans();
-        
+        Matrix4x4 get_trans();
+
         /**
-         * Calcula el cofactor del elemento e[X][Y]. Devuelve el valor
-         * correspondiente, incluyendo el signo que le corresponde a
-         * esa combinacion fila-columna.
+         * \brief Calcula el cofactor del elemento e[X][Y].
+         *
+         * Devuelve el valor correspondiente, incluyendo el signo que le
+         * corresponde a esa combinacion fila-columna.
          */
-		float cofactorXY(int X, int Y);
-		
-        /** 
-         * Devuelve la matriz de cofactores, pero no la modifica.
-         */
-        Matrix4x4 getCofactor();
-        
+		float cofactor(int x, int y);
+
         /**
-         *  Devuelve el determinante de la matriz.
+         * \brief Devuelve la matriz de cofactores, pero no la modifica.
+         */
+        Matrix4x4 get_cofactor();
+
+        /**
+         *  \brief Devuelve el determinante de la matriz.
          */
         float determinant();
-        
-		/**
-		 * Tenemos que distinguir entre si transformamos un vec (no 
-		 * afectados por traslaciones) o si transformamos un punto 
-		 * (sí afectado). Así pues, forzaremos a hacer la transformación
-		 * de forma explícita.
-		 */
-        Vec3 transform(const Vec3 &v3Vector);
-        Point transform(const Point &p3Point);
-        
-        friend Matrix4x4 operator+(const Matrix4x4 &mtxM1, const Matrix4x4 &mtxM2);
-        friend Matrix4x4 operator-(const Matrix4x4 &mtxM1, const Matrix4x4 &mtxM2);
-		friend Matrix4x4 operator*(const Matrix4x4 &mtxM1, const Matrix4x4 &mtxM2);
-		friend Matrix4x4 operator/(const Matrix4x4 &mtxM1, const Matrix4x4 &mtxM2);
-		
-        friend Matrix4x4 operator*(const Matrix4x4 &mtxMatrix, float dV);
-        
+
         /**
-         * El operador / devolvera la matriz identidad si se intenta dividir por 0.
+         * \brief Aplicamos la matriz a un vector, a los que no les afectan traslaciones.
          */
-        friend Matrix4x4 operator/(const Matrix4x4 &mtxMatrix, float dV);
-        
+        Vec3 transform(const Vec3 &v);
+
+        /**
+         * \brief Aplicamos la matriz a un punto, a los que sí les afectan traslaciones.
+         */
+        Point transform(const Point &p);
+
+        friend Matrix4x4 operator+(const Matrix4x4 &m1, const Matrix4x4 &m2);
+        friend Matrix4x4 operator-(const Matrix4x4 &m1, const Matrix4x4 &m2);
+		friend Matrix4x4 operator*(const Matrix4x4 &m1, const Matrix4x4 &m2);
+		friend Matrix4x4 operator/(const Matrix4x4 &m1, const Matrix4x4 &m2);
+
+        friend Matrix4x4 operator*(const Matrix4x4 &m, float v);
+
+        /**
+         * \brief El operador / devolvera la matriz identidad si se intenta dividir por 0.
+         */
+        friend Matrix4x4 operator/(const Matrix4x4 &m, float v);
+
+        friend inline std::ostream &operator<<(std::ostream &os, const Matrix4x4 &m)
+        {
+            for(int i = 0; i < 4; i++) {
+                for(int j = 0; j < 4; j++) {
+                    os << std::setw(11) << std::setprecision(5) << ((fabs(m.e[i][j]) < .00001) ? 0.f : m.e[i][j]) << " ";
+                }
+                os << std::endl;
+            }
+
+            return os;
+        }
+
         float e[4][4];
+
+    private:
+        // Calcula el determinante de una matriz de 3x3. Pasamos los elementos
+        // individualmente porque así podremos utilizarla para calcular el
+        // determinante de una matriz de 4x4 elementos.
+        float det3x3(
+            float a11, float a12, float a13,
+            float a21, float a22, float a23,
+            float a31, float a32, float a33
+        );
 };
-
-/**
- * Calcula el determinante de una matriz de 3x3. Pasamos los elementos 
- * individualmente porque así podremos utilizarla para calcular el
- * determinante de una matriz de 4x4 elementos.
- */
-float det3(
-	float a11, float a12, float a13,
-	float a21, float a22, float a23,
-	float a31, float a32, float a33
-);
-
-inline std::ostream& operator<<(std::ostream &os, const Matrix4x4 &m)
-{
-	for(int i = 0; i < 4; i++) {
-		for(int j = 0; j < 4; j++) {
-			os << std::setw(11) << std::setprecision(5) << ((fabs(m.e[i][j]) < .00001) ? 0.f : m.e[i][j]) << " ";
-		}
-		os << std::endl;
-	}
-	
-	return os;
-}
 
 #endif // __MATRIX_HPP__

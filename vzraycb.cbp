@@ -3,6 +3,7 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="vzraycb" />
+		<Option makefile="makefile" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -12,6 +13,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=gnu++11" />
 					<Add option="-g" />
 					<Add directory="/home/kbaedal/Documentos/prog/vzraycb/src" />
 					<Add directory="./src" />
@@ -24,6 +26,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=gnu++11" />
 					<Add directory="/home/kbaedal/Documentos/prog/vzraycb/src" />
 					<Add directory="./src" />
 				</Compiler>
@@ -33,6 +36,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=gnu++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="./src" />

@@ -6,7 +6,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <!-- FORMATO NO DEFINITIVO - ES PREVISIBLE QUE HAYA CAMBIOS -->
 
-<!-- 
+<!--
 	Cabecera, para configurar el renderer a usar, la camara, la imagen
 	a generar, etc. En definitiva, todos los datos necesarios para
 	producir la imagen excepto la definición geométrica de la escena.
@@ -15,7 +15,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 <config>
 	<renderer>
 		<type>whitted</type>
-		<samples>1</samples>
+		<samples>10</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -27,7 +27,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<low_corner>-.0125, -.0125</low_corner>
 		<high_corner>.0125, .0125</high_corner>
 		<push>0</push>
-	</camera>	
+	</camera>
 	<image>
 		<res_x>500</res_x>
 		<res_y>500</res_y>
@@ -76,7 +76,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<id>PureBlack</id>
 		<color>0.0, 0.0, 0.0</color>
 	</texture>
-	
+
 	<!-- Materials -->
 	<material>
 		<type>diffuse</type>
@@ -124,9 +124,9 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<id>DiffuseLight</id>
 		<texture_id>PureWhite</texture_id>
 	</material>
-	
+
 	<!-- Objects -->
-		
+
 	<!-- Left wall (red) -->
 	<object>
 		<type>plane</type>
@@ -134,7 +134,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<distance>5</distance>
 		<material>DiffuseRed</material>
 	</object>
-	
+
 	<!-- Right wall (blue) -->
 	<object>
 		<type>plane</type>
@@ -142,16 +142,16 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<distance>5</distance>
 		<material>DiffuseBlue</material>
 	</object>
-	
+
 	<!-- Back wall -->
 	<object>
 		<type>plane</type>
 		<normal>0, 0, -1</normal>
 		<distance>5</distance>
 		<material>DiffuseWhite</material>
-	</object>	 
-	
-	<!-- Front wall 
+	</object>
+
+	<!-- Front wall
 	<object>
 		<type>plane</type>
 		<normal>0, 0, 1</normal>
@@ -159,7 +159,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<material>DiffusePureBlack</material>
 	</object>
 	-->
-	
+
 	<!-- Bottom wall -->
 	<object>
 		<type>plane</type>
@@ -167,39 +167,39 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<distance>5</distance>
 		<material>DiffuseWhite</material>
 	</object>
-		
+
 	<!-- Top wall -->
 	<object>
 		<type>plane</type>
 		<normal>0, -1, 0</normal>
 		<distance>5</distance>
 		<material>DiffuseWhite</material>
-	</object>	
-		
-	<!-- Light sphere 
+	</object>
+
+	<!-- Light sphere
 	<object>
 		<type>sphere</type>
 		<center>0,0,0</center>
 		<radius>1</radius>
 		<material>Light</material>
 	</object>
-	
-	
+
+
 	<object>
 		<type>sphere</type>
 		<center>-2, -3.25, -1</center>
 		<radius>1.75</radius>
 		<material>DiffuseWhite</material>
 	</object>
-			
+
 	<object>
 		<type>sphere</type>
 		<center>2, -3.25, 1</center>
 		<radius>1.75</radius>
 		<material>DiffuseWhite</material>
 	</object>
-	
-	
+
+
 	<object>
 		<type>sphere</type>
 		<center>0, 0, 0</center>
@@ -211,7 +211,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		</transform>
 	</object>
 	-->
-	<!-- Light parallelogram 
+	<!-- Light parallelogram
 	<object>
 		<type>parallelogram</type>
 		<base>-1,4.99,-1</base>
@@ -219,7 +219,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vec_v>0, 0, 2</vec_v>
 		<material>DiffuseLight</material>
 	</object>
-	-->	
+	-->
 	<!-- Sphere light (whitted test) -->
 	<object>
 		<type>sphere</type>
@@ -230,33 +230,33 @@ Fichero de descripción de escena de VZRay v0.0.1
 			<translate>0, 4.85, 0</translate>
 		</transform>
 	</object>
-	
+
 	<object>
 		<type>sphere</type>
 		<center>-1, -1, -1</center>
 		<radius>.125</radius>
 		<material>DiffuseRed</material>
 	</object>
-	
+
 	<object>
 		<type>sphere</type>
 		<center>0, 0, 0</center>
 		<radius>.125</radius>
 		<material>DiffuseGreen</material>
 	</object>
-	
+
 	<object>
 		<type>sphere</type>
 		<center>1, 1, 1</center>
 		<radius>.125</radius>
 		<material>DiffuseBlue</material>
 	</object>
-	
+
 	<object>
 		<type>cylinder</type>
 		<center_0>1, 1, 1</center_0>
 		<center_1>1, 5, 5</center_1>
 		<radius>.25</radius>
-		<material>DiffuseWhite</material>		
+		<material>DiffuseWhite</material>
 	</object>
 </scene>

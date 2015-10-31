@@ -8,27 +8,29 @@
 #include "ray.h"
 #include "rgb.h"
 
-class MeshTriangle : public Shape 
-{	
-	public:	
-		MeshTriangle(const MeshFace &mfInfo, Mesh *a_pMesh);
-		
-		bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const;
-		bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const;
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const
+class MeshTriangle : public Shape
+{
+	public:
+		MeshTriangle(const MeshFace &face_info, Mesh *a_mesh);
+		// Y EL DESTRUCTOR?
+		// QUIEN SE ENCARGA DE BORRAR pMEsh?? la escena??
+
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &a, float min_dist, float max_dist) const;
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 		{
-			p3LPoint = Point(0.f);
+			light_pos = Point(0.f);
 			return true;
 		}
-	
+
 	private:
 		// Lista de índices (vertices, normales, texturas)
-		int		nVList[3];
-		int		nNList[3];
-		int		nTList[3];
-		
+		int		vertices[3];
+		int		normals[3];
+		int		textures[3];
+
 		// Puntero al objeto mesh al que pertenece el triángulo
-		Mesh	*pMesh;
+		Mesh	*mesh;
 };
 
 #endif // __MESHTRIANGLE_HPP__

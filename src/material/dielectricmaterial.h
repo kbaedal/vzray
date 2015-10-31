@@ -8,49 +8,50 @@
 #include "randomc/randomc.h"
 
 /**
- * Define las propiedades de un material transmisivo (cristal, agua)
+ * \class Define las propiedades de un material transmisivo (cristal, agua)
  */
 class DielectricMaterial : public Material
-{	
+{
 	public:
-		DielectricMaterial(Texture *a_pTexture, float a_dIOR) 
-		{ 
-			m_pTexture		= a_pTexture; 
-			m_dIOR 			= a_dIOR;
-			m_dReflectance 	= 1.0f;
-			m_MyRNG.RandomInit(12321);
+		DielectricMaterial(Texture *a_texture, float a_ior)
+		{
+			texture		    = a_texture;
+			ior 			= a_ior;
+			reflectance 	= 1.0f;
+
+			rng.RandomInit(12321);
 		}
 		~DielectricMaterial() {}
-				
-		virtual bool isTransmissive() { return true; }
-		
+
+		virtual bool is_transmissive() { return true; }
+
 		virtual RGB radiance();
-		virtual RGB ambient() { return RGB(0.0, 0.0, 0.0); }
-		virtual Vec3 outDirection(Vec3 const &v3In, Vec3 const &v3Norm, float &dBRDF, RGB &rgbColor, CRandomMersenne *rng);
-						
-		float			m_dIOR;
-		float 			m_dReflectance;
-		CRandomMother	m_MyRNG;	
-		
+		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng);
+
+		float			ior;
+		float 			reflectance;
+		CRandomMother	rng;
+
 		/**
-		 * Devuelve true si se produce Reflexión Interna Total.
+		 * \brief Devuelve true si se produce Reflexión Interna Total.
 		 */
-		bool isTIR(Vec3 const &v3In, Vec3 const &v3Norm);
-		
+		bool is_TIR(Vec3 const &in, Vec3 const &norm);
+
 		/**
-		 * Aplicando las leyes de Snell, obtendremos la direccion de reflexión.
+		 * \brief Aplicando las leyes de Snell, obtendremos la direccion de reflexión.
 		 */
-		Vec3 reflectDir(Vec3 const &v3In, Vec3 const &v3Norm, float &dBRDF, RGB &rgbColor);
-		
+		Vec3 reflect_dir(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color);
+
 		/**
-		 * Aplicando las leyes de Snell, obtendremos la direccion de refracción.
+		 * \brief Aplicando las leyes de Snell, obtendremos la direccion de refracción.
 		 */
-		Vec3 refractDir(Vec3 const &v3In, Vec3 const &v3Norm, float &dBRDF, RGB &rgbColor);
-		
+		Vec3 refract_dir(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color);
+
 		/**
-		 * Aplicando las leyes de Snell, obtendremos la reflectividad de la superficie.
+		 * \brief Aplicando las leyes de Snell, obtendremos la reflectividad de la superficie.
 		 */
-		float getReflectance(Vec3 const &v3In, Vec3 const &v3Norm);
+		float get_reflectance(Vec3 const &in, Vec3 const &norm);
 };
 
 #endif // __DIELECTRICMATERIAL_H__

@@ -10,42 +10,39 @@
 #include "material/dielectricmaterial.h"
 #include "scene/scene.h"
 
-const float dEpsilon = 1e-2; // Avoid auto-hit.
+const float PathRenderer::kepsilon = 1e-2; // Autohit.
 
-RGB PathRenderer::getColor(Ray a_rRay, Scene *a_Scene, float a_dMin, float a_dMax, int a_nDepth)
+RGB PathRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth)
 {
-	HitRecord	htHit;
-	RGB			rgbColor, rgbTemp;	
-	float 		dBRDF;
-	
-	Point		p3IntPoint, p3OutDir;
-	Vec3		v3OutDir;
-	Ray			rOutRay;
-				
-	if(a_Scene->nearestIntersection(a_rRay, a_dMin, a_dMax, htHit)) {
+	HitRecord	hit;
+	RGB			color, temp_color;
+	float 		brdf;
+
+	Point		intersection;
+	Vec3		out_dir;
+	Ray			out_ray;
+
+	if(scene->nearest_intersection(r, min_dist, max_dist, hit)) {
 		// Añadimos emittance
-		rgbColor = rgbColor + htHit.pMat->emittance();
-						
-		if(a_nDepth < m_nMaxDepth) {
+		color = color + hit.material->emittance();
+
+		if(depth < max_depth) {
 			// Generar un nuevo rayo, y lanzarlo a la escena.
-			
+
 			// Punto de intersección.
-			p3IntPoint 	= a_rRay.getPoint(htHit.dDist);
-			
+			intersection = r.get_point(hit.dist);
+
 			// Dirección del nuevo rayo.
-			v3OutDir 	= htHit.pMat->outDirection(a_rRay.direction(), htHit.v3Normal, dBRDF, rgbTemp, &m_MyRNG);
-			v3OutDir.normalize();
-			
-			// Evitamos el autohit.
-			p3OutDir.set(v3OutDir);
-			
+			out_dir	= hit.material->out_direction(r.direction(), hit.normal, brdf, temp_color, &rng);
+			out_dir.normalize();
+
 			// Nuevo rayo:
-			rOutRay	= Ray(p3IntPoint + (dEpsilon * p3OutDir), v3OutDir);
-			
-			rgbColor = rgbColor + this->getColor(rOutRay, a_Scene, a_dMin, 1e5, a_nDepth + 1) * rgbTemp * dBRDF;
+			out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
+
+			color = color + get_color(out_ray, scene, min_dist, 1e5, depth + 1) * temp_color * brdf;
 		}
-		
-		return rgbColor;
+
+		return color;
 	}
 	else {
 		return RGB(0.0, 0.0, 0.0);

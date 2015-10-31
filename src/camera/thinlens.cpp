@@ -1,55 +1,55 @@
 #include "camera/thinlens.h"
 
-void ThinLens::set(Point a_p3Center, Vec3 a_v3Dir, Vec3 a_v3Up, float a_dAperture, 
-			float a_dDist, float a_u0, float a_v0, float a_u1, float a_v1)
+void ThinLens::set(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
+			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1)
 {
-	Point	p3U, p3V, p3W;	// Auxiliares para calculos.
-	
-	m_p3Center 		= a_p3Center;	// eye
-	m_v3Dir			= a_v3Dir;		// gaze
-	m_v3Up			= a_v3Up;		// up
-	m_dDist			= a_dDist;		// s
-	m_u0			= a_u0;
-	m_v0			= a_v0;
-	m_u1			= a_u1;
-	m_v1			= a_v1;
-	m_dLensRadius	= a_dAperture / 2.0f;
-	
-	m_uvw.initFromWV(-m_v3Dir, m_v3Up);
-	
-	p3U.set(m_uvw.u());
-	p3V.set(m_uvw.v());
-	p3W.set(m_uvw.w());
-	
-	m_p3Corner = m_p3Center + m_u0 * p3U + m_v0 * p3V - m_dDist * p3W;
-	
-	m_v3XDir = (m_u1 - m_u0) * m_uvw.u(); 
-	m_v3YDir = (m_v1 - m_v0) * m_uvw.v();
+	Point	u, v, w;	// Auxiliares para calculos.
+
+	center 		= a_center; // eye
+	dir			= a_dir;	// gaze
+	up			= a_up;		// up
+	dist		= a_dist;	// s
+	u0			= a_u0;
+	v0			= a_v0;
+	u1			= a_u1;
+	v1			= a_v1;
+	lens_radius	= a_aperture / 2.0f;
+
+	uvw.init_from_wv(-dir, up);
+
+	u.set(uvw.u());
+	v.set(uvw.v());
+	w.set(uvw.w());
+
+	corner = center + u0 * u + v0 * v - dist * w;
+
+	x_dir = (u1 - u0) * uvw.u();
+	y_dir = (v1 - v0) * uvw.v();
 }
 
-Ray ThinLens::getRay(float x, float y, float sx, float sy)
+Ray ThinLens::get_ray(float x, float y, float sx, float sy)
 {
-	Point 	p3LensPoint, p3ImgPlane,
-			p3U, p3V, p3X, p3Y;
-	Vec3	v3Dir;
-	
+	Point 	lens_point, img_plane,
+			t_udir, t_vdir, t_xdir, t_ydir;
+	Vec3	ray_dir;
+
 	// Auxiliares para los calculos
-	p3U.set(m_uvw.u());
-	p3V.set(m_uvw.v());
-	
-	p3X.set(m_v3XDir);
-	p3Y.set(m_v3YDir);
-	
-	// Calculamos un punto en la lente. Será el punto baso del rayo.
-	p3LensPoint = m_p3Center + 2.0f * (sx - 0.5f) * m_dLensRadius * p3U + 
-		2.0f * (sy - 0.5f) * m_dLensRadius * p3V;
-	
+	t_udir.set(uvw.u());
+	t_vdir.set(uvw.v());
+
+	t_xdir.set(x_dir);
+	t_ydir.set(y_dir);
+
+	// Calculamos un punto en la lente. Será el punto base del rayo.
+	lens_point = center + 2.0f * (sx - 0.5f) * lens_radius * t_udir +
+		2.0f * (sy - 0.5f) * lens_radius * t_vdir;
+
 	// Calculamos el punto correcto en el plano de la imagen.
-	p3ImgPlane = m_p3Corner + x * p3X + y * p3Y;
-	
+	img_plane = corner + x * t_xdir + y * t_ydir;
+
 	// Obtenemos el vector del rayo.
-	v3Dir.set(p3ImgPlane - p3LensPoint);
-	v3Dir.normalize();
-	
-	return Ray(p3LensPoint, v3Dir);
+	ray_dir.set(img_plane - lens_point);
+	ray_dir.normalize();
+
+	return Ray(lens_point, ray_dir);
 }

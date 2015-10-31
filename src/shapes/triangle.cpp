@@ -1,31 +1,31 @@
 #include "shapes/isecaux.h"
 #include "shapes/triangle.h"
 
-bool Triangle::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const
-{	
-	float 	dTval;
-	Vec3	v3Dir10, v3Dir20, v3TNorm;
-	
-	if(testRayTriangle(a_rRay, p0, p1, p2, a_dMin, a_dMax, dTval))	{
-		v3Dir10.set(p1-p0);
-		v3Dir20.set(p2-p0);
-		
-		v3TNorm = cross(v3Dir10, v3Dir20);
-		v3TNorm.normalize();
-		
-		a_hrHitRcd.dDist 	= dTval;
-		a_hrHitRcd.v3Normal = v3TNorm;
-		a_hrHitRcd.pMat		= m_pMat;
-		
+bool Triangle::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+{
+	float 	dist;
+	Vec3	dir10, dir20, temp_normal;
+
+	if(isecaux::test_ray_triangle(r, p0, p1, p2, min_dist, max_dist, dist))	{
+		dir10.set(p1 - p0);
+		dir20.set(p2 - p0);
+
+		temp_normal = cross(dir10, dir20);
+		temp_normal.normalize();
+
+		hit.dist 	    = dist;
+		hit.normal      = temp_normal;
+		hit.material    = material;
+
 		return true;
 	}
-	
+
 	return false;
 }
 
-bool Triangle::shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const
+bool Triangle::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 {
-	float dTval;
-	
-	return testRayTriangle(a_rRay, p0, p1, p2, a_dMin, a_dMax, dTval);
+	float dist;
+
+	return isecaux::test_ray_triangle(r, p0, p1, p2, min_dist, max_dist, dist);
 }

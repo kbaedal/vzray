@@ -10,7 +10,7 @@ class Texture
 	public:
 	    virtual ~Texture() {};
 
-		virtual RGB valor(Vec2 &a_v2Point, Vec3 &a_v3Point) const = 0;
+		virtual RGB valor(Vec2 &a_p2d, Vec3 &a_p3d) const = 0;
 };
 
 #endif // __TEXTURE_H__

@@ -1,64 +1,64 @@
 #include "aabb/aabb.h"
 
-void AABB::set(const Point &a_p3Min, const Point &a_p3Max)
+void AABB::set(const Point &a_min, const Point &a_max)
 {
-	m_p3Min.e[0] = std::min(a_p3Min.x(), a_p3Max.x());
-	m_p3Min.e[1] = std::min(a_p3Min.y(), a_p3Max.y());
-	m_p3Min.e[2] = std::min(a_p3Min.z(), a_p3Max.z());
-	
-	m_p3Max.e[0] = std::max(a_p3Min.x(), a_p3Max.x());
-	m_p3Max.e[1] = std::max(a_p3Min.y(), a_p3Max.y());
-	m_p3Max.e[2] = std::max(a_p3Min.z(), a_p3Max.z());
+	minimo.e[0] = std::min(a_min.x(), a_max.x());
+	minimo.e[1] = std::min(a_min.y(), a_max.y());
+	minimo.e[2] = std::min(a_min.z(), a_max.z());
+
+	maximo.e[0] = std::max(a_min.x(), a_max.x());
+	maximo.e[1] = std::max(a_min.y(), a_max.y());
+	maximo.e[2] = std::max(a_min.z(), a_max.z());
 }
 
-bool AABB::overlaps(const AABB &bb)
+bool AABB::overlaps(const AABB &b)
 {
 	bool x, y, z;
-	
-	x = (m_p3Max.x() >= bb.m_p3Min.x()) && (m_p3Min.x() <= bb.m_p3Max.x());
-	y = (m_p3Max.y() >= bb.m_p3Min.y()) && (m_p3Min.y() <= bb.m_p3Max.y());
-	z = (m_p3Max.z() >= bb.m_p3Min.z()) && (m_p3Min.z() <= bb.m_p3Max.z());
-	
+
+	x = (maximo.x() >= b.minimo.x()) && (minimo.x() <= b.maximo.x());
+	y = (maximo.y() >= b.minimo.y()) && (minimo.y() <= b.maximo.y());
+	z = (maximo.z() >= b.minimo.z()) && (minimo.z() <= b.maximo.z());
+
 	return (x && y && z);
-}	
+}
 
 
 bool AABB::inside(const Point &p)
 {
-	if((p.x() >= m_p3Min.x()) && (p.x() <= m_p3Max.x()))
-		if((p.y() >= m_p3Min.y()) && (p.y() <= m_p3Max.y()))
-			if((p.z() >= m_p3Min.z()) && (p.z() <= m_p3Max.z()))
+	if((p.x() >= minimo.x()) && (p.x() <= maximo.x()))
+		if((p.y() >= minimo.y()) && (p.y() <= maximo.y()))
+			if((p.z() >= minimo.z()) && (p.z() <= maximo.z()))
 				return true;
-	
+
 	return false;
 }
 
-AABB surround(const AABB &bb1, const AABB &bb2)
+AABB surround(const AABB &b1, const AABB &b2)
 {
-	AABB bbTemp;
-	
-	bbTemp.m_p3Min.e[0] = std::min(bb1.m_p3Min.x(), bb2.m_p3Min.x());
-	bbTemp.m_p3Min.e[1] = std::min(bb1.m_p3Min.y(), bb2.m_p3Min.y());
-	bbTemp.m_p3Min.e[2] = std::min(bb1.m_p3Min.z(), bb2.m_p3Min.z());
-	
-	bbTemp.m_p3Max.e[0] = std::max(bb1.m_p3Max.x(), bb2.m_p3Max.x());
-	bbTemp.m_p3Max.e[1] = std::max(bb1.m_p3Max.y(), bb2.m_p3Max.y());
-	bbTemp.m_p3Max.e[2] = std::max(bb1.m_p3Max.z(), bb2.m_p3Max.z());
-	
-	return bbTemp;
+	AABB temp;
+
+	temp.minimo.e[0] = std::min(b1.minimo.x(), b2.minimo.x());
+	temp.minimo.e[1] = std::min(b1.minimo.y(), b2.minimo.y());
+	temp.minimo.e[2] = std::min(b1.minimo.z(), b2.minimo.z());
+
+	temp.maximo.e[0] = std::max(b1.maximo.x(), b2.maximo.x());
+	temp.maximo.e[1] = std::max(b1.maximo.y(), b2.maximo.y());
+	temp.maximo.e[2] = std::max(b1.maximo.z(), b2.maximo.z());
+
+	return temp;
 }
 
-AABB surround(const AABB &bb, const Point &p3Point)
+AABB surround(const AABB &b, const Point &p)
 {
-	AABB bbTemp;
-	
-	bbTemp.m_p3Min.e[0] = std::min(bb.m_p3Min.x(), p3Point.x());
-	bbTemp.m_p3Min.e[1] = std::min(bb.m_p3Min.y(), p3Point.y());
-	bbTemp.m_p3Min.e[2] = std::min(bb.m_p3Min.z(), p3Point.z());
-	
-	bbTemp.m_p3Max.e[0] = std::max(bb.m_p3Max.x(), p3Point.x());
-	bbTemp.m_p3Max.e[1] = std::max(bb.m_p3Max.y(), p3Point.y());
-	bbTemp.m_p3Max.e[2] = std::max(bb.m_p3Max.z(), p3Point.z());
-	
-	return bbTemp;
-}	
+	AABB temp;
+
+	temp.minimo.e[0] = std::min(b.minimo.x(), p.x());
+	temp.minimo.e[1] = std::min(b.minimo.y(), p.y());
+	temp.minimo.e[2] = std::min(b.minimo.z(), p.z());
+
+	temp.maximo.e[0] = std::max(b.maximo.x(), p.x());
+	temp.maximo.e[1] = std::max(b.maximo.y(), p.y());
+	temp.maximo.e[2] = std::max(b.maximo.z(), p.z());
+
+	return temp;
+}

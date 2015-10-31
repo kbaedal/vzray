@@ -11,89 +11,95 @@
 #include "aabb/aabb.h"
 
 /**
- * Clase que nos permitirá manejar las transformaciones aplicadas
+ * \class Clase que nos permitirá manejar las transformaciones aplicadas
  * a un objeto.
  */
 class Transform {
     public:
-        
+
         Transform()
         {
-			m_mtxI = m_mtxM.getInv();
+			inv = mtx.get_inv();
 		}
         ~Transform() {};
-        
-        /**
-         * Actualiza la transformación con los datos de otra transformacion.
-         */
-        void update(const Transform &a_tTrans);
-        
-        /**
-         * Actualiza la transformacion con los datos de una matriz.
-         */
-        void update(const Matrix4x4 &a_mtxM);
 
-        void translate(float dX, float dY, float dZ);
-        void translate(const Point &p3Pos)
-        {
-			this->translate(p3Pos.x(), p3Pos.y(), p3Pos.z());
-			m_mtxI = m_mtxM.getInv();
-		}
-		
-        void scale(float dX, float dY, float dZ);
-        void scale(const Point &p3Pos)
-        {
-			this->scale(p3Pos.x(), p3Pos.y(), p3Pos.z());
-			m_mtxI = m_mtxM.getInv();
-		}
-		
-        void rotate(float dAng, const Vec3 &a_v3Axis);
-        void rotateX(float dAng);
-        void rotateY(float dAng);
-        void rotateZ(float dAng);
+        /**
+         * \brief Actualiza la transformación con los datos de otra transformacion.
+         */
+        void update(const Transform &t);
 
-        void freeTrans(const Matrix4x4 &mtxF);
-       
+        /**
+         * \brief Actualiza la transformacion con los datos de una matriz.
+         */
+        void update(const Matrix4x4 &m);
+
+        void translate(float x, float y, float z);
+        void translate(const Point &p)
+        {
+			translate(p.x(), p.y(), p.z());
+			inv = mtx.get_inv();
+		}
+
+        void scale(float x, float y, float z);
+        void scale(const Point &p)
+        {
+			scale(p.x(), p.y(), p.z());
+			inv = mtx.get_inv();
+		}
+
+        void rotate(float angle, const Vec3 &axis);
+        void rotate_x(float angle);
+        void rotate_y(float angle);
+        void rotate_z(float angle);
+
+        void free_transform(const Matrix4x4 &m);
+
 		/**
-		 * Transformamos el rayo recibido en el espacio de la escena
+		 * \brief Transformamos el rayo recibido en el espacio de la escena
 		 * al espacio del objeto.
 		 */
-		Ray sceneToObject(const Ray &rayIn);
-		
+		Ray scene_to_object(const Ray &r);
+
 		/**
-		 * Para el caso de que necesitemos transformar un punto del
+		 * \brief Para el caso de que necesitemos transformar un punto del
 		 * espacio de la escena al espacio del objeto.
 		 */
-		Point sceneToObject(const Point &p3Point);
-		
+		Point scene_to_object(const Point &p);
+
 		/**
-		 * Transformamos el rayo recibido en el espacio del objeto
+		 * \brief Transformamos el rayo recibido en el espacio del objeto
 		 * al espacio de la escena.
 		 */
-		Ray objectToScene(const Ray &rayIn);
-		
+		Ray object_to_scene(const Ray &r);
+
 		/**
-		 * Para el caso de que necesitemos transformar un punto del
+		 * \brief Para el caso de que necesitemos transformar un punto del
 		 * espacio del objeto al espacio de la escena.
 		 */
-		Point objectToScene(const Point &p3Point);
-				
+		Point object_to_scene(const Point &p);
+
 		/**
-		 * La normal en el punto de intersección debe ser transformada
+		 * \brief La normal en el punto de intersección debe ser transformada
 		 * de una forma particular, ya que es un caso especial.
 		 */
-		Vec3 objectNormalToScene(const Vec3 &v3Normal);
-		
+		Vec3 normal_to_scene(const Vec3 &n);
+
 		/**
-		 * Transformaremos la bbox indicada con los datos de la
+		 * \brief Transformaremos la bbox indicada con los datos de la
 		 * transformacion, ya que las bbox se almacenan siempre en
 		 * espacio real.
 		 */
-		AABB updateAABB(const AABB &abBox);
-		
+		AABB update_AABB(const AABB &b);
+
 		friend std::ostream& operator<<(std::ostream &os, const Transform &t);
-		
-		Matrix4x4 m_mtxM, m_mtxI;
+
+		Matrix4x4 mtx, inv;
+
+    private:
+        // Constantes utiles
+        static const float kpi;
+        static const float kmin_value;
+
 };
 
 #endif // __TRANSFORM_HPP__

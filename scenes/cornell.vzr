@@ -6,7 +6,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <!-- FORMATO NO DEFINITIVO - ES PREVISIBLE QUE HAYA CAMBIOS -->
 
-<!-- 
+<!--
 	Cabecera, para configurar el renderer a usar, la camara, la imagen
 	a generar, etc. En definitiva, todos los datos necesarios para
 	producir la imagen excepto la definición geométrica de la escena.
@@ -27,7 +27,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<low_corner>-.0125, -.0125</low_corner>
 		<high_corner>.0125, .0125</high_corner>
 		<push>0</push>
-	</camera>	
+	</camera>
 	<image>
 		<res_x>500</res_x>
 		<res_y>500</res_y>
@@ -76,7 +76,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<id>PureBlack</id>
 		<color>0.0, 0.0, 0.0</color>
 	</texture>
-	
+
 	<!-- Materials -->
 	<material>
 		<type>diffuse</type>
@@ -119,9 +119,9 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<id>Light</id>
 		<texture_id>LightWhite</texture_id>
 	</material>
-	
+
 	<!-- Objects -->
-	
+
 	<!-- Floor -->
 	<object>
 		<type>triangle</type>
@@ -130,24 +130,24 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vertex>552.8, 0.0, 0.0</vertex>
 		<material>DiffuseWhite</material>
 	</object>
-	
+
 	<object>
 		<type>triangle</type>
 		<vertex>0.0, 0.0, 0.0</vertex>
 		<vertex>0.0, 0.0, 559.2</vertex>
 		<vertex>549.6, 0.0, 559.2</vertex>
 		<material>DiffuseWhite</material>
-	</object>	
-	
+	</object>
+
 	<!-- Ceiling -->
 	<object>
 		<type>triangle</type>
 		<vertex>0.0, 548.8, 0.0 </vertex>
 		<vertex>556.0, 548.8, 0.0</vertex>
-		<vertex>556.0, 548.8, 559.2</vertex>		
+		<vertex>556.0, 548.8, 559.2</vertex>
 		<material>DiffuseWhite</material>
 	</object>
-	
+
 	<object>
 		<type>triangle</type>
 		<vertex>0.0, 548.8, 0.0</vertex>
@@ -155,7 +155,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vertex>0.0, 548.8, 559.2</vertex>
 		<material>DiffuseWhite</material>
 	</object>
-	
+
 	<!-- Back Wall -->
 	<object>
 		<type>triangle</type>
@@ -164,7 +164,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vertex>549.6, 0.0, 559.2</vertex>
 		<material>DiffuseWhite</material>
 	</object>
-	
+
 	<object>
 		<type>triangle</type>
 		<vertex>0.0, 0.0, 559.2</vertex>
@@ -181,7 +181,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vertex>0.0, 0.0, 559.2</vertex>
 		<material>DiffuseGreen</material>
 	</object>
-	
+
 	<object>
 		<type>triangle</type>
 		<vertex>0.0, 0.0, 0.0</vertex>
@@ -189,7 +189,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vertex>0.0, 548.8, 559.2</vertex>
 		<material>DiffuseGreen</material>
 	</object>
-	
+
 	<!-- Left Wall -->
 	<object>
 		<type>triangle</type>
@@ -205,7 +205,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vertex>549.6, 0.0, 559.2</vertex>
 		<material>DiffuseRed</material>
 	</object>
-	
+
 	<!-- Light -->
 	<object>
 		<type>parallelogram</type>
@@ -214,7 +214,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vec_v>0, 0, 105.0</vec_v>
 		<material>Light</material>
 	</object>
-	
+
 </scene>
 
 

@@ -13,7 +13,7 @@
 
 #include "vzray.h"
 
-static void MuestraAyuda(std::string name)
+static void muestra_ayuda(std::string name)
 {
     std::cerr 	<< "Uso: " << name << " <opcion(es)> fichero-a-renderizar <fichero-imagen-salida>\n"
 				<< "Opciones:\n"
@@ -24,180 +24,183 @@ static void MuestraAyuda(std::string name)
 }
 
 // Prints info of render process.
-void ImprimeInfo(int nLineaAct, int nLineasTot);
-void PrintTime(string strHead, float dTicks);
+void imprime_info(int linea_act, int lineas_tot);
+void print_time(string head, float ticks);
 
 // Intiating data structures
-bool InitData(Globals *pGlobals);
+bool init_data(Globals *globales);
 // Main render loop
-bool StartRender(Globals *pGlobals);
+bool start_render(Globals *globales);
 // Cleaning the room
-bool CleanData(Globals *pGlobals);
+bool clean_data(Globals *globales);
 
 // Tells renderer to show AABB
-bool showAABB(Globals *pGlobals);
+bool show_aabb(Globals *globales);
+
+// Devuelve el nombre del fichero, sin path y sin extension.
+void image_file_name(const std::string &input_file, std::string &output_file);
 
 int main(int argc, char *argv[])
 {
-	Globals TheGlobals;
-	clock_t tRenderTicks;
+	Globals globales;
+	clock_t render_ticks;
             //tInitDataTicks,
             //tCleanDataTicks;
-	bool bEndStatus;
+	bool end_status;
 
 	if(argc > 1) {
 		for(int i = 1; i < argc; i++) {
 			if(argv[i][0] == '-') { // Procesamos las opciones.
 				if(std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
-					MuestraAyuda(argv[0]);
+					muestra_ayuda(argv[0]);
 					return 0;
 				}
 				else if(std::string(argv[i]) == "-t" || std::string(argv[i]) == "--test") {
-					TheGlobals.nOptsFlags |= GLB_DO_TEST;
+					globales.options |= GLB_DO_TEST;
 				}
 				else if(std::string(argv[i]) == "-s" || std::string(argv[i]) == "--showaabb") {
-					TheGlobals.nOptsFlags |= GLB_SHOW_AABB;
+					globales.options |= GLB_SHOW_AABB;
 				}
 			}
 			else {
 				// Se proporciona fichero, anulamos el test.
-				TheGlobals.nOptsFlags &= ~GLB_DO_TEST;
+				globales.options &= ~GLB_DO_TEST;
 
-				if(TheGlobals.strSceneFile.size() == 0)
+				if(globales.scene_file.size() == 0)
 					// Fichero de escena a renderizar
-					TheGlobals.strSceneFile.assign(argv[i]);
+					globales.scene_file.assign(argv[i]);
 				else
 					// Fichero donde guardar la imagen
-					TheGlobals.strOutputFile.assign(argv[i]);
+					globales.output_file.assign(argv[i]);
 			}
 		}
 	}
 
-	if((TheGlobals.strSceneFile.size() == 0) || (argc < 2)) {
-		MuestraAyuda(argv[0]);
+	if((globales.scene_file.size() == 0) || (argc < 2)) {
+		muestra_ayuda(argv[0]);
 		return 0;
 	}
 
-	std::streambuf *stLogBuf, *stBackup;
-	std::fstream fsLog;
+	std::streambuf *log_buf, *backup;
+	std::fstream log;
 
 	// Redirigiremos clog a un fichero para escribir cosas interesantes en él.
-	fsLog.open("log.txt", std::fstream::out);
+	log.open("log.txt", std::fstream::out);
 
-	stBackup = std::clog.rdbuf();	// Backup del streambuf de clog
+	backup = std::clog.rdbuf();	// Backup del streambuf de clog
 
-	stLogBuf = fsLog.rdbuf();       // Obtenemos el streambuf del fichero
-	std::clog.rdbuf(stLogBuf);		// Redirigimos clog
+	log_buf = log.rdbuf();      // Obtenemos el streambuf del fichero
+	std::clog.rdbuf(log_buf);	// Redirigimos clog
 
-	if(TheGlobals.nOptsFlags & GLB_DO_TEST) {
-		Test vTest;
-		bEndStatus = vTest.LaunchTest();
+	if(globales.options & GLB_DO_TEST) {
+		Test test;
+		end_status = test.launch_test();
 	}
 	else {
-		tRenderTicks = clock();
+		render_ticks = clock();
 
 		// Start render loop
-		bEndStatus = StartRender(&TheGlobals);
+		end_status = start_render(&globales);
 
-		tRenderTicks = clock() - tRenderTicks;
+		render_ticks = clock() - render_ticks;
 
-		PrintTime("\nRender Time: ", ((float)tRenderTicks)/CLOCKS_PER_SEC);
+		print_time("\nRender Time: ", ((float)render_ticks)/CLOCKS_PER_SEC);
 	}
 
-	std::clog.rdbuf(stBackup);		// Restauramos el streambuf de clog
-	fsLog.close();					// Cerramos el fichero de log.
+	std::clog.rdbuf(backup);		// Restauramos el streambuf de clog
+	log.close();					// Cerramos el fichero de log.
 
-	if(bEndStatus)
+	if(end_status)
 		return 0;
 	else
 		return -1;
 }
 
-bool StartRender(Globals *pGlobals)
+bool start_render(Globals *globales)
 {
-	CRandomMother 	MyRNG(time(NULL));
-	Parser			MyParser;
-	std::string 	strRendererType;
+	CRandomMother 	rng(time(NULL));
+	Parser			parser;
+	std::string 	renderer_type;
 
-	std::cout << "\nReading file: " << pGlobals->strSceneFile << " ... ";
+	std::cout << "\nReading file: " << globales->scene_file << " ... ";
 
-	if(!MyParser.leerFichero(pGlobals->strSceneFile, pGlobals)) {
-		std::string strError;
-		int nError, nLine;
+	if(!parser.leer_fichero(globales->scene_file, globales)) {
+		std::string err_type;
+		int err_code, line;
 
-		MyParser.getError(strError, nLine, nError);
-		std::cerr << "ERROR: Linea " << nLine;
-		std::cerr << " (" << nError << ") - " << strError << std::endl;
+		parser.get_error(err_type, line, err_code);
+		std::cerr << "ERROR: Linea " << line;
+		std::cerr << " (" << err_code << ") - " << err_type << std::endl;
 
 		return false;
 	}
 
 	std::cout << "Done." << std::endl;
 
-	switch(pGlobals->pRenderer->rendererType()) {
+	switch(globales->renderer->renderer_type()) {
 		case 0:
-			strRendererType = "Whitted raytracing";
+			renderer_type = "Whitted raytracing";
 			break;
 		case 1:
-			strRendererType = "Pathtracing";
+			renderer_type = "Pathtracing";
 			break;
 		default:
-			strRendererType = "Unknown";
+			renderer_type = "Unknown";
 			break;
 	}
 
 	std::cout 	<< "\nRendering:\n"
-				<< " - Samples per pixel:     \t" << pGlobals->nSamplesPerPixel << " spp\n"
-				<< " - Shadow rays per sample:\t" << pGlobals->nShadowRays << " sps\n"
-				<< " - Image resolution:      \t" << pGlobals->nResX << "x" << pGlobals->nResY << " px\n"
-				<< " - Illumination strategy: \t" << strRendererType
+				<< " - Samples per pixel:     \t" << globales->samples_per_pixel << " spp\n"
+				<< " - Shadow rays per sample:\t" << globales->shadow_rays << " sps\n"
+				<< " - Image resolution:      \t" << globales->res_x << "x" << globales->res_y << " px\n"
+				<< " - Illumination strategy: \t" << renderer_type
 				<< std::endl << std::endl;
 
-	std::clog 	<< "Rendering file " << pGlobals->strSceneFile << std::endl
+	std::clog 	<< "Rendering file " << globales->scene_file << std::endl
 				<< "Enter: Main render loop.\n";
 
 	// Si se indica, mostramos las AABB
-	if(pGlobals->nOptsFlags & GLB_SHOW_AABB)
-		pGlobals->pScene->showAABB();
+	if(globales->options & GLB_SHOW_AABB)
+		globales->scene->show_AABB();
 
-	for(int i = 0; i < pGlobals->nResX; i++) {
-		ImprimeInfo(i+1, pGlobals->nResX);
-		for(int j = 0; j < pGlobals->nResY; j++) {
-			RGB rgbPixelColor(0.0, 0.0, 0.0);
+	for(int i = 0; i < globales->res_x; i++) {
+		imprime_info(i+1, globales->res_x);
+		for(int j = 0; j < globales->res_y; j++) {
+			RGB pixel_color(0.0f, 0.0f, 0.0f);
 
-			//i = pGlobals->nResX/2; j = pGlobals->nResY/2;
+			//i = globales->nResX/2; j = globales->nResY/2;
 			//i=50; j=250;
 			//std::clog << "StartRender::Shooting ray!" << endl;
-			if(pGlobals->nSamplesPerPixel > 1) {
-				for(int k = 0; k < pGlobals->nSamplesPerPixel; k++) {
+			if(globales->samples_per_pixel > 1) {
+				for(int k = 0; k < globales->samples_per_pixel; k++) {
 					//std::clog << "Sampling with k = " << k << std::endl;
-					Ray rRay = pGlobals->pCamera->getRay((float(i)+MyRNG.Random()-.5)/pGlobals->nResX, (float(j)+MyRNG.Random()-.5)/pGlobals->nResY, MyRNG.Random(), MyRNG.Random());
+					Ray r = globales->camera->get_ray((float(i)+rng.Random()-.5)/globales->res_x, (float(j)+rng.Random()-.5)/globales->res_y, rng.Random(), rng.Random());
 
-					rgbPixelColor = rgbPixelColor + pGlobals->pRenderer->getColor(rRay, pGlobals->pScene, .00001f, 1e5, 1) * 1.0/pGlobals->nSamplesPerPixel;
+					pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
 				}
 			}
 			else
 			{
-				Ray rRay = pGlobals->pCamera->getRay(float(i)/float(pGlobals->nResX), float(j)/float(pGlobals->nResY), MyRNG.Random(), MyRNG.Random());
+				Ray r = globales->camera->get_ray(float(i)/float(globales->res_x), float(j)/float(globales->res_y), rng.Random(), rng.Random());
 
-				rgbPixelColor = rgbPixelColor + pGlobals->pRenderer->getColor(rRay, pGlobals->pScene, .00001f, 1e5, 1);
+				pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 			}
 
 			//std::clog << "RgbPixelColor: " << rgbPixelColor << endl;
-			pGlobals->pImage->set(i, j, rgbPixelColor);
+			globales->image->set(i, j, pixel_color);
 
-			//i=pGlobals->nResX; j=pGlobals->nResY;
+			//i=globales->nResX; j=globales->nResY;
 		}
 	}
 
 	std::clog << "Exit: Main render loop.\n";
 
-	pGlobals->pImage->gammaCorrect(2.2f);
+	globales->image->gamma_correct(2.2f);
 
-	ofstream 	fsImage;
-	std::string	strImageFile, strTemp;
+	ofstream 	os_image_file;
 
-	if(pGlobals->strOutputFile.size() == 0) {
+	if(globales->output_file.size() == 0) {
+        /*
 		unsigned int    nPos = 0;
 		bool 	        bFileComp = false;
 
@@ -207,8 +210,8 @@ bool StartRender(Globals *pGlobals)
 		// Recorremos la cadena del final al principio para encontrar
 		// el caracter '/', si lo hay. Copiamos el resto a partir
 		// de esa posicion.
-		for(int i = pGlobals->strSceneFile.size(); i > 0; i--) {
-			switch(pGlobals->strSceneFile[i]) {
+		for(int i = globales->strSceneFile.size(); i > 0; i--) {
+			switch(globales->strSceneFile[i]) {
 				case '/':
 					nPos = i+1; // Nos colocamos en el caracter adecuado.
 					bFileComp = true;
@@ -220,8 +223,8 @@ bool StartRender(Globals *pGlobals)
 				break;
 		}
 		// Copiamos la cadena.
-		for(;nPos < pGlobals->strSceneFile.size(); nPos++)
-			strTemp += pGlobals->strSceneFile[nPos];
+		for(;nPos < globales->strSceneFile.size(); nPos++)
+			strTemp += globales->strSceneFile[nPos];
 
 		// Segunda pasada: buscamos el primer '.' desde el final,
 		// que debe indicar el principio de la extensión. Copiamos
@@ -244,65 +247,86 @@ bool StartRender(Globals *pGlobals)
 		// Copiamos la cadena.
 		for(unsigned int i = 0; i < nPos; i++)
 			strImageFile += strTemp[i];
+        */
 
-		// Y añadimos la extension
-		strImageFile += ".ppm";
+		std::string	temp;
+
+        // Averiguamos el nombre del fichero.
+		image_file_name(globales->scene_file, temp);
+
+		// Añadimos la extension.
+		temp += ".ppm";
+
+		globales->output_file = temp;
 	}
-	else
-		strImageFile.assign(pGlobals->strOutputFile);
 
-	std::cout << "\n\nSaving file: " << strImageFile << " ... ";
+	std::cout << "\n\nSaving file: " << globales->output_file << " ... ";
 
-	//std::string strImageFile = pGlobals->strTheFile + ".ppm";
+	//std::string strImageFile = globales->strTheFile + ".ppm";
 	//fsImage.open(strImageFile.c_str(), ios::binary);
 
-	fsImage.open(strImageFile.c_str(), ios::binary);
+	os_image_file.open(globales->output_file.c_str(), ios::binary);
 
-	pGlobals->pImage->savePPM(fsImage);
+	globales->image->save_ppm(os_image_file);
 
-	fsImage.close();
+	os_image_file.close();
 	std::cout << "Done.\n";
 
 	return true;
 }
 
-void ImprimeInfo(int nLineaAct, int nLineasTot)
+void imprime_info(int linea_act, int lineas_tot)
 {
-	static char cBar;
-	int nPos = (nLineaAct * 20) / (nLineasTot);
-	char szCadena[128] ="\rProgress... [....................]  ";
+	static char barra;
+	int pos = (linea_act * 20) / (lineas_tot);
+	char cadena[128] ="\rProgress... [....................]  ";
 
 	for(int i=0; i<20; i++)
 	{
-		if(i < nPos) szCadena[14+i] = '+';
+		if(i < pos) cadena[14+i] = '+';
 	}
 
-	switch(cBar) {
-		case '|': cBar = '/'; break;
-		case '/': cBar = '-'; break;
-		case '-': cBar = '\\'; break;
-		case '\\': cBar = '|'; break;
-		default : cBar = '|'; break;
+	switch(barra) {
+		case '|': barra = '/'; break;
+		case '/': barra = '-'; break;
+		case '-': barra = '\\'; break;
+		case '\\': barra = '|'; break;
+		default : barra = '|'; break;
 	}
-	szCadena[36] = cBar;
+	cadena[36] = barra;
 
-	std::cout << szCadena << std::flush;
+	std::cout << cadena << std::flush;
 }
 
-void PrintTime(string strHead, float dTicks)
+void print_time(std::string head, float ticks)
 {
-	int nHours = 0, nMins = 0;
+	int hours = 0, mins = 0;
 
-	if(dTicks >= 3600) { // At least 1 hour
-		nHours = (int) dTicks / 3600;
-		dTicks = dTicks - float(nHours * 3600);
+	if(ticks >= 3600) { // At least 1 hour
+		hours = (int) ticks / 3600;
+		ticks = ticks - float(hours * 3600);
 	}
 
-	if(dTicks >= 60) { // At least 1 min
-		nMins = (int) dTicks / 60;
-		dTicks = dTicks - float(nMins * 60);
+	if(ticks >= 60) { // At least 1 min
+		mins = (int) ticks / 60;
+		ticks = ticks - float(mins * 60);
 	}
 
-	std::cout << strHead << nHours << "h " << nMins << "m ";
-	std::cout << std::fixed << std::setprecision(2) << dTicks << "s" << std::endl << std::endl;
+	std::cout << head << hours << "h " << mins << "m ";
+	std::cout << std::fixed << std::setprecision(2) << ticks << "s" << std::endl << std::endl;
+}
+
+void image_file_name(const std::string &input_file, std::string &output_file)
+{
+     // Eliminamos hasta la última barra del path.
+    int found = input_file.find_last_of("/\\");
+    if(found != -1)
+        output_file = input_file.substr(found + 1);
+    else
+        output_file = input_file;
+
+    // Eliminamos desde el último punto.
+    found = output_file.find_last_of(".");
+    if(found != -1)
+        output_file = output_file.substr(0, found);
 }

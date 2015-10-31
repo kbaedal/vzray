@@ -14,103 +14,104 @@
 #include "matrix/transform.h"
 
 /**
- * Clase para procesar el fichero en el que se describe la escena.
+ * \class Clase para procesar el fichero en el que se describe la escena.
  */
 class Parser {
     private:
         // Puntero a los datos globales que rellenaremos con la informacion de archivo.
-        Globals *m_pGlobals;
-        
+        Globals *globales;
+
 		// Manejador del archivo.
-        std::ifstream m_fileEscena;
-        
+        std::ifstream fichero_escena;
+
 		// Mensajes de error del parser.
-		std::string m_strTipoError[15];
-        
+		std::string tipo_error[15];
+
 		// Control de los mensajes de error.
-        signed int m_nError;        
-		
+        signed int num_error;
+
 		// Controlamos la línea en la que estamos, para en el caso de tener
 		// que informar de un error, poder decir en que linea ha ocurrido.
-		int m_nLine;
-        
-        // Nos indicará si hemos llegado al fin del fichero.
-        bool m_bEOF;
-        
-		// Constantes auxiliares.
-        const int MAX_ETIQUETA;
-        const int MAX_CONTENT;
-		
-        // Import file basic functions
-        bool readToken(std::string &strToken);
-        bool readContent(std::string &strContent, const char cStopChar);
-        bool readFloat(float &dDato, const char cStopChar);
-        bool readInt(int &nDato, const char cStopChar);
-        bool readBloqueTxt(const std::string &strEtiqueta, std::string &strResultado);
-        bool readBloqueFloats(const std::string &strEtiqueta, const int nNumF, float *fltArray);
-        bool readBloqueInts(const std::string &strEtiqueta, const int nNumF, int *intArray);
-		bool readBloqueVec3(const std::string &strEtiqueta, Vec3 &v3Resultado);
-		bool readBloquePoint(const std::string &strEtiqueta, Point &p3Resultado);
+		int num_linea;
 
-        bool ignorarChars();
-		
-		bool validFloat(const std::string &strFloat);
-		bool validInt(const std::string &strInt);
-		
-		bool isComment();
-			
+        // Nos indicará si hemos llegado al fin del fichero.
+        bool eof;
+
+		// Constantes auxiliares.
+        static const int kmax_etiqueta;
+        static const int kmax_contenido;
+
+        // Import file basic functions
+        bool read_token(std::string &token);
+        bool read_content(std::string &content, const char stop_char);
+        bool read_float(float &dato, const char stop_char);
+        bool read_int(int &dato, const char stop_char);
+        bool read_bloque_txt(const std::string &etiqueta, std::string &resultado);
+        bool read_bloque_floats(const std::string &etiqueta, const int cantidad, float *numeros);
+        bool read_bloque_ints(const std::string &etiqueta, const int cantidad, int *numeros);
+		bool read_bloque_vec3(const std::string &etiqueta, Vec3 &v);
+		bool read_bloque_point(const std::string &etiqueta, Point &p);
+
+        bool ignorar_chars();
+
+		bool valid_float(const std::string &num);
+		bool valid_int(const std::string &num);
+
+		bool is_comment();
+
 		// Process imported data
-		bool processComment();
-		
-		bool processConfig();
-		bool processRenderer();
-		bool processCamera();
-		bool processImage();
-		
-		bool processScene();
-		
-		bool processTransform(Transform *pTrans);
-		
-		bool processTexture();
-		bool processSimpleTex();
-		
-		bool processMaterial();
-		bool processDiffuseMat();
-		bool processSpecularMat();
-		bool processDielectricMat();
-		bool processLightMat();
-		
-		bool processObject();
-		bool processPlane();
-		bool processSphere();
-		bool processCylinder();
-		bool processBox();
-		bool processParallelogram();
-		bool processTriangle();
-		bool processMesh();
-		bool processMeshVertex(Shape *pShape, std::vector<MeshTriangle *> *MTList);
-		bool processMeshFile(Shape *pShape, std::vector<MeshTriangle *> *MTList);
-        
+		bool process_comment();
+
+		bool process_config();
+		bool process_renderer();
+		bool process_camera();
+		bool process_image();
+
+		bool process_scene();
+
+		bool process_transform(Transform *t);
+
+		bool process_texture();
+		bool process_simple_tex();
+
+		bool process_material();
+		bool process_diffuse_mat();
+		bool process_specular_mat();
+		bool process_dielectric_mat();
+		bool process_light_mat();
+
+		bool process_object();
+		bool process_plane();
+		bool process_sphere();
+		bool process_cylinder();
+		bool process_box();
+		bool process_parallelogram();
+		bool process_triangle();
+		bool process_mesh();
+		bool process_mesh_vertex(Shape *shape, std::vector<MeshTriangle *> *tlist);
+		bool process_mesh_file(Shape *shape, std::vector<MeshTriangle *> *tlist);
+
     public:
         Parser();
         ~Parser();
         /**
-         * Lee el fichero indicado, y almacena el resultado en pGlobals.
-         * 
-         * @param strName Ruta al fichero.
-         * @param pGloblas Puntero a un objeto de clase Globals.
-         * @return Verdadero si todo ha ido bien.
+         * \brief Lee el fichero indicado, y almacena el resultado en pGlobals.
+         *
+         * \param fichero Ruta al fichero.
+         * \param globales Puntero a un objeto de clase Globals.
+         * \return Verdadero si todo ha ido bien.
          */
-        bool leerFichero(const std::string &strName, Globals *pGlobals);
-        
+        bool leer_fichero(const std::string &fichero, Globals *datos_globales);
+
         /**
-         * Lee el fichero indicado, y almacena el resultado en pGlobals.
-         * 
-         * @param strName Ruta al fichero.
-         * @param pGloblas Puntero a un objeto de clase Globals.
-         * @return Verdadero si todo ha ido bien.
+         * \brief En caso de que LeerFichero falle, nos indicará porqué.
+         *
+         * \param tipo_error Cadena en la que se almacenará el error producido.
+         * \param linea Numero de linea en el que está el error.
+         * \param error Numero de código del error.
+         * \return Verdadero si todo ha ido bien.
          */
-        void getError(std::string &strError, int &nLine, int &nErrorCode);
+        void get_error(std::string &tipo_error, int &linea, int &error);
 };
 
 #endif // __PARSER_H__

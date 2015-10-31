@@ -2,17 +2,17 @@
 
 #include <cmath>
 
-void Mesh::addVertex(const Point &p)
+void Mesh::add_vertex(const Point &p)
 {
-	m_p3VertexArray.push_back(p);
+	vertex_list.push_back(p);
 }
 
-void Mesh::addNormal(const Vec3 &n)
+void Mesh::add_normal(const Vec3 &n)
 {
-	m_v3NormalArray.push_back(n);
+	normal_list.push_back(n);
 }
 
-void Mesh::addTexture(const Vec2 &t)
+void Mesh::add_texture(const Vec2 &t)
 {
-	m_v2TextureArray.push_back(t);
+	texture_list.push_back(t);
 }

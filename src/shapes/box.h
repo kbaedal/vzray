@@ -13,27 +13,27 @@
 class Box : public Shape
 {
 	public:
-		Box(const Point &a_p3Min, const Point &a_p3Max, Material *a_pMat);
+		Box(const Point &a_minimo, const Point &a_maximo, Material *a_material);
 		Box()
 		{
-			m_p3Max.set( 1.f,  1.f,  1.f);
-			m_p3Min.set(-1.f, -1.f, -1.f);
-			
-			m_pMat = NULL;
-			
-			m_pTrans = new Transform;
-			
-			bShadow = true;
-			bBounds = true;
+			maximo.set( 1.0f,  1.0f,  1.0f);
+			minimo.set(-1.0f, -1.0f, -1.0f);
+
+			material = NULL;
+
+			trans = new Transform;
+
+			shadow = true;
+			bounds = true;
 		};
-		~Box() { if(m_pTrans != NULL) delete m_pTrans; };
-		
-		bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const;
-		bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const;
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const;
-	
+		~Box() { if(trans != NULL) delete trans; };
+
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
+
 	//private:
-		Point	m_p3Min, m_p3Max;
+		Point	minimo, maximo;
 };
 
 #endif // __BOX_HPP__

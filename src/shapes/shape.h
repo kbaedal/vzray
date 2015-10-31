@@ -15,43 +15,43 @@ class Shape
 	public:
 		virtual ~Shape() {};
 
-		virtual bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const = 0;
-		virtual bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const = 0;
-		virtual bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const = 0;
+		virtual bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const = 0;
+		virtual bool shadow_hit(const Ray &r, float min_dist, float max_dist) const = 0;
+		virtual bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const = 0;
 
-		Material *getMaterial() { return m_pMat; }
-		void setMaterial(Material *a_pMat) { m_pMat = a_pMat; }
-		Transform *getTransform() { return m_pTrans; }
-		void setTrans(const Transform *a_pTrans)
+		Material *get_material() { return material; }
+		void set_material(Material *new_material) { material = new_material; }
+		Transform *get_transform() { return trans; }
+		void set_trans(const Transform *new_trans)
 		{
 			// Update transform
-			m_pTrans->update(*a_pTrans);
+			trans->update(*new_trans);
 
 			// Update AABB
-			Transform tTemp;
+			Transform t;
 
-			tTemp.update(*a_pTrans);
-			m_abBox = tTemp.updateAABB(m_abBox);
+			t.update(*new_trans);
+			aabb = t.update_AABB(aabb);
 		}
 
-		AABB getAABB() { return m_abBox; }
+		AABB get_AABB() { return aabb; }
 
-		void setShadow(bool a_bShadow) { bShadow = a_bShadow; }
-		bool castShadow() { return bShadow; }
+		void set_shadow(bool a_shadow) { shadow = a_shadow; }
+		bool cast_shadow() { return shadow; }
 
-		void setBounds(bool a_bBounds) { bBounds = a_bBounds; }
-		bool applyBounds() { return bBounds; }
+		void set_bounds(bool a_bounds) { bounds = a_bounds; }
+		bool apply_bounds() { return bounds; }
 
 	//~ protected:
-		Material	*m_pMat;
-		Transform	*m_pTrans;
+		Material	*material;
+		Transform	*trans;
 
-		AABB		m_abBox;
+		AABB		aabb;
 
 		// Proyectar sombra?
-		bool		bShadow;
+		bool		shadow;
 		// Aplicar abBox?
-		bool		bBounds;
+		bool		bounds;
 };
 
 #endif // __SHAPE_HPP__

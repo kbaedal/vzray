@@ -11,37 +11,41 @@
 class Plane : public Shape
 {
 	public:
-		Plane(Vec3 a_v3Normal, float a_dDist, Material *a_pMat)
+		Plane(Vec3 a_normal, float a_dist, Material *a_material)
 		{
-			m_v3Normal 	= a_v3Normal;
-			m_dDist	 	= a_dDist;
-			m_pMat		= a_pMat;
-			
-			m_pTrans 	= new Transform;
-			
-			bShadow		= true;
-			bBounds		= false;
+			normal 	    = a_normal;
+			dist	 	= a_dist;
+			material	= a_material;
+
+			trans 	    = new Transform;
+
+			shadow		= true;
+			bounds		= false;
 		}
 		Plane()
 		{
-			m_v3Normal 	= Vec3(0.f, 1.f, 0.f);
-			m_dDist 		= 0.f;			
-			m_pMat		= NULL;
-			
-			m_pTrans	= new Transform;
-			
-			bShadow		= true;
-			bBounds		= false;
+			normal 	    = Vec3(0.0f, 1.0f, 0.0f);
+			dist     	= 0.0f;
+			material	= nullptr;
+
+			trans   	= new Transform;
+
+			shadow		= true;
+			bounds		= false;
 		}
-		~Plane() { if(m_pTrans != NULL) delete m_pTrans; }
-		
-		bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const;
-		bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const;
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const;
-	
+		~Plane() { if(trans != nullptr) delete trans; }
+
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
+
 	//private:
-		Vec3 	m_v3Normal;
-		float 	m_dDist;
-};	
+		Vec3 	normal;
+		float 	dist;
+
+    private:
+        static const float kplane_epsilon;
+
+};
 
 #endif // __PLANE_H__

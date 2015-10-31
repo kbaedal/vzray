@@ -8,29 +8,29 @@
 #include "randomc/randomc.h"
 
 /**
- * Definición de material con propiedades reflexivas (un espejo, metal
+ * \class Definición de material con propiedades reflexivas (un espejo, metal
  * pulido, etc.)
  */
 class SpecularMaterial : public Material
-{	
+{
 	public:
-		SpecularMaterial(Texture *a_pTexture) { m_pTexture = a_pTexture; }
+		SpecularMaterial(Texture *nueva_t) { texture = nueva_t; }
 		~SpecularMaterial() {}
-		
-		virtual bool isSpecular() { return true; }
-		
+
+		virtual bool is_specular() { return true; }
+
 		virtual RGB radiance();
-		virtual RGB ambient() { return RGB(0.0, 0.0, 0.0); }
-		
+		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
+
 		/**
-		 * Aplicando las leyes de la reflexión, obtendremos la dirección.
+		 * \brief Aplicando las leyes de la reflexión, obtendremos la dirección.
 		 */
-		virtual Vec3 outDirection(Vec3 const &v3In, Vec3 const &v3Norm, float &dBRDF, RGB &rgbColor, CRandomMersenne *rng)
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
 		{
-			dBRDF = 1.0;
-			rgbColor = this->radiance();
-			return reflect(v3In, v3Norm);
-		}		
+			brdf    = 1.0f;
+			color   = radiance();
+			return reflect(in, norm);
+		}
 };
 
 #endif // __SPECULARMATERIAL_H__

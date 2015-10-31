@@ -15,65 +15,66 @@
 #include "material/diffusematerial.h"
 
 
-bool Scene::addObject(Shape *pNewObject, std::string strMatID, bool bLight)
+bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)
 {
 	// Si el material indicado no existe, salimos.
-	if(Materials->getData(strMatID) == NULL) {
+	if(materials->get_data(material_id) == NULL) {
 		return false;
 	}
 	else {
-		pNewObject->setMaterial(Materials->getData(strMatID));
+		new_object->set_material(materials->get_data(material_id));
 
-		if(bLight) // Si es una luz insertamos en ambas listas.
-			return (Shapes->insertar("", pNewObject) && Lights->insertar("", pNewObject));
+		if(is_light) // Si es una luz insertamos en ambas listas.
+			return (shapes->insertar("", new_object) && lights->insertar("", new_object));
 		else // Si no lo es, solo en la de objetos.
-			return Shapes->insertar("", pNewObject);
+			return shapes->insertar("", new_object);
 	}
 }
 
-bool Scene::addTexture(Texture *pNewTexture, std::string strTextureID)
+bool Scene::add_texture(Texture *new_texture, std::string texture_id)
 {
 	// La lista se encargará de indicarnos si ya existe una textura con ese ID.
-	return Textures->insertar(strTextureID, pNewTexture);
+	return textures->insertar(texture_id, new_texture);
 }
 
-bool Scene::addMaterial(Material *pNewMaterial, std::string strTextureID, std::string strMatID)
+bool Scene::add_material(Material *new_material, std::string texture_id, std::string material_id)
 {
 	// Comprobamos que existe la textura indicada.
-	if(Textures->getData(strTextureID) == NULL) {
+	if(textures->get_data(texture_id) == NULL) {
 		return false;
 	}
 	else {
 		// Nos aseguramos de que el material tiene asociada la textura.
-		pNewMaterial->setTexture(Textures->getData(strTextureID));
+		new_material->set_texture(textures->get_data(texture_id));
 
 		// Insertamos. Igual que para las texturas, si ya existe un material
 		// con el ID indicado, la lista devolverá false.
-		return Materials->insertar(strMatID, pNewMaterial);
+		return materials->insertar(material_id, new_material);
 	}
 }
 
-bool Scene::nearestIntersection(Ray a_rRay, float a_dMin, float a_dMax, HitRecord &htHit)
+bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit)
 {
-	bool bHit = false;
+	bool is_hit = false;
 
-	for(int i = 0; i < Shapes->getNumEltos(); i++) {
-		if(Shapes->getData(i)->hit(a_rRay, a_dMin, a_dMax, htHit)) {
-			a_dMax = htHit.dDist;
-			bHit = true;
+	for(int i = 0; i < shapes->get_num_eltos(); i++) {
+		if(shapes->get_data(i)->hit(r, min_dist, max_dist, hit)) {
+			max_dist = hit.dist;
+			is_hit = true;
 		}
 	}
 
-	return bHit;
+	return is_hit;
 }
 
-bool Scene::shadowIntersection(Ray a_rRay, float fdist_min, float fdist_max)
+bool Scene::shadow_intersection(Ray r, float min_dist, float max_dist)
 {
     return false;
 }
 
-bool Scene::showAABB()
+bool Scene::show_AABB()
 {
+    /*
 	std::vector<Point>	vertexArray;
 	std::vector<Point>	sphereArray;
 	Shape				*pShape;
@@ -141,5 +142,9 @@ bool Scene::showAABB()
 		//~ pShape = new Box(vertexArray[i], vertexArray[i+1], NULL);
 		//~ this->addObject(pShape, "AABB_Material", false);
 	//~ }
+
 	return true;
+	*/
+
+	return false;
 }

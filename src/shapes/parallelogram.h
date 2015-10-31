@@ -12,34 +12,36 @@
 class Parallelogram : public Shape
 {
 	public:
-		Parallelogram(Point a_p3Base, Vec3 a_v3u, Vec3 a_v3v, Material *a_pMat)
+		Parallelogram(Point a_base, Vec3 a_u, Vec3 a_v, Material *a_material)
 		{
-			m_p3Base	= a_p3Base;
-			m_v3u		= a_v3u;
-			m_v3v		= a_v3v;			
-			m_pMat		= a_pMat;
-			
-			m_v3Normal 	= versor(cross(m_v3u, m_v3v));
-		
-			m_v3uNorm = versor(m_v3u);
-			m_v3vNorm = versor(m_v3v);
-			
-			m_pTrans = new Transform;
+			base	    = a_base;
+			u		    = a_u;
+			v		    = a_v;
+			material    = a_material;
+
+			normal 	= versor(cross(u, v));
+
+			u_normal = versor(u);
+			v_normal = versor(v);
+
+			trans = new Transform;
 		}
-		~Parallelogram() { if(m_pTrans != NULL) delete m_pTrans; }
-						
-		bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const;
-		bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const;
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const;
-	
+		~Parallelogram() { if(trans != NULL) delete trans; }
+
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
+
 	//private:
-		Point 	m_p3Base;
-		
-		Vec3 	m_v3u,
-				m_v3v,
-				m_v3Normal,
-				m_v3uNorm,
-				m_v3vNorm;
-};	
+		Point 	base;
+
+		Vec3 	u,
+				v,
+				normal,
+				u_normal,
+				v_normal;
+    private:
+        static const float kparall_epsilon;
+};
 
 #endif // __PARALLELOGRAM_H__

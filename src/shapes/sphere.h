@@ -1,5 +1,5 @@
-#ifndef __SPHERE_HPP__
-#define __SPHERE_HPP__ 1
+#ifndef __SPHERE_H__
+#define __SPHERE_H__ 1
 
 #include "shape.h"
 
@@ -12,25 +12,24 @@
 class Sphere : public Shape
 {
 	public:
-		Sphere(Point a_p3Center, float a_dRadius, Material *a_pMat);
+		Sphere(Point a_center, float a_radius, Material *a_material);
 		Sphere()
 		{
-			m_p3Center 	= Point(0.f);
-			m_dRadius 	= 1.f;
-			m_pMat		= NULL;
-			m_pTrans 	= new Transform;
-			bShadow 	= true;
-			bBounds		= true;
+			center 	    = Point(0.0f);
+			radius 	    = 1.0f;
+			material	= nullptr;
+			trans 	    = new Transform;
+			shadow 	    = true;
+			bounds		= true;
 		}
-		~Sphere() { if(m_pTrans != NULL) delete m_pTrans; }
-		
-		bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const;
-		bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const;
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const;
-	
+		~Sphere() { if(trans != nullptr) delete trans; }
+
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 	//private:
-		Point			m_p3Center;
-		float 			m_dRadius;
-};	
+		Point			center;
+		float 			radius;
+};
 
 #endif // __SPHERE_HPP__

@@ -11,138 +11,139 @@
 #include "material/dielectricmaterial.h"
 #include "scene/scene.h"
 
-const float dEpsilon = 1e-2; // Avoid auto-hit.
+const float DirectRenderer::kepsilon    = 1e-2;
 
-
-RGB DirectRenderer::getColor(Ray a_rRay, Scene *a_Scene, float a_dMin, float a_dMax, int a_nDepth)
+RGB DirectRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth)
 {
-	HitRecord			htHit;
-	RGB					rgbColor, rgbTemp, rgbTemp_T, rgbTemp_S;
-	float				dBRDF, dBRDF_T, dBRDF_S;
-	DielectricMaterial	*pDMat;
-	
-	Vec3		v3OutDir, v3OutDir_T, v3OutDir_S;
-	Point		p3IntPoint,
-				p3OutDir, p3OutDir_T, p3OutDir_S;
-	Ray			rOutRay, rOutRay_T, rOutRay_S;
-	
-	if(a_nDepth < m_nMaxDepth) {		
-		if(a_Scene->nearestIntersection(a_rRay, a_dMin, a_dMax, htHit)) {
-			if(htHit.pMat->isLight()) { // El objeto es una luz. Devolvemos su color.
+	HitRecord   hit;
+	RGB			color,
+                temp_color;
+	float		brdf;
+	Vec3		out_dir;
+    Point		intersection;
+    Ray			out_ray;
+
+	if(depth < max_depth) {
+		if(scene->nearest_intersection(r, min_dist, max_dist, hit)) {
+			if(hit.material->is_light()) { // El objeto es una luz. Devolvemos su color.
 				//cout << "Trinchada una luz." << endl << flush;
-				return htHit.pMat->emittance();			
+				return hit.material->emittance();
 			}
 			else {
 				// Obtenemos el punto de intersección
-				p3IntPoint = a_rRay.getPoint(htHit.dDist);
-					
-				if(htHit.pMat->isSpecular()) {
-					// Obtenemos la nueva direccion a seguir.				
-					v3OutDir = htHit.pMat->outDirection(a_rRay.direction(), htHit.v3Normal, dBRDF, rgbTemp, &m_MyRNG);
-					v3OutDir.normalize();
-									
+				intersection = r.get_point(hit.dist);
+
+				if(hit.material->is_specular()) {
+					// Obtenemos la nueva direccion a seguir.
+					out_dir = hit.material->out_direction(r.direction(), hit.normal, brdf, temp_color, &rng);
+					out_dir.normalize();
+
 					// Calculamos nuesto nuevo rayo.
-					p3OutDir.set(v3OutDir);
-					rOutRay = Ray(p3IntPoint + dEpsilon * p3OutDir, v3OutDir);
-				  
-					return this->getColor(rOutRay, a_Scene, a_dMin, 1e5, a_nDepth + 1) * rgbTemp * dBRDF;
-				} 
-				else if(htHit.pMat->isTransmissive()) {
-					pDMat = (DielectricMaterial *)htHit.pMat;
-					
-					if(pDMat->isTIR(a_rRay.direction(), htHit.v3Normal)) { // Reflexión interna total.
-						v3OutDir = pDMat->reflectDir(a_rRay.direction(), htHit.v3Normal, dBRDF, rgbTemp);
-						v3OutDir.normalize();
-						
-						p3OutDir.set(v3OutDir);
-						rOutRay = Ray(p3IntPoint + dEpsilon * p3OutDir, v3OutDir);
-						
-						return this->getColor(rOutRay, a_Scene, a_dMin, 1e5, a_nDepth + 1) * rgbTemp;
-					} 
-					else { // Aplicamos leyes de snell para reflexión y refracción.
-						v3OutDir_T	= pDMat->refractDir(a_rRay.direction(), htHit.v3Normal, dBRDF_T, rgbTemp_T);
-						v3OutDir_T.normalize();
-						
-						p3OutDir_T.set(v3OutDir_T);
-						rOutRay_T = Ray(p3IntPoint + (dEpsilon * p3OutDir_T), v3OutDir_T);
-						
-						v3OutDir_S	= pDMat->reflectDir(a_rRay.direction(), htHit.v3Normal, dBRDF_S, rgbTemp_S);
-						v3OutDir_S.normalize();
-						
-						p3OutDir_S.set(v3OutDir_S);
-						rOutRay_S = Ray(p3IntPoint + (dEpsilon * p3OutDir_S), v3OutDir_S);
-						
-						return this->getColor(rOutRay_T, a_Scene, a_dMin, 1e5, a_nDepth + 1) * rgbTemp_T * dBRDF_T +
-							this->getColor(rOutRay_S, a_Scene, a_dMin, 1e5, a_nDepth + 1) * rgbTemp_S * dBRDF_S;
+					out_ray = Ray(intersection + kepsilon * Point(out_dir), out_dir);
+
+					return get_color(out_ray, scene, min_dist, 1e5, depth + 1) * temp_color * brdf;
+				}
+				else if(hit.material->is_transmissive()) {
+                    DielectricMaterial *dielectric = (DielectricMaterial *)hit.material;
+
+					if(dielectric->is_TIR(r.direction(), hit.normal)) { // Reflexión interna total.
+						out_dir = dielectric->reflect_dir(r.direction(), hit.normal, brdf, temp_color);
+						out_dir.normalize();
+
+						out_ray = Ray(intersection + kepsilon * Point(out_dir), out_dir);
+
+						return get_color(out_ray, scene, min_dist, 1e5, depth + 1) * temp_color;
 					}
-				
-				}			
+					else { // Aplicamos leyes de snell para reflexión y refracción.
+                        Vec3    out_dir_transmission,
+                                out_dir_specular;
+                        Ray     out_ray_transmission,
+                                out_ray_specular;
+                        float   brdf_transmission,
+                                brdf_specular;
+                        RGB     color_transmission,
+                                color_specular;
+
+						out_dir_transmission = dielectric->refract_dir(r.direction(), hit.normal, brdf_transmission, color_transmission);
+						out_dir_transmission.normalize();
+
+						out_ray_transmission = Ray(intersection + (kepsilon * Point(out_dir_transmission)), out_dir_transmission);
+
+						out_dir_specular = dielectric->reflect_dir(r.direction(), hit.normal, brdf_specular, color_specular);
+						out_dir_specular.normalize();
+
+						out_ray_specular = Ray(intersection + (kepsilon * Point(out_dir_specular)), out_dir_specular);
+
+						return get_color(out_ray_transmission, scene, min_dist, 1e5, depth + 1) * color_transmission * brdf_transmission +
+							get_color(out_ray_specular, scene, min_dist, 1e5, depth + 1) * color_specular * brdf_specular;
+					}
+
+				}
 				else { // Superficie difusa.
 					// Calculamos el suavizado de sombras solo en los rayos primarios.
-					if(a_nDepth < 2) { 
-						for(int i = 0; i < m_nShadowSamps; i++)
-							rgbColor = rgbColor + directLight(a_rRay.getPoint(htHit.dDist), a_Scene, htHit) * 1.f/m_nShadowSamps;
+					if(depth < 2) {
+						for(int i = 0; i < shadow_samps; i++)
+							color = color + direct_light(r.get_point(hit.dist), scene, hit) * 1.0f/shadow_samps;
 					}
 					else {
-						rgbColor = rgbColor + directLight(a_rRay.getPoint(htHit.dDist), a_Scene, htHit);
+						color = color + direct_light(r.get_point(hit.dist), scene, hit);
 					}
-					
-					return rgbColor;
+
+					return color;
 				}
-			} 
-		} 
+			}
+		}
 		else {
 			// No hay intersección. Devolvemos el color de fondo.
-			return a_Scene->getBGColor();
+			return scene->get_bg_color();
 		}
 	}
 	else // If max_depth, return black.
 		return RGB(0.0, 0.0, 0.0);
 }
 
-RGB DirectRenderer::directLight(Point p3Point, Scene *a_Scene, HitRecord &htHit)
+RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit)
 {
-	RGB 	rgbDiffColor;	
-	Point 	p3LitePoint, p3LiteDir;
-	Vec3	v3LiteDir;
-	Ray 	rShadowRay;
-	float 	dLiteDist, dDiffuse;
-	bool 	bShadowHit;
+	RGB 	diffuse_color;
+	Point 	light_point;
+	Vec3	light_dir;
+	Ray 	shadow_ray;
+	float 	light_dist,
+            diffuse;
+	bool 	shadow_hit;
 
-	for(int i = 0; i < a_Scene->getNumLights(); i++) {		
-		
-		if(a_Scene->getLight(i)->getRandomPoint(p3Point, &m_MyRNG, p3LitePoint)) {
+	for(int i = 0; i < scene->get_num_lights(); i++) {
+
+		if(scene->get_light(i)->get_random_point(p, &rng, light_point)) {
 			// Direccion desde el punto de interseccion a la luz a testear.
-			v3LiteDir.set(p3LitePoint - p3Point);
+			light_dir.set(light_point - p);
 			// Distancia entre ambos puntos.
-			dLiteDist = v3LiteDir.length();
+			light_dist = light_dir.length();
 			// Vector normalizado, para el rayo de testeo.
-			v3LiteDir.normalize();
-			// Auxiliar para evitar el autohit.
-			p3LiteDir.set(v3LiteDir);
-			
-			rShadowRay.set(p3Point + dEpsilon * p3LiteDir, v3LiteDir);
-			
-			dDiffuse = dot(versor(htHit.v3Normal), versor(rShadowRay.direction()));
-			
-			bShadowHit = false;
+			light_dir.normalize();
+
+			shadow_ray.set(p + kepsilon * Point(light_dir), light_dir);
+
+			diffuse = dot(versor(hit.normal), versor(shadow_ray.direction()));
+
+			shadow_hit = false;
 			int j = 0;
-			while(!bShadowHit && j < a_Scene->getNumObjs()) {
-				if(a_Scene->getObject(j) != a_Scene->getLight(i)) {
-					if(a_Scene->getObject(j)->shadowHit(rShadowRay, dEpsilon, dLiteDist))
-						bShadowHit = true;
+			while(!shadow_hit && j < scene->get_num_objs()) {
+				if(scene->get_object(j) != scene->get_light(i)) {
+					if(scene->get_object(j)->shadow_hit(shadow_ray, kepsilon, light_dist))
+						shadow_hit = true;
 				}
 				j++;
 			}
-			if(!bShadowHit) {
-				if(htHit.pMat != NULL) {
-					Vec2 UnV2(0., 0.);
-					Vec3 UnV3(0., 0., 0.);
-					rgbDiffColor = htHit.pMat->radiance() * a_Scene->getLight(i)->getMaterial()->radiance() * dDiffuse;
+			if(!shadow_hit) {
+				if(hit.material != NULL) {
+					Vec2 v2(0., 0.);
+					Vec3 v3(0., 0., 0.);
+					diffuse_color = hit.material->radiance() * scene->get_light(i)->get_material()->radiance() * diffuse;
 				}
 			}
 		}
 	}
-	
-	return rgbDiffColor;
+
+	return diffuse_color;
 }

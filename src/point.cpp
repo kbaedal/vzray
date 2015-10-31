@@ -1,12 +1,20 @@
 #include "point.h"
+#include "vec3.h"
 
 #include "randomc/randomc.h"
 #include "onb.h"
 
+Point::Point(const Vec3 &v)
+{
+    e[0] = v.x();
+    e[1] = v.y();
+    e[2] = v.z();
+}
+
 std::ostream &operator<<(std::ostream &os, const Point &p)
 {
 	os << '<' << p.e[0] << ", " << p.e[1] << ", " << p.e[2] << '>';
-	
+
 	return os;
 }
 

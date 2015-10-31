@@ -4,7 +4,7 @@
 
 RGB SpecularMaterial::radiance()
 {
-	Vec2 unVec2;
-	Vec3 unVec3;
-	return m_pTexture->valor(unVec2, unVec3);
+	Vec2 v2;
+	Vec3 v3;
+	return texture->valor(v2, v3);
 }

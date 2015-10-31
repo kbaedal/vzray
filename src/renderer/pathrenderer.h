@@ -14,19 +14,20 @@
 class PathRenderer : public Renderer
 {
 	public:
-		RGB getColor(Ray a_rRay, Scene *a_Scene, float a_dMin, float a_dMax, int a_nDepth);
-		PathRenderer(int a_nMaxDepth = 5, int a_nSeed = 65535)
+		RGB get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth);
+		PathRenderer(int a_max_depth = 5, int seed = 65535)
 		{
-			m_nMaxDepth 	= a_nMaxDepth;
-			m_MyRNG.RandomInit(a_nSeed);
+			max_depth = a_max_depth;
+			rng.RandomInit(seed);
 		}
-		
-		int rendererType() { return 1; }
-	
+
+		int renderer_type() { return 1; }
+
 	private:
-	
-		int 			m_nMaxDepth;
-		CRandomMersenne	m_MyRNG;
+		int 			max_depth;
+		CRandomMersenne	rng;
+
+		static const float kepsilon; // Autohit.
 };
 
 #endif // __PATHRENDERER_H__

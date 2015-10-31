@@ -8,25 +8,25 @@
 #include "randomc/randomc.h"
 
 /**
- * Define las propiedades de un material que emite luz.
+ * \class Define las propiedades de un material que emite luz.
  */
 class LightMaterial : public Material
-{	
+{
 	public:
-		LightMaterial(Texture *a_pTexture) { m_pTexture = a_pTexture; }
+		LightMaterial(Texture *nueva_t) { texture = nueva_t; }
 		~LightMaterial() {}
-		
-		virtual bool isLight() { return true; }
-				
+
+		virtual bool is_light() { return true; }
+
 		virtual RGB radiance();
 		virtual RGB emittance();
-		virtual RGB ambient() { return RGB(0.0, 0.0, 0.0); }
-		virtual Vec3 outDirection(Vec3 const &v3In, Vec3 const &v3Norm, float &dBRDF, RGB &rgbColor, CRandomMersenne *rng)
-		{ 
-			dBRDF = 1;
-			rgbColor = this->radiance();
-			return versor(randomDir(v3Norm, rng->Random(), rng->Random()));;
-		}		
+		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
+		{
+			brdf    = 1.0f;
+			color   = radiance();
+			return versor(random_dir(norm, rng->Random(), rng->Random()));;
+		}
 };
 
 #endif // __DIFFUSEMATERIAL_H__

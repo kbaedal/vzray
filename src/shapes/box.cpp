@@ -11,71 +11,75 @@
 #include "shapes/isecaux.h"
 #include "shapes/box.h"
 
-Box::Box(const Point &a_p3Min, const Point &a_p3Max, Material *a_pMat)
+#include "vec3.h"
+
+Box::Box(const Point &a_minimo, const Point &a_maximo, Material *a_material)
 {
-	Point p3TMax, p3TMin, p3Centroid;
+	Point   temp_max,
+            temp_min,
+            centroid;
 
 	// En su propio espacio, nuestro cubo tendrá siempre estas dimensiones,
 	// lo que nos facilitará el calculo de intersecciones y normales.
-	m_p3Max.set( 1.f,  1.f,  1.f);
-	m_p3Min.set(-1.f, -1.f, -1.f);
+	maximo.set( 1.f,  1.f,  1.f);
+	minimo.set(-1.f, -1.f, -1.f);
 
 	// Colocamos correctamente los datos, en caso de que no lo estén ya.
-	p3TMax.set(
-		std::max(a_p3Min.x(), a_p3Max.x()),
-		std::max(a_p3Min.y(), a_p3Max.y()),
-		std::max(a_p3Min.z(), a_p3Max.z())
+	temp_max.set(
+		std::max(a_minimo.x(), a_maximo.x()),
+		std::max(a_minimo.y(), a_maximo.y()),
+		std::max(a_minimo.z(), a_maximo.z())
 	);
 
-	p3TMin.set(
-		std::min(a_p3Min.x(), a_p3Max.x()),
-		std::min(a_p3Min.y(), a_p3Max.y()),
-		std::min(a_p3Min.z(), a_p3Max.z())
+	temp_min.set(
+		std::min(a_minimo.x(), a_maximo.x()),
+		std::min(a_minimo.y(), a_maximo.y()),
+		std::min(a_minimo.z(), a_maximo.z())
 	);
 
-	m_pTrans = new Transform;
+	trans = new Transform;
 
 	// Escalamos nuestro cubo a la mitad, para que sus dimensiones sean
 	// de 1 unidad en todas las coordenadas, y así poder aplicar correctamente
 	// el resto de transformaciones.
-	m_pTrans->scale(0.5, 0.5, 0.5);
+	trans->scale(0.5, 0.5, 0.5);
 
 	// Averiguamos las escalas en x, y, z
-	m_pTrans->scale(
-		fabs(p3TMax.x() - p3TMin.x()),	// Escala en x
-		fabs(p3TMax.y() - p3TMin.y()),	// Escala en y
-		fabs(p3TMax.z() - p3TMin.z())	// Escala en z
+	trans->scale(
+		fabs(temp_max.x() - temp_min.x()),	// Escala en x
+		fabs(temp_max.y() - temp_min.y()),	// Escala en y
+		fabs(temp_max.z() - temp_min.z())	// Escala en z
 	);
 
 	// Ahora averiguamos el centroide del cubo y trasladamos nuestro
 	// cubo base con la información obtenida.
-	p3Centroid = p3TMin + .5 * (p3TMax - p3TMin);
+	centroid = temp_min + .5 * (temp_max - temp_min);
 
-	m_pTrans->translate(p3Centroid);
+	trans->translate(centroid);
 
 	// Iniciamos nuestra bbox con los valores iniciales del cubo.
-	m_abBox.set(Point(-1.f), Point(1.f));
+	aabb.set(Point(-10.f), Point(1.0f));
 
 	// Y la adaptamos a las transformaciones iniciales.
-	m_abBox = m_pTrans->updateAABB(m_abBox);
+	aabb = trans->update_AABB(aabb);
 
-	m_pMat = a_pMat;
+	material = a_material;
 
-	bShadow = true;
-	bBounds = true;
+	shadow = true;
+	bounds = true;
 }
 
-bool Box::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const
+bool Box::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
 {
-	Ray rObjSpace = m_pTrans->sceneToObject(a_rRay);
+	Ray r_obj_space = trans->scene_to_object(r);
 
-	float dTVal;
+	float dist;
 
-	if(testRayBox(rObjSpace, m_p3Min, m_p3Max, a_dMin, a_dMax, dTVal))
+	if(isecaux::test_ray_box(r_obj_space, minimo, maximo, min_dist, max_dist, dist))
 	{
-		a_hrHitRcd.dDist 	= dTVal;
-		a_hrHitRcd.v3Normal = versor(m_pTrans->objectNormalToScene(getBoxNormal(rObjSpace.getPoint(dTVal))));
-		a_hrHitRcd.pMat		= m_pMat;
+		hit.dist 	    = dist;
+		hit.normal      = versor(trans->normal_to_scene(isecaux::get_box_normal(r_obj_space.get_point(dist))));
+		hit.material    = material;
 
 		return true;
 	}
@@ -83,20 +87,20 @@ bool Box::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitR
 	return false;
 }
 
-bool Box::shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const
+bool Box::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 {
-	if(bShadow) {
-		Ray rObjSpace = m_pTrans->sceneToObject(a_rRay);
+	if(shadow) {
+		Ray r_obj_space = trans->scene_to_object(r);
 
-		float dTVal;
+		float dist;
 
-		return testRayBox(rObjSpace, m_p3Min, m_p3Max, a_dMin, a_dMax, dTVal);
+		return isecaux::test_ray_box(r, minimo, maximo, min_dist, max_dist, dist);
 	}
 	else
 		return false;
 }
 
-bool Box::getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const
+bool Box::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 {
     return true;
 }

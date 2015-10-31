@@ -42,14 +42,14 @@ Vec2 operator/(float f, const Vec2 &v)
 
 Vec2 versor(Vec2 const &v)
 {
-	Vec2 v2T(v);
-	return v2T / v2T.length();
+	Vec2 t(v);
+	return t / t.length();
 }
 
 std::ostream& operator<<(std::ostream &os, const Vec2 &v)
 {
 	os << '<' << v.e[0] << ", " << v.e[1] << '>';
-	
+
 	return os;
 }
 

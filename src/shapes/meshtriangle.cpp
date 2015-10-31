@@ -4,71 +4,71 @@
 #include "mesh.h"
 #include "meshtriangle.h"
 
-MeshTriangle::MeshTriangle(const MeshFace &mfInfo, Mesh *a_pMesh)
+MeshTriangle::MeshTriangle(const MeshFace &face_info, Mesh *a_mesh)
 {
 	for(int i = 0; i < 3; i++) {
-		nVList[i] = mfInfo.nVIndex[i];
-		nNList[i] = mfInfo.nNIndex[i];
-		nTList[i] = mfInfo.nTIndex[i];
+		vertices[i] = face_info.vertex_index[i];
+		normals[i]  = face_info.normal_index[i];
+		textures[i] = face_info.texture_index[i];
 	}
-	
-	pMesh = a_pMesh;
+
+	mesh = a_mesh;
 }
 
-bool MeshTriangle::hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const
+bool MeshTriangle::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
 {
-	float dTval;
-	
+	float dist;
+
 	Point 	p0, p1, p2;
-	Vec3	v3Dir10, v3Dir20;
-	
-	p0 = pMesh->m_p3VertexArray[nVList[0]];
-	p1 = pMesh->m_p3VertexArray[nVList[1]];
-	p2 = pMesh->m_p3VertexArray[nVList[2]];
-	
-	if(testRayTriangle(a_rRay, p0, p1, p2, a_dMin, a_dMax, dTval))	{
-		a_hrHitRcd.dDist = dTval;
-		
-		if((nNList[0] > -1) && (nNList[1] > -1) && (nNList[2] > -1)) {
+	Vec3	v10, v20;
+
+	p0 = mesh->vertex_list[vertices[0]];
+	p1 = mesh->vertex_list[vertices[1]];
+	p2 = mesh->vertex_list[vertices[2]];
+
+	if(isecaux::test_ray_triangle(r, p0, p1, p2, min_dist, max_dist, dist))	{
+		hit.dist = dist;
+
+		if((normals[0] > -1) && (normals[1] > -1) && (normals[2] > -1)) {
 			Vec3 n0, n1, n2;
-			
-			n0 = pMesh->m_v3NormalArray[nNList[0]];
-			n1 = pMesh->m_v3NormalArray[nNList[1]];
-			n2 = pMesh->m_v3NormalArray[nNList[2]];
-			
-			a_hrHitRcd.v3Normal = versor(n0 + n1 + n2);
+
+			n0 = mesh->normal_list[normals[0]];
+			n1 = mesh->normal_list[normals[1]];
+			n2 = mesh->normal_list[normals[2]];
+
+			hit.normal = versor(n0 + n1 + n2);
 		}
 		else {
 			// No normal for each vertex, interpolate points
-			v3Dir10.set(p1 - p0);
-			v3Dir20.set(p2 - p0);
-			
-			a_hrHitRcd.v3Normal = versor(cross(v3Dir10, v3Dir20));
+			v10.set(p1 - p0);
+			v20.set(p2 - p0);
+
+			hit.normal = versor(cross(v10, v20));
 		}
-		
-		if((nTList[0] > -1) && (nTList[1] > -1) && (nTList[2] > -1)) {
-			// Not implemented yet
+
+		if((textures[0] > -1) && (textures[1] > -1) && (textures[2] > -1)) {
+			// TODO
 		}
 		else {
 			// No texture given, use mat.
-			a_hrHitRcd.pMat	= pMesh->m_pMat;
+			hit.material = mesh->material;
 		}
-		
+
 		return true;
 	}
-	
+
 	return false;
 }
 
-bool MeshTriangle::shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const
+bool MeshTriangle::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 {
-	float dTval;
-	
+	float dist;
+
 	Point p0, p1, p2;
-	
-	p0 = pMesh->m_p3VertexArray[nVList[0]];
-	p1 = pMesh->m_p3VertexArray[nVList[1]];
-	p2 = pMesh->m_p3VertexArray[nVList[2]];
-	
-	return testRayTriangle(a_rRay, p0, p1, p2, a_dMin, a_dMax, dTval);
+
+	p0 = mesh->vertex_list[vertices[0]];
+	p1 = mesh->vertex_list[vertices[1]];
+	p2 = mesh->vertex_list[vertices[2]];
+
+	return isecaux::test_ray_triangle(r, p0, p1, p2, min_dist, max_dist, dist);
 }

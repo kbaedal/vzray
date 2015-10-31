@@ -10,60 +10,61 @@
 /**
  * Estructura para almacenar la información de una interseccion.
  */
-struct HitRecord 
+struct HitRecord
 {
-	float 		dDist;		///< Distancia desde el origen a la interseccion.
-	Vec3		v3Normal;	///< Normal en el punto de interseccion.
-	Material	*pMat;		///< Material del objeto intersectado.
+	float 		dist;		///< Distancia desde el origen a la interseccion.
+	Vec3		normal;	    ///< Normal en el punto de interseccion.
+	Material	*material;	///< Material del objeto intersectado.
 };
 
 /**
- * Clase para el manejo de rayos.
- * 
+ * \class Clase para el manejo de rayos.
+ *
  * Almacenará los siguientes datos:
  */
 class Ray
 {
 	public:
-		Ray() { m_p3Orig = Point(); m_v3Dir = Vec3(); }
-		Ray(Point a_p3Orig, Vec3 a_v3Dir)
+		Ray() { orig = Point(0.0f); dir = Vec3(0.0f); }
+		Ray(Point a_orig, Vec3 a_dir)
 		{
-			m_p3Orig	= a_p3Orig;
-			m_v3Dir 	= a_v3Dir;
-					
-			this->refreshInv();
+			orig    = a_orig;
+			dir 	= a_dir;
+
+			refresh_inv();
 		}
-		Point origin() const { return m_p3Orig; }
-		Vec3 direction() const { return m_v3Dir; }
-		Vec3 inv_dir() const { return m_v3InvDir; }
-		
+		Point origin() const { return orig; }
+		Vec3 direction() const { return dir; }
+		Vec3 inv_dir() const { return i_dir; }
+
 		void set(const Point &p, const Vec3 &v)
 		{
-			m_p3Orig	= p;
-			m_v3Dir 	= v;
-					
-			this->refreshInv();
+			orig    = p;
+			dir 	= v;
+
+			refresh_inv();
 		}
-		
+
 		/**
-		 * @brief Calcula el punto resultante a la distancia correspondiente.
-		 * @param dDist Distancia desde el origen del rayo.
-		 * @return Punto resultante.
+		 * \brief Calcula el punto resultante a la distancia correspondiente.
+		 *
+		 * \param dist Distancia desde el origen del rayo.
+		 * \return Punto resultante.
 		 */
-		Point getPoint(const float dDist);
-		
+		Point get_point(const float dist) const;
+
 		/**
-		 * @brief Actualiza la informacion de la dirección inversa y de
+		 * \brief Actualiza la informacion de la dirección inversa y de
 		 * 		los signos de los componentes.
-		 */	
-		void refreshInv();		
-		
+		 */
+		void refresh_inv();
+
 		friend std::ostream& operator<<(std::ostream &os, const Ray &r);
-		
-		Point 	m_p3Orig; 		///< Origen del rayo.
-		Vec3 	m_v3Dir,		///< Direccion.
-				m_v3InvDir;		///< Inversa de la dirección.
-		int 	m_nSign[3];		///< Signo de los componentes de la direccion invertida.
+
+		Point 	orig; 		///< Origen del rayo.
+		Vec3 	dir,		///< Direccion.
+				i_dir;	    ///< Inversa de la dirección.
+		int 	sign[3];	///< Signo de los componentes de la direccion invertida.
 };
 
 #endif // __RAY_H__

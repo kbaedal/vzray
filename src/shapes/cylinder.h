@@ -12,27 +12,31 @@
 class Cylinder : public Shape
 {
 	public:
-		Cylinder(Point a_p3P0, Point a_p3P1, float a_dRadius, Material *a_pMat);
+		Cylinder(Point a_bottom, Point a_top, float a_radius, Material *a_material);
 		Cylinder()
 		{
-			m_p3P0 		= Point( 0.f, 0.f, -1.f);
-			m_p3P1 		= Point( 0.f, 0.f,  1.f);
-			m_dRadius  	= 1.f;
-			m_pMat		= NULL;
-			m_pTrans 	= new Transform;
-			bShadow 	= true;
-			bBounds		= true;
+			bottom 		= Point( 0.0f, 0.0f, -1.0f);
+			top 		= Point( 0.0f, 0.0f,  1.0f);
+			radius  	= 1.0f;
+			material	= nullptr;
+			trans 	    = new Transform;
+			shadow      = true;
+			bounds		= true;
 		}
-		~Cylinder() { if(m_pTrans != NULL) delete m_pTrans; }
-		
-		bool hit(const Ray &a_rRay, float a_dMin, float a_dMax, HitRecord &a_hrHitRcd) const;
-		bool shadowHit(const Ray &a_rRay, float a_dMin, float a_dMax) const;
-		bool getRandomPoint(const Point &p3ViewPoint, CRandomMersenne *rngGen, Point &p3LPoint) const;
-	
+		~Cylinder() { if(trans != NULL) delete trans; }
+
+		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
+
 	//private:
-		Point 			m_p3P0, m_p3P1;
-		float 			m_dRadius;
-};	
+		Point 			bottom,
+                        top;
+		float 			radius;
+
+    private:
+        static const float kpi;
+};
 
 #endif // __CYLINDER_HPP__
 

@@ -6,13 +6,13 @@
 class SimpleTexture : public Texture
 {
 	public:
-		SimpleTexture(RGB a_rgbColor) { rgbColor = a_rgbColor; }
-		virtual RGB valor(Vec2 &a_v2Point, Vec3 &a_v3Point) const
+		SimpleTexture(RGB a_color) { color = a_color; }
+		virtual RGB valor(Vec2 &a_p2d, Vec3 &a_p3d) const
 		{
-			return rgbColor;
+			return color;
 		}
-	
-	RGB rgbColor;
+
+	RGB color;
 };
 
 #endif // __TEXTURE_H__

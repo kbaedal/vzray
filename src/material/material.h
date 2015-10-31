@@ -7,7 +7,7 @@
 #include "randomc/randomc.h"
 
 /**
- * Definición de la clase material, que definirá las propiedades
+ * \class Definición de la clase material, que definirá las propiedades
  * de la superficie de un objeto.
  */
 class Material
@@ -16,47 +16,47 @@ class Material
 	    virtual ~Material() {};
 
 		/**
-		 * Devuelve true si el material emite luz.
+		 * \brief Devuelve true si el material emite luz.
 		 */
-		virtual bool isLight() { return false; }
+		virtual bool is_light() { return false; }
 
 		/**
-		 * Devuelve true si el material tiene propiedades reflexivas.
+		 * \brief Devuelve true si el material tiene propiedades reflexivas.
 		 */
-		virtual bool isSpecular() { return false; }
+		virtual bool is_specular() { return false; }
 
 		/**
-		 * Devuelve true si el material tiene propiedades transmisivas.
+		 * \brief Devuelve true si el material tiene propiedades transmisivas.
 		 */
-		virtual bool isTransmissive() { return false; }
+		virtual bool is_transmissive() { return false; }
 
 		/**
-		 * Calcula el color de una superficie cuando esta es iluminada.
+		 * \brief Calcula el color de una superficie cuando esta es iluminada.
 		 */
-		virtual RGB radiance() { return RGB(0.f, 0.f, 0.f); }
+		virtual RGB radiance() { return RGB(0.0f, 0.0f, 0.0f); }
 
 		/**
-		 * Calcula el color de una superficie cuando esta no es iluminada.
+		 * \brief Calcula el color de una superficie cuando esta no es iluminada.
 		 */
-		virtual RGB ambient() { return RGB(0.f, 0.f, 0.f); }
+		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
 
 		/**
-		 * Calcula la luz emitida por la superficie.
+		 * \brief Calcula la luz emitida por la superficie.
 		 */
-		virtual RGB emittance() { return RGB(0.f, 0.f, 0.f); }
+		virtual RGB emittance() { return RGB(0.0f, 0.0f, 0.0f); }
 
 		/**
-		 * Calcula una direccion con los valores indicados y las caracterísiticas
+		 * \brief Calcula una direccion con los valores indicados y las caracterísiticas
 		 * del material.
 		 */
-		virtual Vec3 outDirection(Vec3 const &v3In, Vec3 const &v3Norm, float &dBRDF, RGB &rgbColor, CRandomMersenne *rng)
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
 		{
-			return Vec3(0.f, 0.f, 0.f);
+			return Vec3(0.0f, 0.0f, 0.0f);
 		}
 
-		void setTexture(Texture *a_pTexture) { m_pTexture = a_pTexture; }
+		void set_texture(Texture *a_texture) { texture = a_texture; }
 
-		Texture *m_pTexture;
+		Texture *texture;
 };
 
 #endif
