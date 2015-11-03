@@ -920,6 +920,8 @@ bool Parser::process_simple_tex()
 	if(!read_bloque_txt("id", id))
 		return false;
 
+    std::cerr << "\t\tProcess_simple_tex ID: " << id << "\n" << std::flush;
+
 	if(!read_bloque_vec3("color", color))
 		return false;
 
@@ -934,10 +936,19 @@ bool Parser::process_simple_tex()
 
 	texture = new SimpleTexture(RGB(color.x(), color.y(), color.z()));
 
-	if(globales->scene->add_texture(texture, id))
+    std::cerr << "\t\tProcess_simple_tex [" << id << "] - Intentando insertar.\n" << std::flush;
+
+    bool wtf = globales->scene->add_texture(texture, id);
+
+    std::cerr << "\t\tProcess_simple_tex [" << id << "] - WTF2.\n" << std::flush;
+    if(wtf) {
+        std::cerr << "\t\tProcess_simple_tex [" << id << "] - Insercion correcta.\n" << std::flush;
 		return true;
-	else // Ya existe una textura que ese ID, error.
+    }
+	else  {// Ya existe una textura que ese ID, error.
+	    std::cerr << "\t\tProcess_simple_tex [" << id << "] - Imposibru.\n" << std::flush;
 		return false;
+	}
 }
 
 bool Parser::process_material()

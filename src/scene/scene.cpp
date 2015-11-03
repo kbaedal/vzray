@@ -19,6 +19,7 @@
 
 bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)
 {
+    /*
 	// Si el material indicado no existe, salimos.
 	if(materials->get_data(material_id) == nullptr) {
 		return false;
@@ -31,6 +32,7 @@ bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light
 		else // Si no lo es, solo en la de objetos.
 			return shapes->insertar("", new_object);
 	}
+	*/
 
     /*
     Vamos a intentarlo de otra manera, no vaya a ser
@@ -51,38 +53,55 @@ bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light
             else
                 shapes_list.push_back(new_node);
 
+            // Evitamos el borrado del objeto en el destructor.
+            new_node.s = nullptr;
             return true;
         }
     }
 
     return false;
-
 }
 
 bool Scene::add_texture(Texture *new_texture, std::string texture_id)
 {
 	// La lista se encargará de indicarnos si ya existe una textura con ese ID.
-	return textures->insertar(texture_id, new_texture);
+	/*return textures->insertar(texture_id, new_texture);*/
 
+    std::cerr << "\nInsertando textura:\n\tid:\t" << texture_id << "\n" << std::flush;
 	/*
 	Pues lo dicho antes.
 	*/
 	for(size_t i = 0; i < textures_list.size(); ++i) {
-        if(textures_list[i].id == texture_id)
+        std::cerr << "\tTextura[" << i << "]: " << textures_list[i].id << "\n" << std::flush;
+        if(textures_list[i].id == texture_id) {
+            std::cerr << "\tEsta textura ya está en nuestra escena.\n" << std::flush;
+
             return false;
+        }
 	}
+
+    std::cerr << "\tCreando nuevo nodo.\n" << std::flush;
 
 	Texture_node new_node;
 	new_node.t = new_texture;
 	new_node.id = texture_id;
 
+	std::cerr << "\tPush_back().\n" << std::flush;
+
 	textures_list.push_back(new_node);
 
-	return true;
+	std::cerr << "\tTextura insertada.\n" << std::flush;
+
+    std::cerr << "\tWTF.\n" << std::flush;
+
+    // Evitamos el borrado de la textura en el destructor.
+    new_node.t = nullptr;
+    return true;
 }
 
 bool Scene::add_material(Material *new_material, std::string texture_id, std::string material_id)
 {
+    /*
 	// Comprobamos que existe la textura indicada.
 	if(textures->get_data(texture_id) == nullptr) {
 		return false;
@@ -95,25 +114,35 @@ bool Scene::add_material(Material *new_material, std::string texture_id, std::st
 		// con el ID indicado, la lista devolverá false.
 		return materials->insertar(material_id, new_material);
 	}
+	*/
 
 	/*
 	Mas experimentos.
 	*/
+	std::cerr << "\nInsertando material:\n\tid:\t" << material_id << "\n";
+
 	Texture *t = nullptr;
 
 	// ¿Existe textura?
 	for(size_t i = 0; i < textures_list.size(); ++i) {
-        if(textures_list[i].id == texture_id)
+        if(textures_list[i].id == texture_id) {
+            std::cerr << "\tLa textura asociada existe.\n" << std::flush;
+
             t = textures_list[i].t;
+        }
 	}
 
-	if(t == nullptr)
+	if(t == nullptr) {
+        std::cerr << "\tLa textura asociada NO existe.\n" << std::flush;
         return false;
+	}
 
 	// ¿Existe material?
 	for(size_t i = 0; i < materials_list.size(); ++i) {
-        if(materials_list[i].id == material_id)
+        if(materials_list[i].id == material_id) {
+            std::cerr << "\tEl material a insertar ya existe.\n" << std::flush;
             return false;
+        }
 	}
 
 	new_material->set_texture(t);
@@ -124,6 +153,10 @@ bool Scene::add_material(Material *new_material, std::string texture_id, std::st
 
 	materials_list.push_back(new_node);
 
+	std::cerr << "\tMaterial insertado.\n" << std::flush;
+
+    // Evitamos el borrado del material en el destructor.
+    new_node.m = nullptr;
 	return true;
 }
 
@@ -133,17 +166,19 @@ bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecor
 
     ++Statistics::num_primary_rays;
 
+    /*
 	for(int i = 0; i < shapes->get_num_eltos(); i++) {
 		if(shapes->get_data(i)->hit(r, min_dist, max_dist, hit_r)) {
 			max_dist    = hit_r.dist;
 			is_hit      = true;
 		}
 	}
+	*/
 
 	/*
 	Nuevo sistemazo.
 	*/
-    for(size_t i < 0; i < shapes_list.size(); ++i) {
+    for(size_t i = 0; i < shapes_list.size(); ++i) {
         if(shapes_list[i].s->hit(r, min_dist, max_dist, hit_r)) {
             max_dist = hit_r.dist;
             is_hit = true;

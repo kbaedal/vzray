@@ -122,16 +122,16 @@ class Scene {
 		bool shadow_intersection(Ray r, float min_dist, float max_dist);
 
 		// Devuelve el numero de objetos de la escena (objetos + luces).
-		int get_num_objs() { return shapes->get_num_eltos(); };
+		int get_num_objs() { /*return shapes->get_num_eltos();*/ return shapes_list.size(); };
 
 		// Devuelve el elemento i-ésimo de la lista de objetos.
-		Shape *get_object(int i) { return shapes->get_data(i); };
+		Shape *get_object(int i) { /*return shapes->get_data(i);*/ return shapes_list[i].s; };
 
 		// Devuelve el numero de luces de la escena.
-		int get_num_lights() { return lights->get_num_eltos(); };
+		int get_num_lights() { /*return lights->get_num_eltos();*/ return lights_list.size(); };
 
 		// Devuelve el elemento i-ésimo de la lista de luces.
-		Shape *get_light(int i) { return lights->get_data(i); };
+		Shape *get_light(int i) { /*return lights->get_data(i);*/ return lights_list[i].s; };
 
 		// Cambia el color de fondo de la escena.
 		void set_bg_color(const RGB &color) { bg_color = color; }
