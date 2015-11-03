@@ -10,21 +10,21 @@
 #include "ray.h"
 #include "rgb.h"
 
-#include "utils/dllist.h"
-
 class Shape_node {
     public:
         Shape_node()
         {
-            s = nullptr;
-            id = "";
+            s   = nullptr;
+            id  = "";
         }
         ~Shape_node() {
-            if(s != nullptr)
+            if(s != nullptr) {
                 delete s;
+                s = nullptr;
+            }
         }
 
-        Shape *s;
+        Shape       *s;
         std::string id;
 };
 
@@ -32,15 +32,17 @@ class Material_node {
     public:
         Material_node()
         {
-            m = nullptr;
-            id = "";
+            m   = nullptr;
+            id  = "";
         }
         ~Material_node() {
-            if(m != nullptr)
+            if(m != nullptr) {
                 delete m;
+                m = nullptr;
+            }
         }
 
-        Material *m;
+        Material    *m;
         std::string id;
 };
 
@@ -48,39 +50,36 @@ class Texture_node {
     public:
         Texture_node()
         {
-            t = nullptr;
-            id = "";
+            t   = nullptr;
+            id  = "";
         }
         ~Texture_node() {
-            if(t != nullptr)
+            if(t != nullptr) {
                 delete t;
+                t = nullptr;
+            }
         }
 
-        Texture *t;
+        Texture     *t;
         std::string id;
 };
 
 class Scene {
 	public:
-		Scene()
-		{
-			shapes 		= new DLList<Shape>(DLL_DELETE_DATA);
-			lights 		= new DLList<Shape>(~DLL_DELETE_DATA);
-			// No borramos los datos enlazados en esta lista, ya que como
-			// también están enlazados en la lista Shapes, al borrar la
-			// lista Shapes eliminamos los datos enlazados por la lista
-			// Lights. Así solamente borraremos la estructura creada,
-			// pues los datos ya han sido o van a ser borrados.
-
-			materials 	= new DLList<Material>(DLL_UNIQUE_ID | DLL_DELETE_DATA);
-			textures 	= new DLList<Texture>(DLL_UNIQUE_ID | DLL_DELETE_DATA);
-		}
+		Scene()	{}
 		~Scene()
 		{
-			delete shapes;
-			delete lights;
-			delete materials;
-			delete textures;
+			for(size_t i = 0; i < shapes.size(); ++i)
+                delete shapes[i];
+
+            for(size_t i = 0; i < lights.size(); ++i)
+                delete lights[i];
+
+            for(size_t i = 0; i < textures.size(); ++i)
+                delete textures[i];
+
+            for(size_t i = 0; i < materials.size(); ++i)
+                delete materials[i];
 		}
 
 		/***
@@ -100,7 +99,7 @@ class Scene {
 		bool add_texture(Texture *new_texture, std::string texture_id);
 
 		// Devuelve un puntero a la textura con el ID indicado.
-		Texture *get_texture(std::string texture_id) { return textures->get_data(texture_id); };
+		Texture *get_texture(std::string texture_id);
 
 		// Añade un nuevo material a nuestra lista de materiales. La textura
 		// que se indique debe estar anteriormente añadida a la lista de
@@ -108,7 +107,7 @@ class Scene {
 		bool add_material(Material *new_material, std::string texture_id, std::string material_id);
 
 		// Devuelve un puntero al material con el ID indicado.
-		Material *get_material(std::string material_id) { return materials->get_data(material_id); };
+		Material *get_material(std::string material_id);
 
 		/***
 		 * Métodos para la consulta.
@@ -122,16 +121,16 @@ class Scene {
 		bool shadow_intersection(Ray r, float min_dist, float max_dist);
 
 		// Devuelve el numero de objetos de la escena (objetos + luces).
-		int get_num_objs() { /*return shapes->get_num_eltos();*/ return shapes_list.size(); };
+		int get_num_objs() { return shapes.size(); };
 
 		// Devuelve el elemento i-ésimo de la lista de objetos.
-		Shape *get_object(int i) { /*return shapes->get_data(i);*/ return shapes_list[i].s; };
+		Shape *get_object(int i) { return shapes[i]->s; };
 
 		// Devuelve el numero de luces de la escena.
-		int get_num_lights() { /*return lights->get_num_eltos();*/ return lights_list.size(); };
+		int get_num_lights() { return lights.size(); };
 
 		// Devuelve el elemento i-ésimo de la lista de luces.
-		Shape *get_light(int i) { /*return lights->get_data(i);*/ return lights_list[i].s; };
+		Shape *get_light(int i) { return lights[i]->s; };
 
 		// Cambia el color de fondo de la escena.
 		void set_bg_color(const RGB &color) { bg_color = color; }
@@ -143,17 +142,12 @@ class Scene {
 		bool show_AABB();
 
 	private:
-		DLList<Shape> 		*shapes;
-		DLList<Shape> 		*lights;
-		DLList<Material> 	*materials;
-		DLList<Texture>		*textures;
+		std::vector<Shape_node *>     shapes;
+		std::vector<Shape_node *>     lights;
+		std::vector<Material_node *>  materials;
+		std::vector<Texture_node *>   textures;
 
-		std::vector<Shape_node>     shapes_list;
-		std::vector<Shape_node>     lights_list;
-		std::vector<Material_node>  materials_list;
-		std::vector<Texture_node>   textures_list;
-
-		RGB					bg_color;
+		RGB bg_color;
 };
 
 #endif // __SCENE_HPP__

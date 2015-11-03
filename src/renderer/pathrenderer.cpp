@@ -15,7 +15,8 @@ const float PathRenderer::kepsilon = 1e-2; // Autohit.
 RGB PathRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth)
 {
 	HitRecord	hit_r;
-	RGB			color, temp_color;
+	RGB			color,
+                temp_color;
 	float 		brdf;
 
 	Point		intersection;

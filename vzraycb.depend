@@ -1561,7 +1561,7 @@
 1446317449 source:c:\users\kbaedal\development\vzraycb\src\onb.cpp
 	"onb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\parser\parser.cpp
+1446577610 source:c:\users\kbaedal\development\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -1614,7 +1614,7 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1446485912 c:\users\kbaedal\development\vzraycb\src\scene\scene.h
+1446591362 c:\users\kbaedal\development\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
 	"material/material.h"
@@ -1622,7 +1622,6 @@
 	"textures/texture.h"
 	"ray.h"
 	"rgb.h"
-	"utils/dllist.h"
 
 1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\shape.h
 	"vec3.h"
@@ -1768,7 +1767,7 @@
 1446317449 source:c:\users\kbaedal\development\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\scene\scene.cpp
+1446591451 source:c:\users\kbaedal\development\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"
