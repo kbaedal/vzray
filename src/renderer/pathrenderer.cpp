@@ -14,7 +14,7 @@ const float PathRenderer::kepsilon = 1e-2; // Autohit.
 
 RGB PathRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth)
 {
-	HitRecord	hit;
+	HitRecord	hit_r;
 	RGB			color, temp_color;
 	float 		brdf;
 
@@ -22,18 +22,18 @@ RGB PathRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist,
 	Vec3		out_dir;
 	Ray			out_ray;
 
-	if(scene->nearest_intersection(r, min_dist, max_dist, hit)) {
+	if(scene->nearest_intersection(r, min_dist, max_dist, hit_r)) {
 		// Añadimos emittance
-		color = color + hit.material->emittance();
+		color = color + hit_r.material->emittance();
 
 		if(depth < max_depth) {
 			// Generar un nuevo rayo, y lanzarlo a la escena.
 
 			// Punto de intersección.
-			intersection = r.get_point(hit.dist);
+			intersection = r.get_point(hit_r.dist);
 
 			// Dirección del nuevo rayo.
-			out_dir	= hit.material->out_direction(r.direction(), hit.normal, brdf, temp_color, &rng);
+			out_dir	= hit_r.material->out_direction(r.direction(), hit_r.normal, brdf, temp_color, &rng);
 			out_dir.normalize();
 
 			// Nuevo rayo:
@@ -45,6 +45,6 @@ RGB PathRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist,
 		return color;
 	}
 	else {
-		return RGB(0.0, 0.0, 0.0);
+		return RGB(0.0f, 0.0f, 0.0f);
 	}
 }

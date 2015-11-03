@@ -12,6 +12,54 @@
 
 #include "utils/dllist.h"
 
+class Shape_node {
+    public:
+        Shape_node()
+        {
+            s = nullptr;
+            id = "";
+        }
+        ~Shape_node() {
+            if(s != nullptr)
+                delete s;
+        }
+
+        Shape *s;
+        std::string id;
+};
+
+class Material_node {
+    public:
+        Material_node()
+        {
+            m = nullptr;
+            id = "";
+        }
+        ~Material_node() {
+            if(m != nullptr)
+                delete m;
+        }
+
+        Material *m;
+        std::string id;
+};
+
+class Texture_node {
+    public:
+        Texture_node()
+        {
+            t = nullptr;
+            id = "";
+        }
+        ~Texture_node() {
+            if(t != nullptr)
+                delete t;
+        }
+
+        Texture *t;
+        std::string id;
+};
+
 class Scene {
 	public:
 		Scene()
@@ -99,6 +147,11 @@ class Scene {
 		DLList<Shape> 		*lights;
 		DLList<Material> 	*materials;
 		DLList<Texture>		*textures;
+
+		std::vector<Shape_node>     shapes_list;
+		std::vector<Shape_node>     lights_list;
+		std::vector<Material_node>  materials_list;
+		std::vector<Texture_node>   textures_list;
 
 		RGB					bg_color;
 };

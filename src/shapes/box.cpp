@@ -94,7 +94,7 @@ bool Box::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 
 		float dist;
 
-		return isecaux::test_ray_box(r, minimo, maximo, min_dist, max_dist, dist);
+		return isecaux::test_ray_box(r_obj_space, minimo, maximo, min_dist, max_dist, dist);
 	}
 	else
 		return false;

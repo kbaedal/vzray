@@ -83,7 +83,7 @@ bool Sphere::shadow_hit(const Ray &r, float min_dist, float max_dist) const
 
 bool Sphere::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 {
-	// Convertir el punto al espacio de la esfera
+    // Convertir el punto al espacio de la esfera
 	Point 	pos;
 	Vec3	w, dir_to_light;
 	ONB		uvw;
@@ -125,9 +125,9 @@ bool Sphere::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point
 		// ésta volvera a transformarlo al espacio de la esfera.
 		Ray r_to_light = trans->object_to_scene(Ray(pos, dir_to_light));
 
-		HitRecord htr;
-		if(hit(r_to_light, 0.01, FLT_MAX, htr)) {
-			light_pos = r_to_light.get_point(htr.dist);
+		HitRecord hit_r;
+		if(hit(r_to_light, 0.01, FLT_MAX, hit_r)) {
+			light_pos = r_to_light.get_point(hit_r.dist);
 
 			return true;
 		}
@@ -137,3 +137,24 @@ bool Sphere::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point
 
 	return false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

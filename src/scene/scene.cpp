@@ -20,7 +20,7 @@
 bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)
 {
 	// Si el material indicado no existe, salimos.
-	if(materials->get_data(material_id) == NULL) {
+	if(materials->get_data(material_id) == nullptr) {
 		return false;
 	}
 	else {
@@ -31,18 +31,60 @@ bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light
 		else // Si no lo es, solo en la de objetos.
 			return shapes->insertar("", new_object);
 	}
+
+    /*
+    Vamos a intentarlo de otra manera, no vaya a ser
+    que el lio este en la doble lista o algo asi.
+    */
+    Shape_node new_node;
+
+	for(size_t i = 0; i < materials_list.size(); ++i) {
+        if(materials_list[i].id == material_id) {
+            new_object->set_material(materials_list[i].m);
+
+            new_node.s = new_object;
+
+            if(is_light) {
+                shapes_list.push_back(new_node);
+                lights_list.push_back(new_node);
+            }
+            else
+                shapes_list.push_back(new_node);
+
+            return true;
+        }
+    }
+
+    return false;
+
 }
 
 bool Scene::add_texture(Texture *new_texture, std::string texture_id)
 {
 	// La lista se encargará de indicarnos si ya existe una textura con ese ID.
 	return textures->insertar(texture_id, new_texture);
+
+	/*
+	Pues lo dicho antes.
+	*/
+	for(size_t i = 0; i < textures_list.size(); ++i) {
+        if(textures_list[i].id == texture_id)
+            return false;
+	}
+
+	Texture_node new_node;
+	new_node.t = new_texture;
+	new_node.id = texture_id;
+
+	textures_list.push_back(new_node);
+
+	return true;
 }
 
 bool Scene::add_material(Material *new_material, std::string texture_id, std::string material_id)
 {
 	// Comprobamos que existe la textura indicada.
-	if(textures->get_data(texture_id) == NULL) {
+	if(textures->get_data(texture_id) == nullptr) {
 		return false;
 	}
 	else {
@@ -53,20 +95,60 @@ bool Scene::add_material(Material *new_material, std::string texture_id, std::st
 		// con el ID indicado, la lista devolverá false.
 		return materials->insertar(material_id, new_material);
 	}
+
+	/*
+	Mas experimentos.
+	*/
+	Texture *t = nullptr;
+
+	// ¿Existe textura?
+	for(size_t i = 0; i < textures_list.size(); ++i) {
+        if(textures_list[i].id == texture_id)
+            t = textures_list[i].t;
+	}
+
+	if(t == nullptr)
+        return false;
+
+	// ¿Existe material?
+	for(size_t i = 0; i < materials_list.size(); ++i) {
+        if(materials_list[i].id == material_id)
+            return false;
+	}
+
+	new_material->set_texture(t);
+
+	Material_node new_node;
+	new_node.m = new_material;
+	new_node.id = material_id;
+
+	materials_list.push_back(new_node);
+
+	return true;
 }
 
-bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit)
+bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit_r)
 {
 	bool is_hit = false;
 
     ++Statistics::num_primary_rays;
 
 	for(int i = 0; i < shapes->get_num_eltos(); i++) {
-		if(shapes->get_data(i)->hit(r, min_dist, max_dist, hit)) {
-			max_dist = hit.dist;
-			is_hit = true;
+		if(shapes->get_data(i)->hit(r, min_dist, max_dist, hit_r)) {
+			max_dist    = hit_r.dist;
+			is_hit      = true;
 		}
 	}
+
+	/*
+	Nuevo sistemazo.
+	*/
+    for(size_t i < 0; i < shapes_list.size(); ++i) {
+        if(shapes_list[i].s->hit(r, min_dist, max_dist, hit_r)) {
+            max_dist = hit_r.dist;
+            is_hit = true;
+        }
+    }
 
 	return is_hit;
 }
