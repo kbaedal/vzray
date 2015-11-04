@@ -33,7 +33,7 @@ class Plane : public Shape
 			shadow		= true;
 			bounds		= false;
 		}
-		~Plane() { if(trans != nullptr) delete trans; }
+		~Plane() { std::cerr << "\n\nPLANE DESTRUCTOR OUT.\n\n" << std::flush; if(trans != nullptr) delete trans; }
 
 		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
 		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;

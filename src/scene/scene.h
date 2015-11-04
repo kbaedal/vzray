@@ -18,10 +18,12 @@ class Shape_node {
             id  = "";
         }
         ~Shape_node() {
+            std::cerr << "\n\nSHAPE DESTRUCTOR IN.\n\n" << std::flush;
             if(s != nullptr) {
                 delete s;
-                s = nullptr;
+                //s = nullptr;
             }
+            std::cerr << "\n\nSHAPE DESTRUCTOR OUT.\n\n" << std::flush;
         }
 
         Shape       *s;
@@ -36,10 +38,12 @@ class Material_node {
             id  = "";
         }
         ~Material_node() {
+            std::cerr << "\n\nMATERIAL DESTRUCTOR IN.\n\n" << std::flush;
             if(m != nullptr) {
                 delete m;
                 m = nullptr;
             }
+            std::cerr << "\n\nMATERIAL DESTRUCTOR OUT.\n\n" << std::flush;
         }
 
         Material    *m;
@@ -54,10 +58,12 @@ class Texture_node {
             id  = "";
         }
         ~Texture_node() {
+            std::cerr << "\n\nTEXTURE DESTRUCTOR IN.\n\n" << std::flush;
             if(t != nullptr) {
                 delete t;
                 t = nullptr;
             }
+            std::cerr << "\n\nTEXTURE DESTRUCTOR OUT.\n\n" << std::flush;
         }
 
         Texture     *t;
@@ -67,20 +73,7 @@ class Texture_node {
 class Scene {
 	public:
 		Scene()	{}
-		~Scene()
-		{
-			for(size_t i = 0; i < shapes.size(); ++i)
-                delete shapes[i];
-
-            for(size_t i = 0; i < lights.size(); ++i)
-                delete lights[i];
-
-            for(size_t i = 0; i < textures.size(); ++i)
-                delete textures[i];
-
-            for(size_t i = 0; i < materials.size(); ++i)
-                delete materials[i];
-		}
+		~Scene();
 
 		/***
 		 * Métodos para construir la escena. Devuelven false en caso de error.

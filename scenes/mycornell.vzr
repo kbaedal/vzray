@@ -15,7 +15,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 <config>	
 	<renderer>
 		<type>path</type>
-		<samples>10</samples>
+		<samples>1</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -29,8 +29,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<push>0</push>
 	</camera>	
 	<image>
-		<res_x>500</res_x>
-		<res_y>500</res_y>
+		<res_x>50</res_x>
+		<res_y>50</res_y>
 		<bgcolor>0, 0, 0</bgcolor>
 	</image>
 </config>

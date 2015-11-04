@@ -19,14 +19,14 @@ class Box : public Shape
 			maximo.set( 1.0f,  1.0f,  1.0f);
 			minimo.set(-1.0f, -1.0f, -1.0f);
 
-			material = NULL;
+			material = nullptr;
 
 			trans = new Transform;
 
 			shadow = true;
 			bounds = true;
 		};
-		~Box() { if(trans != NULL) delete trans; };
+		~Box() { std::cerr << "\n\nBOX DESTRUCTOR.\n\n" << std::flush; if(trans != nullptr) delete trans; };
 
 		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
 		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;

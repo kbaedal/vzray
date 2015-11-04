@@ -1614,7 +1614,7 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1446591362 c:\users\kbaedal\development\vzraycb\src\scene\scene.h
+1446626293 c:\users\kbaedal\development\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
 	"material/material.h"
@@ -1623,7 +1623,7 @@
 	"ray.h"
 	"rgb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\shape.h
+1446626367 c:\users\kbaedal\development\vzraycb\src\shapes\shape.h
 	"vec3.h"
 	"point.h"
 	"ray.h"
@@ -1691,7 +1691,7 @@
 	"ray.h"
 	"rgb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\plane.h
+1446626862 c:\users\kbaedal\development\vzraycb\src\shapes\plane.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
@@ -1713,7 +1713,7 @@
 	"rgb.h"
 	"randomc/randomc.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\box.h
+1446626841 c:\users\kbaedal\development\vzraycb\src\shapes\box.h
 	<ctime>
 	"vec3.h"
 	"point.h"
@@ -1752,7 +1752,7 @@
 	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1446457900 source:c:\users\kbaedal\development\vzraycb\src\renderer\pathrenderer.cpp
+1446592994 source:c:\users\kbaedal\development\vzraycb\src\renderer\pathrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1767,7 +1767,7 @@
 1446317449 source:c:\users\kbaedal\development\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1446591451 source:c:\users\kbaedal\development\vzraycb\src\scene\scene.cpp
+1446626762 source:c:\users\kbaedal\development\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"

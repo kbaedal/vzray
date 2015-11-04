@@ -16,6 +16,38 @@
 #include "material/material.h"
 #include "material/diffusematerial.h"
 
+Scene::~Scene()
+{
+    std::cerr << "\n\nSCENE DESTRUCTOR IN.\n\n" << std::flush;
+
+    for(size_t i = 0; i < shapes.size(); ++i) {
+        if(shapes[i] != nullptr) {
+            delete shapes[i]->s;
+            delete shapes[i];
+            shapes[i] = nullptr;
+        }
+    }
+
+    // No necesitamos borrar las luces, ya han sido borradas en shapes.
+    /*
+    for(size_t i = 0; i < textures.size(); ++i) {
+        if(textures[i] != nullptr) {
+            delete textures[i]->t;
+            delete textures[i];
+            textures[i] = nullptr;
+        }
+    }
+
+    for(size_t i = 0; i < materials.size(); ++i) {
+        if(materials[i] != nullptr) {
+            delete materials[i]->m;
+            delete materials[i];
+            materials[i] = nullptr;
+        }
+
+    */
+    std::cerr << "\n\nSCENE DESTRUCTOR OUT.\n\n" << std::flush;
+}
 
 bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)
 {
