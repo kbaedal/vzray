@@ -94,21 +94,21 @@ int main(int argc, char *argv[])
 	log_buf = log.rdbuf();      // Obtenemos el streambuf del fichero
 	std::clog.rdbuf(log_buf);	// Redirigimos clog
 
-	if(globales.options & GLB_DO_TEST) {
-		Test test;
-		end_status = test.launch_test();
-	}
-	else {
-		render_ticks = clock();
+    if(globales.options & GLB_DO_TEST) {
+        Test test;
+        end_status = test.launch_test();
+    }
+    else {
+        render_ticks = clock();
 
-		// Start render loop
-		end_status = start_render(&globales);
+        // Start render loop
+        end_status = start_render(&globales);
 
-		render_ticks = clock() - render_ticks;
+        render_ticks = clock() - render_ticks;
 
-		print_time("\nRender Time: ", ((float)render_ticks)/CLOCKS_PER_SEC);
-		print_statistics();
-	}
+        print_time("\nRender Time: ", ((float)render_ticks)/CLOCKS_PER_SEC);
+        print_statistics();
+    }
 
 	std::clog.rdbuf(backup);		// Restauramos el streambuf de clog
 	log.close();					// Cerramos el fichero de log.
@@ -176,8 +176,9 @@ bool start_render(Globals *globales)
 			//std::clog << "StartRender::Shooting ray!" << endl;
 			if(globales->samples_per_pixel > 1) {
 				for(int k = 0; k < globales->samples_per_pixel; k++) {
-					//std::clog << "Sampling with k = " << k << std::endl;
-					Ray r = globales->camera->get_ray((float(i)+rng.Random()-.5)/globales->res_x, (float(j)+rng.Random()-.5)/globales->res_y, rng.Random(), rng.Random());
+					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
+                    // Ray r = globales->camera->get_ray((float(i)+rng.Random()-.5)/float(globales->res_x), (float(j)+rng.Random()-.5)/float(globales->res_y), rng.Random(), rng.Random());
+                    Ray r = globales->camera->get_ray(float(i)/float(globales->res_x), float(j)/float(globales->res_y), 0.0f, 0.0f);
 
 					pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
 				}

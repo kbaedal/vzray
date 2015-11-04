@@ -31,6 +31,12 @@ void Pinhole::set(Point a_pos, Vec3 a_dir, Vec3 a_up,
 
 Ray Pinhole::get_ray(float x, float y, float sx, float sy)
 {
+    if((x < -.5f) || (y < -.5f))
+        std::clog << "Bad ray (" << x << ", " << y << ")\n";
+
+    if((sx < 0.0f) || (sx > 1.0f) || (sy < 0.0f) || (sy > 1.0f))
+        std::clog << "Bad sub-ray (" << sx << ", " << sy << ")\n";
+
 	Point 	img_plane,                  // Destino en el plano de imagen del rayo.
             t_xdir, t_ydir, t_pushdir;  // Convertiremos los vectores a puntos.
 	Vec3	ray_dir;

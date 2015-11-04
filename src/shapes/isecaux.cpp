@@ -34,7 +34,6 @@ bool isecaux::test_ray_box(
 		return false;
 
 	dist = tmin;
-	std::clog << "PUES SI\n";
 
 	++Statistics::num_prim_isecs;
 

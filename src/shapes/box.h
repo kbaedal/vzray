@@ -26,7 +26,7 @@ class Box : public Shape
 			shadow = true;
 			bounds = true;
 		};
-		~Box() { std::cerr << "\n\nBOX DESTRUCTOR.\n\n" << std::flush; if(trans != nullptr) delete trans; };
+		~Box() { if(trans != nullptr) delete trans; };
 
 		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
 		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;

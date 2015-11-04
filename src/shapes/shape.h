@@ -13,7 +13,7 @@
 class Shape
 {
 	public:
-		virtual ~Shape() { std::cerr << "\n\nPERO QUE CONIO ESTA PASANDO.\n\n" << std::flush; };
+		virtual ~Shape() {};
 
 		virtual bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const = 0;
 		virtual bool shadow_hit(const Ray &r, float min_dist, float max_dist) const = 0;

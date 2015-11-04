@@ -120,7 +120,8 @@ Vec3 random_dir(const Vec3 &dir, float rn1, float rn2)
 	float r = sqrt(rn2);
 	float x = r * cos(phi);
 	float y = r * sin(phi);
-	float z = sqrt(1 - x*x - y*y);
+
+	float z = sqrt(1.0f - x*x - y*y);
 
 	return x*uvw.u() + y*uvw.v() + z*uvw.w();
 }

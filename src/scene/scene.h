@@ -17,14 +17,7 @@ class Shape_node {
             s   = nullptr;
             id  = "";
         }
-        ~Shape_node() {
-            std::cerr << "\n\nSHAPE DESTRUCTOR IN.\n\n" << std::flush;
-            if(s != nullptr) {
-                delete s;
-                //s = nullptr;
-            }
-            std::cerr << "\n\nSHAPE DESTRUCTOR OUT.\n\n" << std::flush;
-        }
+        ~Shape_node() {};
 
         Shape       *s;
         std::string id;
@@ -37,14 +30,7 @@ class Material_node {
             m   = nullptr;
             id  = "";
         }
-        ~Material_node() {
-            std::cerr << "\n\nMATERIAL DESTRUCTOR IN.\n\n" << std::flush;
-            if(m != nullptr) {
-                delete m;
-                m = nullptr;
-            }
-            std::cerr << "\n\nMATERIAL DESTRUCTOR OUT.\n\n" << std::flush;
-        }
+        ~Material_node() {};
 
         Material    *m;
         std::string id;
@@ -57,14 +43,7 @@ class Texture_node {
             t   = nullptr;
             id  = "";
         }
-        ~Texture_node() {
-            std::cerr << "\n\nTEXTURE DESTRUCTOR IN.\n\n" << std::flush;
-            if(t != nullptr) {
-                delete t;
-                t = nullptr;
-            }
-            std::cerr << "\n\nTEXTURE DESTRUCTOR OUT.\n\n" << std::flush;
-        }
+        ~Texture_node() {};
 
         Texture     *t;
         std::string id;
