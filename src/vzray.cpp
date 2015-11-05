@@ -281,7 +281,7 @@ void print_statistics()
 				<< " ---\n"
 				<< "Otras primitivas:              " << Statistics::num_primitives << "\n"
 				<< "Tests rayo-primitiva:          " << Statistics::num_prim_tests << "\n"
-				<< "Intersecciones rayo-primtivia: " << Statistics::num_prim_isecs << "\n\n";
+				<< "Intersecciones rayo-primtiva:  " << Statistics::num_prim_isecs << "\n\n";
 }
 
 void image_file_name(const std::string &input_file, std::string &output_file)

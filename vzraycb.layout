@@ -1,14 +1,164 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src\vzray.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\triangle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5863" topLine="261" />
+			<Cursor1 position="625" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\material\diffusematerial.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="461" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\scene\scene.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3612" topLine="159" />
+		</Cursor>
+	</File>
+	<File name="src\shapes\triangle.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="710" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="src\material\diffusematerial.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="573" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\statistics.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="320" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\material\lightmaterial.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="256" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\material\lightmaterial.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="633" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\test.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1015" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="src\material\material.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1291" topLine="26" />
+		</Cursor>
+	</File>
+	<File name="src\test.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="84" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\material\specularmaterial.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="103" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\textures\simpletexture.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="188" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\material\specularmaterial.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="751" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\textures\texture.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="114" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\matrix\matrix.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5600" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="src\utils\dllist.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7885" topLine="280" />
+		</Cursor>
+	</File>
+	<File name="src\matrix\matrix.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3176" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="src\vec2.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="704" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\matrix\transform.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5896" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\scene\scene.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2653" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="src\vec2.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1823" topLine="35" />
+		</Cursor>
+	</File>
+	<File name="src\matrix\transform.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2531" topLine="69" />
+		</Cursor>
+	</File>
+	<File name="src\shapes\box.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2483" topLine="62" />
+		</Cursor>
+	</File>
+	<File name="src\vec3.cpp" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2685" topLine="128" />
+		</Cursor>
+	</File>
+	<File name="src\onb.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="33" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\shapes\box.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="695" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="src\vec3.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4049" topLine="96" />
+		</Cursor>
+	</File>
+	<File name="src\onb.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1897" topLine="47" />
+		</Cursor>
+	</File>
+	<File name="src\shapes\cylinder.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7947" topLine="164" />
+		</Cursor>
+	</File>
+	<File name="src\vzray.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8365" topLine="261" />
+		</Cursor>
+	</File>
+	<File name="src\parser\parser.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6192" topLine="221" />
 		</Cursor>
 	</File>
 	<File name="src\shapes\cylinder.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -21,9 +171,9 @@
 			<Cursor1 position="802" topLine="27" />
 		</Cursor>
 	</File>
-	<File name="src\material\lightmaterial.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\parser\parser.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="633" topLine="0" />
+			<Cursor1 position="1536" topLine="46" />
 		</Cursor>
 	</File>
 	<File name="src\shapes\isecaux.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -31,9 +181,9 @@
 			<Cursor1 position="4943" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\material\material.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\point.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1346" topLine="26" />
+			<Cursor1 position="1130" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\shapes\isecaux.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -41,124 +191,14 @@
 			<Cursor1 position="1404" topLine="1" />
 		</Cursor>
 	</File>
-	<File name="src\material\specularmaterial.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="103" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\mesh.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="230" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\material\specularmaterial.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="751" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\mesh.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1031" topLine="45" />
-		</Cursor>
-	</File>
-	<File name="src\matrix\matrix.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5600" topLine="27" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\meshtriangle.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1456" topLine="38" />
-		</Cursor>
-	</File>
-	<File name="src\matrix\matrix.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3176" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\meshtriangle.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="485" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\matrix\transform.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5896" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\parallelogram.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1127" topLine="50" />
-		</Cursor>
-	</File>
-	<File name="src\matrix\transform.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2531" topLine="69" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\parallelogram.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="952" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="src\onb.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="33" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\plane.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1063" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="src\onb.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1897" topLine="47" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\plane.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="992" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="src\parser\parser.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6192" topLine="221" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\shape.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="451" topLine="5" />
-		</Cursor>
-	</File>
-	<File name="src\parser\parser.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1536" topLine="46" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\sphere.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3007" topLine="112" />
-		</Cursor>
-	</File>
-	<File name="src\point.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1130" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\sphere.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="791" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="src\point.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1706" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="src\shapes\triangle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\mesh.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="625" topLine="0" />
+			<Cursor1 position="230" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\aabb\aabb.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -171,9 +211,9 @@
 			<Cursor1 position="6308" topLine="156" />
 		</Cursor>
 	</File>
-	<File name="src\shapes\triangle.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\mesh.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="710" topLine="4" />
+			<Cursor1 position="1031" topLine="45" />
 		</Cursor>
 	</File>
 	<File name="src\aabb\aabb.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -186,9 +226,9 @@
 			<Cursor1 position="6911" topLine="145" />
 		</Cursor>
 	</File>
-	<File name="src\statistics.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\meshtriangle.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="320" topLine="0" />
+			<Cursor1 position="1456" topLine="38" />
 		</Cursor>
 	</File>
 	<File name="src\camera\camera.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -201,6 +241,11 @@
 			<Cursor1 position="54" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="src\shapes\meshtriangle.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="485" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="src\camera\pinhole.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="741" topLine="3" />
@@ -211,9 +256,9 @@
 			<Cursor1 position="1149" topLine="34" />
 		</Cursor>
 	</File>
-	<File name="src\test.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\parallelogram.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1015" topLine="24" />
+			<Cursor1 position="1127" topLine="50" />
 		</Cursor>
 	</File>
 	<File name="src\camera\pinhole.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -226,9 +271,9 @@
 			<Cursor1 position="3499" topLine="73" />
 		</Cursor>
 	</File>
-	<File name="src\test.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\parallelogram.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="84" topLine="0" />
+			<Cursor1 position="952" topLine="9" />
 		</Cursor>
 	</File>
 	<File name="src\camera\thinlens.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -241,9 +286,9 @@
 			<Cursor1 position="801" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="src\textures\simpletexture.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\plane.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="188" topLine="0" />
+			<Cursor1 position="1063" topLine="18" />
 		</Cursor>
 	</File>
 	<File name="src\camera\thinlens.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -253,12 +298,12 @@
 	</File>
 	<File name="src\renderer\pathrenderer.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="960" topLine="0" />
+			<Cursor1 position="1158" topLine="19" />
 		</Cursor>
 	</File>
-	<File name="src\textures\texture.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\plane.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="114" topLine="0" />
+			<Cursor1 position="992" topLine="15" />
 		</Cursor>
 	</File>
 	<File name="src\image.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -271,9 +316,9 @@
 			<Cursor1 position="629" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\utils\dllist.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\shape.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7885" topLine="280" />
+			<Cursor1 position="451" topLine="5" />
 		</Cursor>
 	</File>
 	<File name="src\image.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -286,9 +331,9 @@
 			<Cursor1 position="334" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\vec2.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\sphere.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="704" topLine="0" />
+			<Cursor1 position="3007" topLine="34" />
 		</Cursor>
 	</File>
 	<File name="src\material\dielectricmaterial.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -296,19 +341,14 @@
 			<Cursor1 position="3353" topLine="112" />
 		</Cursor>
 	</File>
-	<File name="src\scene\scene.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2653" topLine="12" />
-		</Cursor>
-	</File>
 	<File name="src\rgb.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="59" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\vec2.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\shapes\sphere.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1823" topLine="35" />
+			<Cursor1 position="791" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\material\dielectricmaterial.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -316,49 +356,9 @@
 			<Cursor1 position="1475" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="src\shapes\box.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2483" topLine="62" />
-		</Cursor>
-	</File>
 	<File name="src\rgb.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1384" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="src\vec3.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2404" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="src\material\diffusematerial.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="466" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\box.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="695" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="src\scene\scene.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3612" topLine="159" />
-		</Cursor>
-	</File>
-	<File name="src\vec3.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4049" topLine="96" />
-		</Cursor>
-	</File>
-	<File name="src\material\diffusematerial.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="573" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\shapes\cylinder.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7947" topLine="164" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

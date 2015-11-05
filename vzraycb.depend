@@ -1250,7 +1250,7 @@
 1446719750 source:c:\prog\vzraycb\src\ray.cpp
 	"ray.h"
 
-1446719965 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
+1446724900 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1381,7 +1381,7 @@
 1446719750 source:c:\prog\vzraycb\src\vec2.cpp
 	"vec2.h"
 
-1446719750 source:c:\prog\vzraycb\src\vec3.cpp
+1446741607 source:c:\prog\vzraycb\src\vec3.cpp
 	<cmath>
 	<ctime>
 	<cstdio>
@@ -1390,7 +1390,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1446722467 source:c:\prog\vzraycb\src\vzray.cpp
+1446741482 source:c:\prog\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
