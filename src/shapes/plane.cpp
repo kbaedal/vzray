@@ -12,13 +12,13 @@
 
 #include "statistics.h"
 
-const float Plane::kplane_epsilon = 1e-8;
+const double Plane::kplane_epsilon = 1e-8;
 
-bool Plane::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+bool Plane::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 {
     ++Statistics::num_prim_tests;
 
-	float vd, vo, t;
+	double vd, vo, t;
 
     vd = dot(versor(normal), versor(r.direction()));
      if(vd != 0.0f) {
@@ -43,9 +43,9 @@ bool Plane::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) co
     }
 }
 
-bool Plane::shadow_hit(const Ray &r, float min_dist, float max_dist) const
+bool Plane::shadow_hit(const Ray &r, double min_dist, double max_dist) const
 {
-	float vd, vo, t;
+	double vd, vo, t;
 
     vd = dot(versor(normal), versor(r.direction()));
      if(vd != 0.0f) {

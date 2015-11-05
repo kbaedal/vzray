@@ -19,7 +19,7 @@ class Camera {
 		 * @param sy Muestra del pixel, tal que 0 <= sy < 1.
 		 * @return Rayo generado por la camara.
 		 */
-		virtual Ray get_ray(float x, float y, float sx, float sy) = 0;
+		virtual Ray get_ray(double x, double y, double sx, double sy) = 0;
 };
 
 #endif // __CAMERA_H__

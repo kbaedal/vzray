@@ -15,8 +15,8 @@ class Shape
 	public:
 		virtual ~Shape() {};
 
-		virtual bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const = 0;
-		virtual bool shadow_hit(const Ray &r, float min_dist, float max_dist) const = 0;
+		virtual bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const = 0;
+		virtual bool shadow_hit(const Ray &r, double min_dist, double max_dist) const = 0;
 		virtual bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const = 0;
 
 		Material *get_material() { return material; }

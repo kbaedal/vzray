@@ -26,7 +26,7 @@ static void muestra_ayuda(std::string name)
 
 // Prints info of render process.
 void imprime_info(int linea_act, int lineas_tot);
-void print_time(string head, float ticks);
+void print_time(string head, double ticks);
 void print_statistics();
 
 // Intiating data structures
@@ -177,15 +177,15 @@ bool start_render(Globals *globales)
 			if(globales->samples_per_pixel > 1) {
 				for(int k = 0; k < globales->samples_per_pixel; k++) {
 					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
-                    // Ray r = globales->camera->get_ray((float(i)+rng.Random()-.5)/float(globales->res_x), (float(j)+rng.Random()-.5)/float(globales->res_y), rng.Random(), rng.Random());
-                    Ray r = globales->camera->get_ray(float(i)/float(globales->res_x), float(j)/float(globales->res_y), 0.0f, 0.0f);
+                    Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
+                    //Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), 0.0f, 0.0f);
 
 					pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
 				}
 			}
 			else
 			{
-				Ray r = globales->camera->get_ray(float(i)/float(globales->res_x), float(j)/float(globales->res_y), rng.Random(), rng.Random());
+				Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), rng.Random(), rng.Random());
 
 				pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 			}
@@ -253,7 +253,7 @@ void imprime_info(int linea_act, int lineas_tot)
 	std::cout << cadena << std::flush;
 }
 
-void print_time(std::string head, float ticks)
+void print_time(std::string head, double ticks)
 {
 	int hours = 0, mins = 0;
 

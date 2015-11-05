@@ -21,7 +21,7 @@ class LightMaterial : public Material
 		virtual RGB radiance();
 		virtual RGB emittance();
 		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
-		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng)
 		{
 			brdf    = 1.0f;
 			color   = radiance();

@@ -13,7 +13,7 @@
 class DielectricMaterial : public Material
 {
 	public:
-		DielectricMaterial(Texture *a_texture, float a_ior)
+		DielectricMaterial(Texture *a_texture, double a_ior)
 		{
 			texture		    = a_texture;
 			ior 			= a_ior;
@@ -27,10 +27,10 @@ class DielectricMaterial : public Material
 
 		virtual RGB radiance();
 		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
-		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng);
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng);
 
 		float			ior;
-		float 			reflectance;
+		double 			reflectance;
 		CRandomMother	rng;
 
 		/**
@@ -41,17 +41,17 @@ class DielectricMaterial : public Material
 		/**
 		 * \brief Aplicando las leyes de Snell, obtendremos la direccion de reflexión.
 		 */
-		Vec3 reflect_dir(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color);
+		Vec3 reflect_dir(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color);
 
 		/**
 		 * \brief Aplicando las leyes de Snell, obtendremos la direccion de refracción.
 		 */
-		Vec3 refract_dir(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color);
+		Vec3 refract_dir(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color);
 
 		/**
 		 * \brief Aplicando las leyes de Snell, obtendremos la reflectividad de la superficie.
 		 */
-		float get_reflectance(Vec3 const &in, Vec3 const &norm);
+		double get_reflectance(Vec3 const &in, Vec3 const &norm);
 };
 
 #endif // __DIELECTRICMATERIAL_H__

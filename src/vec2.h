@@ -13,7 +13,7 @@ class Vec2
 {
 	public:
 		// Constructores
-		Vec2(float a, float b)
+		Vec2(double a, double b)
 		{
 			this->set(a, b);
 		}
@@ -25,20 +25,20 @@ class Vec2
 		Vec2 operator-() const { return Vec2(-e[0], -e[1]); }
 		friend Vec2 operator+(const Vec2 &v1, const Vec2 &v2);
 		friend Vec2 operator-(const Vec2 &v1, const Vec2 &v2);
-		friend Vec2 operator*(const Vec2 &v, float f);
-		friend Vec2 operator*(float f, const Vec2 &v);
-		friend Vec2 operator/(const Vec2 &v, float f);
-		friend Vec2 operator/(float f, const Vec2 &v);
+		friend Vec2 operator*(const Vec2 &v, double f);
+		friend Vec2 operator*(double f, const Vec2 &v);
+		friend Vec2 operator/(const Vec2 &v, double f);
+		friend Vec2 operator/(double f, const Vec2 &v);
 
 		// Operadores logicos.
 		friend bool operator==(const Vec2 &v1, const Vec2 &v2);
 		friend bool operator!=(const Vec2 &v1, const Vec2 &v2);
 
 		// Otras operaciones.
-		float length() { return sqrt(e[0]*e[0] + e[1]*e[1]); }
-		float sq_length() { return (e[0]*e[0] + e[1]*e[1]); }
+		double length() { return sqrt(e[0]*e[0] + e[1]*e[1]); }
+		double sq_length() { return (e[0]*e[0] + e[1]*e[1]); }
 		void normalize() { *this = *this * (1.0f / length()); }
-		void set(float a, float b)
+		void set(double a, double b)
 		{
 			e[0] = a;
 			e[1] = b;
@@ -50,8 +50,8 @@ class Vec2
 		}
 
 		// Acceso rapido a los componentes.
-		float x() const { return e[0]; }
-		float y() const { return e[1]; }
+		double x() const { return e[0]; }
+		double y() const { return e[1]; }
 
 		/**
 		 * \brief Devuelve el versor (vector modulo = 1) asociado al parametro indicado.
@@ -65,7 +65,7 @@ class Vec2
 		friend std::ostream& operator<<(std::ostream &os, const Vec2 &v);
 
 		// Componentes
-		float e[2];
+		double e[2];
 };
 
 #endif // __VEC2_H__

@@ -14,14 +14,14 @@ Matrix4x4::Matrix4x4()
     }
 }
 
-void Matrix4x4::set(float m[4][4])
+void Matrix4x4::set(double m[4][4])
 {
 	for(int i = 0; i < 4; i++)
         for(int j = 0; j < 4; j++)
 			e[i][j] = m[i][j];
 }
 
-void Matrix4x4::set(float m[16])
+void Matrix4x4::set(double m[16])
 {
 	for(int i = 0, k = 0; i < 4; i++)
         for(int j = 0; j < 4; j++)
@@ -44,7 +44,7 @@ Matrix4x4 Matrix4x4::get_inv()
 	Matrix4x4 mtemp;
 
 	// Calculamos el determinante. Si es cero, devolvemos la matriz identidad.
-	float det = determinant();
+	double det = determinant();
 
 	if(det != 0.0f) {
 		// Calculamos la matriz de cofactores
@@ -115,7 +115,7 @@ Matrix4x4 operator*(const Matrix4x4 &m1, const Matrix4x4 &m2)
 
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
-            float sum = 0.0;
+            double sum = 0.0;
             for(int k = 0; k < 4; k++)
 				sum += m1.e[i][k] * m2.e[k][j];
 
@@ -140,7 +140,7 @@ Matrix4x4 operator/(const Matrix4x4 &m1, const Matrix4x4 &m2)
 
 Vec3 Matrix4x4::transform(const Vec3 &v)
 {
-	float   componentes[4],
+	double   componentes[4],
             nuevas_comp[4],
             res;
 
@@ -166,7 +166,7 @@ Vec3 Matrix4x4::transform(const Vec3 &v)
 
 Point Matrix4x4::transform(const Point &p)
 {
-	float   componentes[4],
+	double   componentes[4],
             nuevas_comp[4],
             res;
 
@@ -191,7 +191,7 @@ Point Matrix4x4::transform(const Point &p)
     return Point(nuevas_comp[0], nuevas_comp[1], nuevas_comp[2]);
 }
 
-Matrix4x4 operator*(const Matrix4x4 &m, float v)
+Matrix4x4 operator*(const Matrix4x4 &m, double v)
 {
 	Matrix4x4 mtemp;
 
@@ -202,7 +202,7 @@ Matrix4x4 operator*(const Matrix4x4 &m, float v)
 	return mtemp;
 }
 
-Matrix4x4 operator/(const Matrix4x4 &m, float v)
+Matrix4x4 operator/(const Matrix4x4 &m, double v)
 {
 	Matrix4x4 mtemp;
 
@@ -215,7 +215,7 @@ Matrix4x4 operator/(const Matrix4x4 &m, float v)
 	return mtemp;
 }
 
-float Matrix4x4::determinant()
+double Matrix4x4::determinant()
 {
 	// La funcion CofactorXY ya devuelve el signo adecuado para la
 	// posición calculada, con lo que simplemente tenemos que sumar.
@@ -225,10 +225,10 @@ float Matrix4x4::determinant()
             e[0][3] * cofactor(0, 3);
 }
 
-float Matrix4x4::det3x3(
-	float a11, float a12, float a13,
-	float a21, float a22, float a23,
-	float a31, float a32, float a33
+double Matrix4x4::det3x3(
+	double a11, double a12, double a13,
+	double a21, double a22, double a23,
+	double a31, double a32, double a33
 )
 {
 	// Aplicamos la regla de Sarrus
@@ -240,7 +240,7 @@ float Matrix4x4::det3x3(
             a11 * a23 * a32;
 }
 
-float Matrix4x4::cofactor(int x, int y)
+double Matrix4x4::cofactor(int x, int y)
 {
 	std::vector<float> m3;
 
@@ -256,7 +256,7 @@ float Matrix4x4::cofactor(int x, int y)
 	int sign = (((x+y) % 2) == 0) ? 1 : -1;
 
 	// Calculamos el determinante
-	float det = det3x3(
+	double det = det3x3(
 					m3[0], m3[1], m3[2],
 					m3[3], m3[4], m3[5],
 					m3[6], m3[7], m3[8]

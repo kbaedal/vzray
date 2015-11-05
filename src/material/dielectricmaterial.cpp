@@ -11,7 +11,7 @@ RGB DielectricMaterial::radiance()
 	return texture->valor(v2, v3);
 }
 
-Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
+Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng)
 {
 	bool 	going_in;   // Ray going in or going out?
 	Vec3 	t_norm;		// Reversed normal, if needed
@@ -35,7 +35,7 @@ Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, float &
 		n1          = ior;
 		n2	        = 1.0f;
 
-		float t = -(dot(in, t_norm));
+		double t = -(dot(in, t_norm));
 		cos_t2 = 1.0f - (ior * ior) * (1.0f - t * t);
 	}
 
@@ -49,13 +49,13 @@ Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, float &
 	}
 
 	// Otherwise, calculate fresnel term.
-	float n = n1/n2;
-	float r0 = ((n - 1) * (n - 1)) / ((n + 1) * (n + 1));
-	float c = 1 - cos_t;
+	double n = n1/n2;
+	double r0 = ((n - 1) * (n - 1)) / ((n + 1) * (n + 1));
+	double c = 1 - cos_t;
 
-	float re = r0 + (1 - r0) * c * c * c * c * c;
-	float pr = (re + 0.5) / 2.0;
-	float rg = rng->Random();
+	double re = r0 + (1 - r0) * c * c * c * c * c;
+	double pr = (re + 0.5) / 2.0;
+	double rg = rng->Random();
 
 
 	if(rg > pr) { // Transmit
@@ -69,13 +69,13 @@ Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, float &
 
 bool DielectricMaterial::is_TIR(Vec3 const &in, Vec3 const &norm)
 {
-	float cos_t2;			// Aux for TIR calculation
+	double cos_t2;			// Aux for TIR calculation
 
 	if(dot(in, norm) < 0.0f) {
 		return false;
 	}
 	else {
-		float t = -(dot(in, -norm));
+		double t = -(dot(in, -norm));
 		cos_t2 = 1.0f - (ior * ior) * (1.0f - t * t);
 
 		if(cos_t2 < 0.0f)
@@ -86,9 +86,9 @@ bool DielectricMaterial::is_TIR(Vec3 const &in, Vec3 const &norm)
 	return false;
 }
 
-Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color)
+Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color)
 {
-	float n1, n2, cos_t;
+	double n1, n2, cos_t;
 
 	cos_t = dot(in, norm);
 	if(cos_t < 0.0f) { // Incoming ray
@@ -101,12 +101,12 @@ Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, float &br
 		n2      = 1.0f;
 	}
 
-	float n = n1/n2;
-	float r0 = ((n - 1) * (n - 1)) / ((n + 1) * (n + 1));
-	float c = 1 - cos_t;
+	double n = n1/n2;
+	double r0 = ((n - 1) * (n - 1)) / ((n + 1) * (n + 1));
+	double c = 1 - cos_t;
 
-	float re = r0 + (1 - r0) * c * c * c * c * c;
-	float pr = (re + 0.5) / 2.0;
+	double re = r0 + (1 - r0) * c * c * c * c * c;
+	double pr = (re + 0.5) / 2.0;
 
 	brdf = re / pr;
 	color = radiance();
@@ -118,9 +118,9 @@ Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, float &br
 	}
 }
 
-Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color)
+Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color)
 {
-	float n1, n2, cos_t;
+	double n1, n2, cos_t;
 
 	cos_t = dot(in, norm);
 	if(cos_t < 0.0f) { // Incoming ray
@@ -133,12 +133,12 @@ Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, float &br
 		n2      = 1.0f;
 	}
 
-	float n = n1/n2;
-	float r0 = ((n - 1) * (n - 1)) / ((n + 1) * (n + 1));
-	float c = 1 - cos_t;
+	double n = n1/n2;
+	double r0 = ((n - 1) * (n - 1)) / ((n + 1) * (n + 1));
+	double c = 1 - cos_t;
 
-	float re = r0 + (1 - r0) * c * c * c * c * c;
-	float pr = (re + 0.5) / 2.0;
+	double re = r0 + (1 - r0) * c * c * c * c * c;
+	double pr = (re + 0.5) / 2.0;
 
 	//dBRDF = (1.0 - Re) / (1.0 - Pr);
 	brdf = 1 - (re / pr);
@@ -151,7 +151,7 @@ Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, float &br
 	}
 }
 
-float DielectricMaterial::get_reflectance(Vec3 const &in, Vec3 const &norm)
+double DielectricMaterial::get_reflectance(Vec3 const &in, Vec3 const &norm)
 {
 	return 0.f;
 }

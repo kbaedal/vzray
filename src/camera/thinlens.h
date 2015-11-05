@@ -13,16 +13,16 @@
 class ThinLens : public Camera {
 	public:
 		ThinLens() {}
-		ThinLens(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
-			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1)
+		ThinLens(Point a_center, Vec3 a_dir, Vec3 a_up, double a_aperture,
+			double a_dist, double a_u0, double a_v0, double a_u1, double a_v1)
 		{
 			set(a_center, a_dir, a_up, a_aperture, a_dist, a_u0, a_v0, a_u1, a_v1);
 		}
 
-		void set(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
-			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1);
+		void set(Point a_center, Vec3 a_dir, Vec3 a_up, double a_aperture,
+			double a_dist, double a_u0, double a_v0, double a_u1, double a_v1);
 
-		Ray get_ray(float x, float y, float sx, float sy);
+		Ray get_ray(double x, double y, double sx, double sy);
 	private:
 		Point	center,
 				corner;

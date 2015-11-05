@@ -1,6 +1,6 @@
 #include "ray.h"
 
-Point Ray::get_point(const float dist) const
+Point Ray::get_point(const double dist) const
 {
 	return Point(orig + dist * Point(dir));
 }

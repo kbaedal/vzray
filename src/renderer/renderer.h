@@ -15,7 +15,7 @@ class Renderer
 {
 	public:
 	    virtual ~Renderer() {};
-		virtual RGB get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth) = 0;
+		virtual RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth) = 0;
 
 		virtual int renderer_type() = 0;
 };

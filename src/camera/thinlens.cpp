@@ -1,7 +1,7 @@
 #include "camera/thinlens.h"
 
-void ThinLens::set(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
-			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1)
+void ThinLens::set(Point a_center, Vec3 a_dir, Vec3 a_up, double a_aperture,
+			double a_dist, double a_u0, double a_v0, double a_u1, double a_v1)
 {
 	Point	u, v, w;	// Auxiliares para calculos.
 
@@ -27,7 +27,7 @@ void ThinLens::set(Point a_center, Vec3 a_dir, Vec3 a_up, float a_aperture,
 	y_dir = (v1 - v0) * uvw.v();
 }
 
-Ray ThinLens::get_ray(float x, float y, float sx, float sy)
+Ray ThinLens::get_ray(double x, double y, double sx, double sy)
 {
 	Point 	lens_point, img_plane,
 			t_udir, t_vdir, t_xdir, t_ydir;

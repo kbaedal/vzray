@@ -25,7 +25,7 @@ class Image
 		 *
 		 * \param dGamma Valor de gamma.
 		 */
-		void gamma_correct(float gamma);
+		void gamma_correct(double gamma);
 
 		/**
 		 * \brief Guarda la imagen en formato PPM.

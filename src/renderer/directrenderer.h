@@ -16,7 +16,7 @@
 class DirectRenderer : public Renderer
 {
 	public:
-		RGB get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth);
+		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth);
 		DirectRenderer(int a_max_depth = 5, int a_shadow_samps = 1, int seed = 65535)
 		{
 			max_depth 	    = a_max_depth;
@@ -33,7 +33,7 @@ class DirectRenderer : public Renderer
 		int				shadow_samps;
 		CRandomMersenne	rng;
 
-		static const float kepsilon; // Autohit.
+		static const double kepsilon; // Autohit.
 };
 
 #endif // __DIRECTRENDERER_H__

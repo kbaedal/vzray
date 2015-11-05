@@ -11,9 +11,9 @@
 
 #include "onb.h"
 
-const float Parallelogram::kparall_epsilon = 1e-8;
+const double Parallelogram::kparall_epsilon = 1e-8;
 
-bool Parallelogram::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+bool Parallelogram::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 {
 	Point 	hit_plane;
 	Vec3	offset;
@@ -48,7 +48,7 @@ bool Parallelogram::hit(const Ray &r, float min_dist, float max_dist, HitRecord 
 	return true;
 }
 
-bool Parallelogram::shadow_hit(const Ray &r, float min_dist, float max_dist) const
+bool Parallelogram::shadow_hit(const Ray &r, double min_dist, double max_dist) const
 {
 	Point 	hit_plane;
 	Vec3	offset;

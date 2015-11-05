@@ -1,6 +1,6 @@
 #include "rgb.h"
 
-void RGB::clamp(float min_val, float max_val)
+void RGB::clamp(double min_val, double max_val)
 {
 	if(R < min_val)
 		R = min_val;

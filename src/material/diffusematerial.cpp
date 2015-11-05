@@ -9,7 +9,7 @@ RGB DiffuseMaterial::radiance()
 	return texture->valor(v2, v3);
 }
 
-Vec3 DiffuseMaterial::out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
+Vec3 DiffuseMaterial::out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng)
 {
 	// Generamos una nueva direccion. Sera una direccion aleatoria en la
 	// semiesfera definida por la normal.

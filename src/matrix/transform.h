@@ -33,24 +33,24 @@ class Transform {
          */
         void update(const Matrix4x4 &m);
 
-        void translate(float x, float y, float z);
+        void translate(double x, double y, double z);
         void translate(const Point &p)
         {
 			translate(p.x(), p.y(), p.z());
 			inv = mtx.get_inv();
 		}
 
-        void scale(float x, float y, float z);
+        void scale(double x, double y, double z);
         void scale(const Point &p)
         {
 			scale(p.x(), p.y(), p.z());
 			inv = mtx.get_inv();
 		}
 
-        void rotate(float angle, const Vec3 &axis);
-        void rotate_x(float angle);
-        void rotate_y(float angle);
-        void rotate_z(float angle);
+        void rotate(double angle, const Vec3 &axis);
+        void rotate_x(double angle);
+        void rotate_y(double angle);
+        void rotate_z(double angle);
 
         void free_transform(const Matrix4x4 &m);
 
@@ -97,8 +97,8 @@ class Transform {
 
     private:
         // Constantes utiles
-        static const float kpi;
-        static const float kmin_value;
+        static const double kpi;
+        static const double kmin_value;
 
 };
 

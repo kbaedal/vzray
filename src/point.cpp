@@ -38,22 +38,22 @@ Point operator-(const Point &p1, const Point &p2)
 	return Point(p1.x() - p2.x(), p1.y() - p2.y(), p1.z() - p2.z());
 }
 
-Point operator*(const Point &p, float f)
+Point operator*(const Point &p, double f)
 {
 	return Point(p.x() * f, p.y() * f, p.z() * f);
 }
 
-Point operator*(float f, const Point &p)
+Point operator*(double f, const Point &p)
 {
 	return Point(p.x() * f, p.y() * f, p.z() * f);
 }
 
-Point operator/(const Point &p, float f)
+Point operator/(const Point &p, double f)
 {
 	return Point(p.x() / f, p.y() / f, p.z() / f);
 }
 
-Point operator/(float f, const Point &p)
+Point operator/(double f, const Point &p)
 {
 	return Point(p.x() / f, p.y() / f, p.z() / f);
 }

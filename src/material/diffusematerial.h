@@ -18,7 +18,7 @@ class DiffuseMaterial : public Material
 
 		virtual RGB radiance();
 		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
-		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *a_rng);
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *a_rng);
 };
 
 #endif // __DIFFUSEMATERIAL_H__

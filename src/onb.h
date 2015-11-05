@@ -77,7 +77,7 @@ class ONB
 		Vec3 U, V, W;
 
     private:
-        static const float konb_epsilon;
+        static const double konb_epsilon;
 };
 
 #endif

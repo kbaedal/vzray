@@ -1,6 +1,6 @@
 #include "onb.h"
 
-const float ONB::konb_epsilon = 0.01f;
+const double ONB::konb_epsilon = 0.01f;
 
 void ONB::init_from_u(const Vec3 &a_u)
 {

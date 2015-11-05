@@ -15,8 +15,8 @@ class MeshTriangle : public Shape
 		// Y EL DESTRUCTOR?
 		// QUIEN SE ENCARGA DE BORRAR pMEsh?? la escena??
 
-		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
-		bool shadow_hit(const Ray &a, float min_dist, float max_dist) const;
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &a, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 		{
 			light_pos = Point(0.f);

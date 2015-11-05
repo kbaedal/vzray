@@ -87,10 +87,10 @@ class Scene {
 		 * en caso de que sea necesario) y false si no la hay.
 		 ***/
 		// Lanza el rayo a la escena y calcula la intersección más cercana, si la hubiera.
-		bool nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit);
+		bool nearest_intersection(Ray r, double min_dist, double max_dist, HitRecord &hit);
 
 		// Lanza un rayo y calcula si hay alguna intersección entre dist_min y dist_max.
-		bool shadow_intersection(Ray r, float min_dist, float max_dist);
+		bool shadow_intersection(Ray r, double min_dist, double max_dist);
 
 		// Devuelve el numero de objetos de la escena (objetos + luces).
 		int get_num_objs() { return shapes.size(); };

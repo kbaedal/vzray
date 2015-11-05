@@ -14,7 +14,7 @@
 #include "onb.h"
 #include "randomc/randomc.h"
 
-Sphere::Sphere(Point a_center, float a_radius, Material *a_material)
+Sphere::Sphere(Point a_center, double a_radius, Material *a_material)
 {
 		// El radio lo aplicaremos como una transformacion de escalado
 		// y la posicion como una transformación de traslacion, ya que
@@ -46,12 +46,12 @@ Sphere::Sphere(Point a_center, float a_radius, Material *a_material)
 		bounds 	    = true;
 }
 
-bool Sphere::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+bool Sphere::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 {
 	// Transformar el rayo
 	Ray r_obj_space = trans->scene_to_object(r);
 
-	float 	dist;
+	double 	dist;
 	Vec3	normal;
 
 	if(isecaux::test_ray_sphere(r_obj_space, min_dist, max_dist, dist)) {
@@ -67,13 +67,13 @@ bool Sphere::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) c
 	return false;
 }
 
-bool Sphere::shadow_hit(const Ray &r, float min_dist, float max_dist) const
+bool Sphere::shadow_hit(const Ray &r, double min_dist, double max_dist) const
 {
 	if(shadow) {
 		// Transformar el rayo
 		Ray r_obj_space = trans->scene_to_object(r);
 
-		float dist;
+		double dist;
 
 		return isecaux::test_ray_sphere(r_obj_space, min_dist, max_dist, dist);
 	}
@@ -91,27 +91,27 @@ bool Sphere::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point
 	pos = trans->scene_to_object(view_pos);
 
 	// En espacio de la esfera, el centro siempre es el origen.
-	float d = Vec3(pos).length();
+	double d = Vec3(pos).length();
 
 	if(d < radius) // Punto en el interior de la esfera.
 		return false;
 
 	int cont = 0;
 	do {
-		float seed_x = rng->Random();
-		float seed_y = rng->Random();
+		double seed_x = rng->Random();
+		double seed_y = rng->Random();
 
 		// En espacio de la esfera, el radio es siempre 1.0
-		float sin_alpha_max = radius / d;
-		float cos_alpha_max = sqrt(1.0f - sin_alpha_max * sin_alpha_max);
-		//float q = 1.f / (2.f * M_PI * (1.f - dCosAlphaMax));
+		double sin_alpha_max = radius / d;
+		double cos_alpha_max = sqrt(1.0f - sin_alpha_max * sin_alpha_max);
+		//double q = 1.f / (2.f * M_PI * (1.f - dCosAlphaMax));
 
-		float cos_alpha = 1.0f + seed_x * (cos_alpha_max - 1.0f);
-		float sin_alpha = sqrt(1.0f - cos_alpha * cos_alpha);
+		double cos_alpha = 1.0f + seed_x * (cos_alpha_max - 1.0f);
+		double sin_alpha = sqrt(1.0f - cos_alpha * cos_alpha);
 
-		float phi = 2.0f * M_PI * seed_y;
-		float cos_phi = cos(phi);
-		float sin_phi = sin(phi);
+		double phi = 2.0f * M_PI * seed_y;
+		double cos_phi = cos(phi);
+		double sin_phi = sin(phi);
 
 		Vec3 k_i(cos_phi * sin_alpha, sin_phi * sin_alpha, cos_alpha);
 

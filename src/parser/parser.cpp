@@ -53,7 +53,7 @@ Parser::Parser(void)
     tipo_error[0].assign("Etiqueta desconocida.");
     tipo_error[1].assign("Fin de archivo inesperado.");
     tipo_error[2].assign("Contenido de etiqueta desconocido.");
-    tipo_error[3].assign("Numero (float o int) no valido.");
+    tipo_error[3].assign("Numero (double o int) no valido.");
     tipo_error[4].assign("Fichero no encontrado o algo raro (Badbit).");
     tipo_error[5].assign("Fichero no encontrado o algo raro (Failbit).");
     tipo_error[6].assign("Fichero no encontrado o algo raro (Eofbit).");
@@ -231,7 +231,7 @@ bool Parser::read_content(std::string &content, const char stop_char)
     return false;
 }
 
-bool Parser::read_float(float &dato, const char stop_char)
+bool Parser::read_float(double &dato, const char stop_char)
 {
 	std::string temp("");
 
@@ -314,7 +314,7 @@ bool Parser::read_bloque_txt(const std::string &etiqueta, std::string &resultado
 // Leeremos, dentro de la etiqueta etiqueta, nNumF floats, que
 // almacenaremos en el array de floats fltArray. Al llamar a este metodo
 // debemos garantizar que fltArray puede almacenar nNumF floats.
-bool Parser::read_bloque_floats(const std::string &etiqueta, const int cantidad, float *numeros)
+bool Parser::read_bloque_floats(const std::string &etiqueta, const int cantidad, double *numeros)
 {
 	std::string	buffer_etiqueta,
 				cierre("/");
@@ -328,7 +328,7 @@ bool Parser::read_bloque_floats(const std::string &etiqueta, const int cantidad,
         return false;
 
 	for(int i = 0; i < cantidad; i++) {
-		if(i == cantidad - 1) // Ultimo float a leer
+		if(i == cantidad - 1) // Ultimo double a leer
 			separador = '<';
 		else
 			separador = ',';
@@ -363,7 +363,7 @@ bool Parser::read_bloque_ints(const std::string &etiqueta, const int cantidad, i
         return false;
 
 	for(int i = 0; i < cantidad; i++) {
-		if(i == cantidad - 1) // Ultimo float a leer
+		if(i == cantidad - 1) // Ultimo double a leer
 			separador = '<';
 		else
 			separador = ',';
@@ -387,7 +387,7 @@ bool Parser::read_bloque_ints(const std::string &etiqueta, const int cantidad, i
 
 bool Parser::read_bloque_vec3(const std::string &etiqueta, Vec3 &v)
 {
-	float componentes[3];
+	double componentes[3];
 
 	if(!read_bloque_floats(etiqueta, 3, componentes))
 		return false;
@@ -399,7 +399,7 @@ bool Parser::read_bloque_vec3(const std::string &etiqueta, Vec3 &v)
 
 bool Parser::read_bloque_point(const std::string &etiqueta, Point &p)
 {
-	float componentes[3];
+	double componentes[3];
 
 	if(!read_bloque_floats(etiqueta, 3, componentes))
 		return false;
@@ -411,7 +411,7 @@ bool Parser::read_bloque_point(const std::string &etiqueta, Point &p)
 
 bool Parser::valid_float(const std::string &num)
 {
-	// Para que una cadena contenga un float válido deben darse las
+	// Para que una cadena contenga un double válido deben darse las
 	// siguientes condiciones:
 	//	- Puede haber espacios en blanco antes del primer caracter.
 	//	- También puede haber espacios en blanco tras el último.
@@ -755,9 +755,9 @@ bool Parser::process_camera()
 				temp; // Auxiliar para comprobaciones.
 	Point		pos;
 	Vec3		gaze, up;
-	float		dist, low_x, low_y, high_x, high_y, push;
+	double		dist, low_x, low_y, high_x, high_y, push;
 
-	float		aux[2];
+	double		aux[2];
 
 	if(!read_bloque_txt("type", tipo))
 		return false;
@@ -816,7 +816,7 @@ bool Parser::process_image()
 {
 	std::string temp;
 	int			res_x, res_y;
-	float		background_color[3];
+	double		background_color[3];
 
 	if(!read_bloque_ints("res_x", 1, &res_x))
 		return false;
@@ -1035,7 +1035,7 @@ bool Parser::process_specular_mat()
 bool Parser::process_dielectric_mat()
 {
 	std::string id, texture_id, temp;
-	float		ior;
+	double		ior;
 	Material 	*material;
 	Texture		*texture;
 
@@ -1146,7 +1146,7 @@ bool Parser::process_plane()
 {
 	std::string material_id, temp;
 	Vec3		normal;
-	float		dist;
+	double		dist;
 	Material	*material;
 	Shape		*shape;
 	Transform	trans;
@@ -1195,7 +1195,7 @@ bool Parser::process_sphere()
 {
 	std::string material_id, temp;
 	Point		center;
-	float		radius;
+	double		radius;
 	Material	*material;
 	Shape		*shape;
 	Transform	trans;
@@ -1244,7 +1244,7 @@ bool Parser::process_cylinder()
 {
 	std::string material_id, temp;
 	Point		bottom, top;
-	float	    radius;
+	double	    radius;
 	Material	*material;
 	Shape		*shape;
 	Transform	trans;
@@ -1838,7 +1838,7 @@ bool Parser::process_transform(Transform *trans)
 				trans->scale(p);
 			}
 			else if(etiqueta == "rotate_axis") {
-				float lista[4];
+				double lista[4];
 
 				if(!read_bloque_floats(etiqueta, 4, lista))
 					return false;
@@ -1846,7 +1846,7 @@ bool Parser::process_transform(Transform *trans)
 				trans->rotate(lista[0], Vec3(lista[1], lista[2], lista[3]));
 			}
 			else if(etiqueta == "rotate_x") {
-				float ang;
+				double ang;
 
 				if(!read_bloque_floats(etiqueta, 1, &ang))
 					return false;
@@ -1854,7 +1854,7 @@ bool Parser::process_transform(Transform *trans)
 				trans->rotate_x(ang);
 			}
 			else if(etiqueta == "rotate_y") {
-				float ang;
+				double ang;
 
 				if(!read_bloque_floats(etiqueta, 1, &ang))
 					return false;
@@ -1862,7 +1862,7 @@ bool Parser::process_transform(Transform *trans)
 				trans->rotate_y(ang);
 			}
 			else if(etiqueta == "rotate_z") {
-				float ang;
+				double ang;
 
 				if(!read_bloque_floats(etiqueta, 1, &ang))
 					return false;

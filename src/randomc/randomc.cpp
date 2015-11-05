@@ -1,11 +1,11 @@
 #include "randomc/randomc.h"
 
 /***********************************************************************
- * 
- * 
+ *
+ *
  * Define random number generator classes: CRandomMersenne
- * 
- * 
+ *
+ *
  **********************************************************************/
 
 void CRandomMersenne::Init0(int seed) {
@@ -65,13 +65,13 @@ uint32_t CRandomMersenne::BRandom() {
       static const uint32_t mag01[2] = {0, MERS_A};
 
       int kk;
-      for (kk=0; kk < MERS_N-MERS_M; kk++) {    
+      for (kk=0; kk < MERS_N-MERS_M; kk++) {
          y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
          mt[kk] = mt[kk+MERS_M] ^ (y >> 1) ^ mag01[y & 1];}
 
-      for (; kk < MERS_N-1; kk++) {    
+      for (; kk < MERS_N-1; kk++) {
          y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-         mt[kk] = mt[kk+(MERS_M-MERS_N)] ^ (y >> 1) ^ mag01[y & 1];}      
+         mt[kk] = mt[kk+(MERS_M-MERS_N)] ^ (y >> 1) ^ mag01[y & 1];}
 
       y = (mt[MERS_N-1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
       mt[MERS_N-1] = mt[MERS_M-1] ^ (y >> 1) ^ mag01[y & 1];
@@ -89,8 +89,8 @@ uint32_t CRandomMersenne::BRandom() {
 }
 
 
-float CRandomMersenne::Random() {
-   // Output random float number in the interval 0 <= x < 1
+double CRandomMersenne::Random() {
+   // Output random double number in the interval 0 <= x < 1
    // Multiply by 2^(-32)
    return (float)BRandom() * (1./(65536.*65536.));
 }
@@ -103,7 +103,7 @@ int CRandomMersenne::IRandom(int min, int max) {
       if (max == min) return min; else return 0x80000000;
    }
    // Multiply interval with random and truncate
-   int r = int((float)(uint32_t)(max - min + 1) * Random() + min); 
+   int r = int((float)(uint32_t)(max - min + 1) * Random() + min);
    if (r > max) r = max;
    return r;
 }
@@ -167,11 +167,11 @@ int CRandomMersenne::IRandomX(int min, int max) {
 }
 
 /***********************************************************************
- * 
- * 
+ *
+ *
  * Define random number generator classes: CRandomMother
- * 
- * 
+ *
+ *
  **********************************************************************/
 
 // Output random bits
@@ -186,11 +186,11 @@ uint32_t CRandomMother::BRandom() {
   x[4] = (uint32_t)(sum >> 32);                  // Carry
   x[0] = (uint32_t)sum;                          // Low 32 bits of sum
   return x[0];
-} 
+}
 
 
 // returns a random number between 0 and 1:
-float CRandomMother::Random() {
+double CRandomMother::Random() {
    return (float)BRandom() * (1./(65536.*65536.));
 }
 

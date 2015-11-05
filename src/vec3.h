@@ -13,9 +13,9 @@ class Vec3
 {
 	public:
 		// Constructores
-		Vec3(float a, float b, float c)	{ this->set(a, b, c); }
+		Vec3(double a, double b, double c)	{ this->set(a, b, c); }
 		Vec3() { e[0] = e[1] = e[2] = 0.0f; }
-		Vec3(float a) { this->set(a); }
+		Vec3(double a) { this->set(a); }
 		Vec3(const Vec3 &v) { this->set(v); }
 		Vec3(const Point &p);
 
@@ -24,20 +24,20 @@ class Vec3
 		Vec3 operator-() const { return Vec3(-e[0], -e[1], -e[2]); }
 		friend Vec3 operator+(const Vec3 &v1, const Vec3 &v2);
 		friend Vec3 operator-(const Vec3 &v1, const Vec3 &v2);
-		friend Vec3 operator*(const Vec3 &v, float f);
-		friend Vec3 operator*(float f, const Vec3 &v);
-		friend Vec3 operator/(const Vec3 &v, float f);
-		friend Vec3 operator/(float f, const Vec3 &v);
+		friend Vec3 operator*(const Vec3 &v, double f);
+		friend Vec3 operator*(double f, const Vec3 &v);
+		friend Vec3 operator/(const Vec3 &v, double f);
+		friend Vec3 operator/(double f, const Vec3 &v);
 
 		// Operadores logicos
 		friend bool operator==(const Vec3 &v1, const Vec3 &v2);
 		friend bool operator!=(const Vec3 &v1, const Vec3 &v2);
 
 		// Otras operaciones
-		float length() const { return sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
-		float sq_length() const { return (e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
+		double length() const { return sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
+		double sq_length() const { return (e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
 		void normalize() { *this = *this * (1.0f / length()); }
-		void set(float a, float b, float c)
+		void set(double a, double b, double c)
 		{
 			e[0] = a;
 			e[1] = b;
@@ -49,11 +49,11 @@ class Vec3
 			e[1] = v.y();
 			e[2] = v.z();
 		}
-		void set(float a)
+		void set(double a)
 		{
 			e[0] = e[1] = e[2] = a;
 		}
-		void set(float *a)
+		void set(double *a)
 		{
 		    e[0] = a[0];
 		    e[1] = a[1];
@@ -64,7 +64,7 @@ class Vec3
 		/**
 		 * Producto escalar de vectores
 		 */
-		friend float dot(Vec3 const &v1, Vec3 const &v2);
+		friend double dot(Vec3 const &v1, Vec3 const &v2);
 
 		/**
 		 * Producto vectorial
@@ -76,7 +76,7 @@ class Vec3
 		 *
 		 * Se define como dot(cross(v1, v2), v3)
 		 */
-		friend float triple_product(const Vec3 &v1, const Vec3 &v2, const Vec3 &v3);
+		friend double triple_product(const Vec3 &v1, const Vec3 &v2, const Vec3 &v3);
 
 		/**
 		 * \brief Devuelve el versor (vector modulo = 1) asociado al parametro indicado.
@@ -111,8 +111,8 @@ class Vec3
 		friend Vec3 refract(
 			const Vec3 &in, 		// Incoming vector
 			const Vec3 &norm, 	// Normal at intersection point
-			const float ext_ior, 	// External index of refraction
-			const float int_ior		// Internal index of refraction
+			const double ext_ior, 	// External index of refraction
+			const double int_ior		// Internal index of refraction
 		);
 
 		/**
@@ -124,18 +124,18 @@ class Vec3
 		 * \param rn2 Numero aleatorio tal que 0.f <= rn2 < 1.f
 		 * \return Vector de direccion aleatoria en el hemisferio.
 		 */
-		friend Vec3 random_dir(const Vec3 &dir, float rn1, float rn2);
+		friend Vec3 random_dir(const Vec3 &dir, double rn1, double rn2);
 
 		// Acceso rapido a los componentes
-		float x() const { return e[0]; }
-		float y() const { return e[1]; }
-		float z() const { return e[2]; }
+		double x() const { return e[0]; }
+		double y() const { return e[1]; }
+		double z() const { return e[2]; }
 
 		// Manejo del operador << para ostream
 		friend std::ostream& operator<<(std::ostream &os, const Vec3 &v);
 
 		// Componentes
-		float e[3];
+		double e[3];
 };
 
 #endif // __VEC3_H__

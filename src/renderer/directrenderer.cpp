@@ -11,31 +11,31 @@
 #include "material/dielectricmaterial.h"
 #include "scene/scene.h"
 
-const float DirectRenderer::kepsilon    = 1e-2;
+const double DirectRenderer::kepsilon    = 1e-2;
 
-RGB DirectRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth)
+RGB DirectRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth)
 {
-	HitRecord   hit;
+	HitRecord   hit_r;
 	RGB			color,
                 temp_color;
-	float		brdf;
+	double		brdf;
 	Vec3		out_dir;
     Point		intersection;
     Ray			out_ray;
 
 	if(depth < max_depth) {
-		if(scene->nearest_intersection(r, min_dist, max_dist, hit)) {
-			if(hit.material->is_light()) { // El objeto es una luz. Devolvemos su color.
+		if(scene->nearest_intersection(r, min_dist, max_dist, hit_r)) {
+			if(hit_r.material->is_light()) { // El objeto es una luz. Devolvemos su color.
 				//cout << "Trinchada una luz." << endl << flush;
-				return hit.material->emittance();
+				return hit_r.material->emittance();
 			}
 			else {
 				// Obtenemos el punto de intersección
-				intersection = r.get_point(hit.dist);
+				intersection = r.get_point(hit_r.dist);
 
-				if(hit.material->is_specular()) {
+				if(hit_r.material->is_specular()) {
 					// Obtenemos la nueva direccion a seguir.
-					out_dir = hit.material->out_direction(r.direction(), hit.normal, brdf, temp_color, &rng);
+					out_dir = hit_r.material->out_direction(r.direction(), hit_r.normal, brdf, temp_color, &rng);
 					out_dir.normalize();
 
 					// Calculamos nuesto nuevo rayo.
@@ -43,11 +43,11 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dis
 
 					return get_color(out_ray, scene, min_dist, 1e5, depth + 1) * temp_color * brdf;
 				}
-				else if(hit.material->is_transmissive()) {
-                    DielectricMaterial *dielectric = (DielectricMaterial *)hit.material;
+				else if(hit_r.material->is_transmissive()) {
+                    DielectricMaterial *dielectric = (DielectricMaterial *)hit_r.material;
 
-					if(dielectric->is_TIR(r.direction(), hit.normal)) { // Reflexión interna total.
-						out_dir = dielectric->reflect_dir(r.direction(), hit.normal, brdf, temp_color);
+					if(dielectric->is_TIR(r.direction(), hit_r.normal)) { // Reflexión interna total.
+						out_dir = dielectric->reflect_dir(r.direction(), hit_r.normal, brdf, temp_color);
 						out_dir.normalize();
 
 						out_ray = Ray(intersection + kepsilon * Point(out_dir), out_dir);
@@ -59,17 +59,17 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dis
                                 out_dir_specular;
                         Ray     out_ray_transmission,
                                 out_ray_specular;
-                        float   brdf_transmission,
+                        double  brdf_transmission,
                                 brdf_specular;
                         RGB     color_transmission,
                                 color_specular;
 
-						out_dir_transmission = dielectric->refract_dir(r.direction(), hit.normal, brdf_transmission, color_transmission);
+						out_dir_transmission = dielectric->refract_dir(r.direction(), hit_r.normal, brdf_transmission, color_transmission);
 						out_dir_transmission.normalize();
 
 						out_ray_transmission = Ray(intersection + (kepsilon * Point(out_dir_transmission)), out_dir_transmission);
 
-						out_dir_specular = dielectric->reflect_dir(r.direction(), hit.normal, brdf_specular, color_specular);
+						out_dir_specular = dielectric->reflect_dir(r.direction(), hit_r.normal, brdf_specular, color_specular);
 						out_dir_specular.normalize();
 
 						out_ray_specular = Ray(intersection + (kepsilon * Point(out_dir_specular)), out_dir_specular);
@@ -83,10 +83,10 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dis
 					// Calculamos el suavizado de sombras solo en los rayos primarios.
 					if(depth < 2) {
 						for(int i = 0; i < shadow_samps; i++)
-							color = color + direct_light(r.get_point(hit.dist), scene, hit) * 1.0f/shadow_samps;
+							color = color + direct_light(r.get_point(hit_r.dist), scene, hit_r) * 1.0f/shadow_samps;
 					}
 					else {
-						color = color + direct_light(r.get_point(hit.dist), scene, hit);
+						color = color + direct_light(r.get_point(hit_r.dist), scene, hit_r);
 					}
 
 					return color;
@@ -108,7 +108,7 @@ RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit)
 	Point 	light_point;
 	Vec3	light_dir;
 	Ray 	shadow_ray;
-	float 	light_dist,
+	double 	light_dist,
             diffuse;
 	bool 	shadow_hit;
 

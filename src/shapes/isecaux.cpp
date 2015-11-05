@@ -5,21 +5,21 @@ bool isecaux::test_ray_box(
 	const Ray &r, 		    // Ray to test
 	const Point &minimo,	// Box min and max
 	const Point &maximo,
-	float min_dist, 		// Min and Max distance
-	float max_dist,
-	float &dist)
+	double min_dist, 		// Min and Max distance
+	double max_dist,
+	double &dist)
 {
     ++Statistics::num_prim_tests;
 
-	float t1 = (minimo.x() - r.origin().x()) * r.inv_dir().x();
-	float t2 = (maximo.x() - r.origin().x()) * r.inv_dir().x();
-	float t3 = (minimo.y() - r.origin().y()) * r.inv_dir().y();
-	float t4 = (maximo.y() - r.origin().y()) * r.inv_dir().y();
-	float t5 = (minimo.z() - r.origin().z()) * r.inv_dir().z();
-	float t6 = (maximo.z() - r.origin().z()) * r.inv_dir().z();
+	double t1 = (minimo.x() - r.origin().x()) * r.inv_dir().x();
+	double t2 = (maximo.x() - r.origin().x()) * r.inv_dir().x();
+	double t3 = (minimo.y() - r.origin().y()) * r.inv_dir().y();
+	double t4 = (maximo.y() - r.origin().y()) * r.inv_dir().y();
+	double t5 = (minimo.z() - r.origin().z()) * r.inv_dir().z();
+	double t6 = (maximo.z() - r.origin().z()) * r.inv_dir().z();
 
-	float tmin = std::max(std::max(std::min(t1, t2), std::min(t3, t4)), std::min(t5, t6));
-	float tmax = std::min(std::min(std::max(t1, t2), std::max(t3, t4)), std::max(t5, t6));
+	double tmin = std::max(std::max(std::min(t1, t2), std::min(t3, t4)), std::min(t5, t6));
+	double tmax = std::min(std::min(std::max(t1, t2), std::max(t3, t4)), std::max(t5, t6));
 
 	// if tmax < 0, ray (line) is intersecting the box, but the whole box is behind us
 	if (tmax < 0.0f)
@@ -60,15 +60,15 @@ Vec3 isecaux::get_box_normal(Point p)
 	return (p.e[coord] > 0) ? n[coord] : -1 * n[coord];
 };
 
-bool isecaux::solve_quadratic(float a, float b, float c, float &t0, float &t1)
+bool isecaux::solve_quadratic(double a, double b, double c, double &t0, double &t1)
 {
-	float discr = b * b - 4.f * a * c;
+	double discr = b * b - 4.f * a * c;
 
 	if (discr <= 0.0f) // Sin soluciones
 		return false;
 
-	float raiz_discr 	= sqrtf(discr);
-	float divisor		= 1.0f / (2.0f * a);
+	double raiz_discr 	= sqrtf(discr);
+	double divisor		= 1.0f / (2.0f * a);
 
 	// Calculamos las raices
 	t0 = (-b - raiz_discr) * divisor;
@@ -83,9 +83,9 @@ bool isecaux::solve_quadratic(float a, float b, float c, float &t0, float &t1)
 
 bool isecaux::test_ray_sphere(
 	const Ray 	&r,
-	const float min_dist,
-	const float max_dist,
-	float 		&dist)
+	const double min_dist,
+	const double max_dist,
+	double 		&dist)
 {
     ++Statistics::num_prim_tests;
 
@@ -93,13 +93,13 @@ bool isecaux::test_ray_sphere(
 
 	// Se asume que la esfera tiene su centro en el origen (0,0,0) y que
 	// su radio es 1.
-	float a = dot(r.direction(), r.direction());
-	float b = 2.0f * dot(r.direction(), o);
+	double a = dot(r.direction(), r.direction());
+	double b = 2.0f * dot(r.direction(), o);
 
 	// En el espacio de la esfera, el radio es 1 siempre.
-	float c = dot(o, o) - 1.0f;
+	double c = dot(o, o) - 1.0f;
 
-	float t0, t1;
+	double t0, t1;
 
 	if(!isecaux::solve_quadratic(a, b, c, t0, t1))
 		return false;
@@ -122,46 +122,46 @@ bool isecaux::test_ray_triangle(
 	const Point &p0, 			// Triangle vertexs
 	const Point &p1,
 	const Point &p2,
-	float min_dist, 			// Min and Max distance
-	float max_dist,
-	float &dist)				// Dist to hit, if it happens
+	double min_dist, 			// Min and Max distance
+	double max_dist,
+	double &dist)				// Dist to hit, if it happens
 {
     ++Statistics::num_triangle_tests;
 
-	float a = p0.x() - p1.x();
-	float b = p0.y() - p1.y();
-	float c = p0.z() - p1.z();
+	double a = p0.x() - p1.x();
+	double b = p0.y() - p1.y();
+	double c = p0.z() - p1.z();
 
-	float d = p0.x() - p2.x();
-	float e = p0.y() - p2.y();
-	float f = p0.z() - p2.z();
+	double d = p0.x() - p2.x();
+	double e = p0.y() - p2.y();
+	double f = p0.z() - p2.z();
 
-	float g = r.direction().x();
-	float h = r.direction().y();
-	float i = r.direction().z();
+	double g = r.direction().x();
+	double h = r.direction().y();
+	double i = r.direction().z();
 
-	float j = p0.x() - r.origin().x();
-	float k = p0.y() - r.origin().y();
-	float l = p0.z() - r.origin().z();
+	double j = p0.x() - r.origin().x();
+	double k = p0.y() - r.origin().y();
+	double l = p0.z() - r.origin().z();
 
-	float eihf = e*i-h*f;
-	float gfdi = g*f-d*i;
-	float dheg = d*h-e*g;
+	double eihf = e*i-h*f;
+	double gfdi = g*f-d*i;
+	double dheg = d*h-e*g;
 
-	float denom = (a*eihf + b*gfdi + c*dheg);
+	double denom = (a*eihf + b*gfdi + c*dheg);
 
-	float beta = (j*eihf + k*gfdi + l*dheg) / denom;
+	double beta = (j*eihf + k*gfdi + l*dheg) / denom;
 
 	if (beta <= 0.0f || beta >= 1.0f) return false;
 
-	float akjb = a*k - j*b;
-	float jcal = j*c - a*l;
-	float blkc = b*l - k*c;
+	double akjb = a*k - j*b;
+	double jcal = j*c - a*l;
+	double blkc = b*l - k*c;
 
-	float gamma = (i*akjb + h*jcal + g*blkc) / denom;
+	double gamma = (i*akjb + h*jcal + g*blkc) / denom;
 	if(gamma <= 0.0f || beta+gamma >= 1.0f) return false;
 
-	float temp = -(f*akjb + e*jcal + d*blkc) / denom;
+	double temp = -(f*akjb + e*jcal + d*blkc) / denom;
 	if (temp >= min_dist && temp <= max_dist) {
 		dist = temp;
 
@@ -175,22 +175,22 @@ bool isecaux::test_ray_triangle(
 
 bool isecaux::test_ray_cylinder(
 	const Ray 	&r,
-	const float min_dist,
-	const float max_dist,
-	float 		&dist)
+	const double min_dist,
+	const double max_dist,
+	double 		&dist)
 {
     ++Statistics::num_prim_tests;
 
 	// Se asume que el cilindro está situado a lo largo del eje Z,
 	// y que sus extremos son <0, 0, -1> y <0, 0, 1>
 
-	float a = r.direction().x() * r.direction().x() + r.direction().y() * r.direction().y();
-	float b = 2.0f * (r.direction().x() * r.origin().x() + r.direction().y() * r.origin().y());
+	double a = r.direction().x() * r.direction().x() + r.direction().y() * r.direction().y();
+	double b = 2.0f * (r.direction().x() * r.origin().x() + r.direction().y() * r.origin().y());
 
 	// Radio del cilindro = 1
-	float c = r.origin().x() * r.origin().x() + r.origin().y() * r.origin().y() - 1.0f;
+	double c = r.origin().x() * r.origin().x() + r.origin().y() * r.origin().y() - 1.0f;
 
-	float t0, t1;
+	double t0, t1;
 
 	if(!isecaux::solve_quadratic(a, b, c, t0, t1))
 		return false;

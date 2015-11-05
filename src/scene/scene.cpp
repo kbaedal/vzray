@@ -147,7 +147,7 @@ Material *Scene::get_material(std::string material_id)
 }
 
 
-bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecord &hit_r)
+bool Scene::nearest_intersection(Ray r, double min_dist, double max_dist, HitRecord &hit_r)
 {
 	bool is_hit = false;
 
@@ -163,7 +163,7 @@ bool Scene::nearest_intersection(Ray r, float min_dist, float max_dist, HitRecor
 	return is_hit;
 }
 
-bool Scene::shadow_intersection(Ray r, float min_dist, float max_dist)
+bool Scene::shadow_intersection(Ray r, double min_dist, double max_dist)
 {
     return false;
 }

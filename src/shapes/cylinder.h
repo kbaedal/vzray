@@ -12,7 +12,7 @@
 class Cylinder : public Shape
 {
 	public:
-		Cylinder(Point a_bottom, Point a_top, float a_radius, Material *a_material);
+		Cylinder(Point a_bottom, Point a_top, double a_radius, Material *a_material);
 		Cylinder()
 		{
 			bottom 		= Point( 0.0f, 0.0f, -1.0f);
@@ -25,17 +25,17 @@ class Cylinder : public Shape
 		}
 		~Cylinder() { if(trans != NULL) delete trans; }
 
-		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
-		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 
 	//private:
 		Point 			bottom,
                         top;
-		float 			radius;
+		double 			radius;
 
     private:
-        static const float kpi;
+        static const double kpi;
 };
 
 #endif // __CYLINDER_HPP__

@@ -25,7 +25,7 @@ class SpecularMaterial : public Material
 		/**
 		 * \brief Aplicando las leyes de la reflexión, obtendremos la dirección.
 		 */
-		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng)
 		{
 			brdf    = 1.0f;
 			color   = radiance();

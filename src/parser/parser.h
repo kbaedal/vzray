@@ -44,10 +44,10 @@ class Parser {
         // Import file basic functions
         bool read_token(std::string &token);
         bool read_content(std::string &content, const char stop_char);
-        bool read_float(float &dato, const char stop_char);
+        bool read_float(double &dato, const char stop_char);
         bool read_int(int &dato, const char stop_char);
         bool read_bloque_txt(const std::string &etiqueta, std::string &resultado);
-        bool read_bloque_floats(const std::string &etiqueta, const int cantidad, float *numeros);
+        bool read_bloque_floats(const std::string &etiqueta, const int cantidad, double *numeros);
         bool read_bloque_ints(const std::string &etiqueta, const int cantidad, int *numeros);
 		bool read_bloque_vec3(const std::string &etiqueta, Vec3 &v);
 		bool read_bloque_point(const std::string &etiqueta, Point &p);

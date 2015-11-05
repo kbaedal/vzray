@@ -2,13 +2,13 @@
 
 #include "matrix/transform.h"
 
-const float Transform::kpi          = 3.14159265358979323846;
-const float Transform::kmin_value   = 0.00001;
+const double Transform::kpi          = 3.14159265358979323846;
+const double Transform::kmin_value   = 0.00001;
 
 int compare_float(const void * a, const void * b)
 {
-	float f1 = *reinterpret_cast<const float*>(a);
-    float f2 = *reinterpret_cast<const float*>(b);
+	double f1 = *reinterpret_cast<const float*>(a);
+    double f2 = *reinterpret_cast<const float*>(b);
     if(f1 < f2) return -1;
     if(f1 > f2) return 1;
     return 0;
@@ -29,7 +29,7 @@ void Transform::update(const Matrix4x4 &m)
 	inv = mtx.get_inv();
 }
 
-void Transform::translate(float x, float y, float z)
+void Transform::translate(double x, double y, double z)
 {
 	Matrix4x4 mtemp;
 
@@ -42,7 +42,7 @@ void Transform::translate(float x, float y, float z)
     inv = mtx.get_inv();
 }
 
-void Transform::scale(float x, float y, float z)
+void Transform::scale(double x, double y, double z)
 {
     Matrix4x4 mtemp;
 
@@ -55,13 +55,13 @@ void Transform::scale(float x, float y, float z)
     inv = mtx.get_inv();
 }
 
-void Transform::rotate(float angle, const Vec3 &axis)
+void Transform::rotate(double angle, const Vec3 &axis)
 {
 	Matrix4x4 mtemp;
 
 	Vec3 vtemp = versor(axis);
-	float sin_a = sin(angle * (kpi/180.f));
-	float cos_a = cos(angle * (kpi/180.f));
+	double sin_a = sin(angle * (kpi/180.f));
+	double cos_a = cos(angle * (kpi/180.f));
 
 	if(sin_a < kmin_value)
 		sin_a = 0.0f;
@@ -94,13 +94,13 @@ void Transform::rotate(float angle, const Vec3 &axis)
 	inv = mtx.get_inv();
 }
 
-void Transform::rotate_x(float angle)
+void Transform::rotate_x(double angle)
 {
     Matrix4x4 mtemp;
 
-    float rad_a = angle * (kpi/180.0f);
-    float sin_a = sin(rad_a);
-    float cos_a = cos(rad_a);
+    double rad_a = angle * (kpi/180.0f);
+    double sin_a = sin(rad_a);
+    double cos_a = cos(rad_a);
 
 	if(sin_a < kmin_value)
 		sin_a = 0.0f;
@@ -118,13 +118,13 @@ void Transform::rotate_x(float angle)
     inv = mtx.get_inv();
 }
 
-void Transform::rotate_y(float angle)
+void Transform::rotate_y(double angle)
 {
     Matrix4x4 mtemp;
 
-    float rad_a = angle * (kpi/180.0f);
-    float sin_a = sin(rad_a);
-    float cos_a = cos(rad_a);
+    double rad_a = angle * (kpi/180.0f);
+    double sin_a = sin(rad_a);
+    double cos_a = cos(rad_a);
 
 	if(sin_a < kmin_value)
 		sin_a = 0.0f;
@@ -142,13 +142,13 @@ void Transform::rotate_y(float angle)
     inv = mtx.get_inv();
 }
 
-void Transform::rotate_z(float angle)
+void Transform::rotate_z(double angle)
 {
     Matrix4x4 mtemp;
 
-    float rad_a = angle * (kpi/180.0f);
-    float sin_a = sin(rad_a);
-    float cos_a = cos(rad_a);
+    double rad_a = angle * (kpi/180.0f);
+    double sin_a = sin(rad_a);
+    double cos_a = cos(rad_a);
 
 	if(sin_a < kmin_value)
 		sin_a = 0.0f;
@@ -255,7 +255,7 @@ AABB Transform::update_AABB(const AABB &b)
 	// y le aplicaremos el qsort de la biblioteca estandard. Asi tendremos
 	// para cada uno de los arrays, el minimo en la primera posicion y
 	// el máximo en la ultima.
-	float x[8], y[8], z[8];
+	double x[8], y[8], z[8];
 
 	for(int i = 0; i < 8; i++) {
 		x[i] = v[i].x();

@@ -11,7 +11,7 @@
 class Plane : public Shape
 {
 	public:
-		Plane(Vec3 a_normal, float a_dist, Material *a_material)
+		Plane(Vec3 a_normal, double a_dist, Material *a_material)
 		{
 			normal 	    = a_normal;
 			dist	 	= a_dist;
@@ -35,16 +35,16 @@ class Plane : public Shape
 		}
 		~Plane() { if(trans != nullptr) delete trans; }
 
-		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
-		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 
 	//private:
 		Vec3 	normal;
-		float 	dist;
+		double 	dist;
 
     private:
-        static const float kplane_epsilon;
+        static const double kplane_epsilon;
 
 };
 

@@ -11,7 +11,7 @@ class RGB
 	public:
 		// Constructores
 		RGB() { R = G = B = 0.f; }
-		RGB(float a_r, float a_g, float a_b)
+		RGB(double a_r, double a_g, double a_b)
 		{
 			this->set(a_r, a_g, a_b);
 		}
@@ -21,11 +21,11 @@ class RGB
 		RGB operator-(RGB const &b) { return RGB(R - b.R, G - b.G, B - b.B); }
 		RGB operator*(RGB const &b) { return RGB(R * b.R, G * b.G, B * b.B); }
 		RGB operator/(RGB const &b) { return RGB(R / b.R, G / b.G, B / b.B); }
-		RGB operator*(float f) { return RGB(R * f, G * f, B * f); }
-		RGB operator/(float f) { return RGB(R / f, G / f, B / f); }
+		RGB operator*(double f) { return RGB(R * f, G * f, B * f); }
+		RGB operator/(double f) { return RGB(R / f, G / f, B / f); }
 
 		// Otras operaciones
-		void set(float a_r, float a_g, float a_b)
+		void set(double a_r, double a_g, double a_b)
 		{
 			R = a_r;
 			G = a_g;
@@ -43,19 +43,19 @@ class RGB
 		 * @param dMin Valor mínimo.
 		 * @param dMax Valor máximo.
 		 */
-		void clamp(float min_val, float max_val);
+		void clamp(double min_val, double max_val);
 
-		float r() const { return R; }
-		float g() const { return G; }
-		float b() const { return B; }
+		double r() const { return R; }
+		double g() const { return G; }
+		double b() const { return B; }
 
 		// Manejo del operador << para ostream
 		friend std::ostream& operator<<(std::ostream &os, const RGB &c);
 
 		// Componentes
-		float R;
-		float G;
-		float B;
+		double R;
+		double G;
+		double B;
 };
 
 #endif

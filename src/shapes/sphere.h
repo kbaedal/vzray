@@ -12,7 +12,7 @@
 class Sphere : public Shape
 {
 	public:
-		Sphere(Point a_center, float a_radius, Material *a_material);
+		Sphere(Point a_center, double a_radius, Material *a_material);
 		Sphere()
 		{
 			center 	    = Point(0.0f);
@@ -24,12 +24,12 @@ class Sphere : public Shape
 		}
 		~Sphere() { if(trans != nullptr) delete trans; }
 
-		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
-		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 	//private:
 		Point			center;
-		float 			radius;
+		double 			radius;
 };
 
 #endif // __SPHERE_HPP__

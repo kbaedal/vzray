@@ -20,22 +20,22 @@ Vec2 operator-(const Vec2 &v1, const Vec2 &v2)
 	return Vec2(v1.x() - v2.x(), v1.y() - v2.y());
 }
 
-Vec2 operator*(const Vec2 &v, float f)
+Vec2 operator*(const Vec2 &v, double f)
 {
 	return Vec2(v.x() * f, v.y() * f);
 }
 
-Vec2 operator*(float f, const Vec2 &v)
+Vec2 operator*(double f, const Vec2 &v)
 {
 	return Vec2(v.x() * f, v.y() * f);
 }
 
-Vec2 operator/(const Vec2 &v, float f)
+Vec2 operator/(const Vec2 &v, double f)
 {
 	return Vec2(v.x() / f, v.y() / f);
 }
 
-Vec2 operator/(float f, const Vec2 &v)
+Vec2 operator/(double f, const Vec2 &v)
 {
 	return Vec2(v.x() / f, v.y() / f);
 }

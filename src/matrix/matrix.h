@@ -14,17 +14,17 @@ class Matrix4x4 {
     public:
 
         Matrix4x4();
-        Matrix4x4(float m[4][4])
+        Matrix4x4(double m[4][4])
         {
 			set(m);
 		}
-		Matrix4x4(float m[16])
+		Matrix4x4(double m[16])
         {
 			set(m);
 		}
 
-        void set(float m[4][4]);
-        void set(float m[16]);
+        void set(double m[4][4]);
+        void set(double m[16]);
 
 		/**
 		 * \brief Transforma la matriz en su inversa.
@@ -58,7 +58,7 @@ class Matrix4x4 {
          * Devuelve el valor correspondiente, incluyendo el signo que le
          * corresponde a esa combinacion fila-columna.
          */
-		float cofactor(int x, int y);
+		double cofactor(int x, int y);
 
         /**
          * \brief Devuelve la matriz de cofactores, pero no la modifica.
@@ -68,7 +68,7 @@ class Matrix4x4 {
         /**
          *  \brief Devuelve el determinante de la matriz.
          */
-        float determinant();
+        double determinant();
 
         /**
          * \brief Aplicamos la matriz a un vector, a los que no les afectan traslaciones.
@@ -85,12 +85,12 @@ class Matrix4x4 {
 		friend Matrix4x4 operator*(const Matrix4x4 &m1, const Matrix4x4 &m2);
 		friend Matrix4x4 operator/(const Matrix4x4 &m1, const Matrix4x4 &m2);
 
-        friend Matrix4x4 operator*(const Matrix4x4 &m, float v);
+        friend Matrix4x4 operator*(const Matrix4x4 &m, double v);
 
         /**
          * \brief El operador / devolvera la matriz identidad si se intenta dividir por 0.
          */
-        friend Matrix4x4 operator/(const Matrix4x4 &m, float v);
+        friend Matrix4x4 operator/(const Matrix4x4 &m, double v);
 
         friend inline std::ostream &operator<<(std::ostream &os, const Matrix4x4 &m)
         {
@@ -104,16 +104,16 @@ class Matrix4x4 {
             return os;
         }
 
-        float e[4][4];
+        double e[4][4];
 
     private:
         // Calcula el determinante de una matriz de 3x3. Pasamos los elementos
         // individualmente porque así podremos utilizarla para calcular el
         // determinante de una matriz de 4x4 elementos.
-        float det3x3(
-            float a11, float a12, float a13,
-            float a21, float a22, float a23,
-            float a31, float a32, float a33
+        double det3x3(
+            double a11, double a12, double a13,
+            double a21, double a22, double a23,
+            double a31, double a32, double a33
         );
 };
 

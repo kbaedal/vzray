@@ -14,7 +14,7 @@
 class PathRenderer : public Renderer
 {
 	public:
-		RGB get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth);
+		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth);
 		PathRenderer(int a_max_depth = 5, int seed = 65535)
 		{
 			max_depth = a_max_depth;
@@ -27,7 +27,7 @@ class PathRenderer : public Renderer
 		int 			max_depth;
 		CRandomMersenne	rng;
 
-		static const float kepsilon; // Autohit.
+		static const double kepsilon; // Autohit.
 };
 
 #endif // __PATHRENDERER_H__

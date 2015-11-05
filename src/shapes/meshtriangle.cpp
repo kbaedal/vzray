@@ -15,9 +15,9 @@ MeshTriangle::MeshTriangle(const MeshFace &face_info, Mesh *a_mesh)
 	mesh = a_mesh;
 }
 
-bool MeshTriangle::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+bool MeshTriangle::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 {
-	float dist;
+	double dist;
 
 	Point 	p0, p1, p2;
 	Vec3	v10, v20;
@@ -60,9 +60,9 @@ bool MeshTriangle::hit(const Ray &r, float min_dist, float max_dist, HitRecord &
 	return false;
 }
 
-bool MeshTriangle::shadow_hit(const Ray &r, float min_dist, float max_dist) const
+bool MeshTriangle::shadow_hit(const Ray &r, double min_dist, double max_dist) const
 {
-	float dist;
+	double dist;
 
 	Point p0, p1, p2;
 

@@ -12,7 +12,7 @@
  */
 struct HitRecord
 {
-	float 		dist;		///< Distancia desde el origen a la interseccion.
+	double 		dist;		///< Distancia desde el origen a la interseccion.
 	Vec3		normal;	    ///< Normal en el punto de interseccion.
 	Material	*material;	///< Material del objeto intersectado.
 };
@@ -51,7 +51,7 @@ class Ray
 		 * \param dist Distancia desde el origen del rayo.
 		 * \return Punto resultante.
 		 */
-		Point get_point(const float dist) const;
+		Point get_point(const double dist) const;
 
 		/**
 		 * \brief Actualiza la informacion de la dirección inversa y de

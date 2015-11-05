@@ -28,8 +28,8 @@ class Parallelogram : public Shape
 		}
 		~Parallelogram() { if(trans != NULL) delete trans; }
 
-		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const;
-		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const;
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const;
+		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 
 	//private:
@@ -41,7 +41,7 @@ class Parallelogram : public Shape
 				u_normal,
 				v_normal;
     private:
-        static const float kparall_epsilon;
+        static const double kparall_epsilon;
 };
 
 #endif // __PARALLELOGRAM_H__

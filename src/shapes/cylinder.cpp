@@ -6,9 +6,9 @@
 #include "onb.h"
 #include "randomc/randomc.h"
 
-const float Cylinder::kpi = 3.14159265358979323846;
+const double Cylinder::kpi = 3.14159265358979323846;
 
-Cylinder::Cylinder(Point a_bottom, Point a_top, float a_radius, Material *a_material)
+Cylinder::Cylinder(Point a_bottom, Point a_top, double a_radius, Material *a_material)
 {
 		std::clog << "Creando cilindro..." << std::endl;
 		// Nuestro cilindro estará definido por dos puntos y un radio,
@@ -86,10 +86,10 @@ Cylinder::Cylinder(Point a_bottom, Point a_top, float a_radius, Material *a_mate
 		//~
 		//~ // Ambos son vectores normalizados, con lo que nos ahorramos
 		//~ // la división por la multiplicacion de los modulos.
-		//~ float dCosAng = dot(v3CilAxis, Vec3(0.f, 0.f, 1.f));
+		//~ double dCosAng = dot(v3CilAxis, Vec3(0.f, 0.f, 1.f));
 		//~ // El angulo esta en radianes, y lo necesitamos en grados sexagesimales.
-		//~ float dAngRad 	= acos(dCosAng);
-		//~ float dAng 		= dAngRad * (180.f / PI);
+		//~ double dAngRad 	= acos(dCosAng);
+		//~ double dAng 		= dAngRad * (180.f / PI);
 		//~
 		//~ std::clog << "(Coseno, Angulo_Rad, Ang): (" << dCosAng << ", " << dAngRad << ", " << dAng << ")" << std::endl;
 		//~ // Rotamos.
@@ -178,12 +178,12 @@ Cylinder::Cylinder(Point a_bottom, Point a_top, float a_radius, Material *a_mate
 		bounds 	    = true;
 }
 
-bool Cylinder::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+bool Cylinder::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 {
 	// Transformar el rayo
 	Ray r_obj_space = trans->scene_to_object(r);
 
-	float dist;
+	double dist;
 
 	if(isecaux::test_ray_cylinder(r_obj_space, min_dist, max_dist, dist)) {
 		hit.dist 	= dist;
@@ -201,13 +201,13 @@ bool Cylinder::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit)
 	return false;
 }
 
-bool Cylinder::shadow_hit(const Ray &r, float min_dist, float max_dist) const
+bool Cylinder::shadow_hit(const Ray &r, double min_dist, double max_dist) const
 {
 	if(shadow) {
 		// Transformar el rayo
 		Ray r_obj_space = trans->scene_to_object(r);
 
-		float dist;
+		double dist;
 
 		return isecaux::test_ray_cylinder(r_obj_space, min_dist, max_dist, dist);
 	}

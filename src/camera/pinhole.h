@@ -15,15 +15,15 @@ class Pinhole : public Camera {
 	public:
 		Pinhole() {}
 		Pinhole(Point a_pos, Vec3 a_dir, Vec3 a_up,
-			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1, float a_push = 0.0f)
+			double a_dist, double a_u0, double a_v0, double a_u1, double a_v1, double a_push = 0.0f)
 		{
 			set(a_pos, a_dir, a_up, a_dist, a_u0, a_v0, a_u1, a_v1, a_push);
 		}
 
 		void set(Point a_pos, Vec3 a_dir, Vec3 a_up,
-			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1, float a_push = 0.0f);
+			double a_dist, double a_u0, double a_v0, double a_u1, double a_v1, double a_push = 0.0f);
 
-		Ray get_ray(float x, float y, float sx, float sy) final;
+		Ray get_ray(double x, double y, double sx, double sy) final;
 
 	private:
 		Point	pos,	    ///< Punto en el que está situada la camara.
@@ -36,13 +36,13 @@ class Pinhole : public Camera {
 
 		ONB 	uvw;		///< Base ortonormal de la camara.
 
-		float 	dist, 		///< Distancia al plano de la imagen.
+		double 	dist, 		///< Distancia al plano de la imagen.
 				u0,			///< Coordenada u0 del plano de la imagen.
 				v0, 		///< Coordenada v0 del plano de la imagen.
 				u1, 		///< Coordenada u1 del plano de la imagen.
 				v1;			///< Coordenada v1 del plano de la imagen.
 
-		float 	push;       // Trick for test scenes.
+		double 	push;       // Trick for test scenes.
 };
 
 #endif // __PINHOLE_H__

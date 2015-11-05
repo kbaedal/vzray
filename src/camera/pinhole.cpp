@@ -1,7 +1,7 @@
 #include "camera/pinhole.h"
 
 void Pinhole::set(Point a_pos, Vec3 a_dir, Vec3 a_up,
-			float a_dist, float a_u0, float a_v0, float a_u1, float a_v1, float a_push)
+			double a_dist, double a_u0, double a_v0, double a_u1, double a_v1, double a_push)
 {
 	Point	u, v, w;	// Auxiliares para calculos.
 
@@ -29,7 +29,7 @@ void Pinhole::set(Point a_pos, Vec3 a_dir, Vec3 a_up,
 	push = a_push;
 }
 
-Ray Pinhole::get_ray(float x, float y, float sx, float sy)
+Ray Pinhole::get_ray(double x, double y, double sx, double sy)
 {
     if((x < -.5f) || (y < -.5f))
         std::clog << "Bad ray (" << x << ", " << y << ")\n";

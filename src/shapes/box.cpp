@@ -69,11 +69,11 @@ Box::Box(const Point &a_minimo, const Point &a_maximo, Material *a_material)
 	bounds = true;
 }
 
-bool Box::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+bool Box::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 {
 	Ray r_obj_space = trans->scene_to_object(r);
 
-	float dist;
+	double dist;
 
 	if(isecaux::test_ray_box(r_obj_space, minimo, maximo, min_dist, max_dist, dist))
 	{
@@ -87,12 +87,12 @@ bool Box::hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) cons
 	return false;
 }
 
-bool Box::shadow_hit(const Ray &r, float min_dist, float max_dist) const
+bool Box::shadow_hit(const Ray &r, double min_dist, double max_dist) const
 {
 	if(shadow) {
 		Ray r_obj_space = trans->scene_to_object(r);
 
-		float dist;
+		double dist;
 
 		return isecaux::test_ray_box(r_obj_space, minimo, maximo, min_dist, max_dist, dist);
 	}

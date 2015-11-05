@@ -42,22 +42,22 @@ Vec3 operator-(const Vec3 &v1, const Vec3 &v2)
 	return Vec3(v1.x() - v2.x(), v1.y() - v2.y(), v1.z() - v2.z());
 }
 
-Vec3 operator*(const Vec3 &v, float f)
+Vec3 operator*(const Vec3 &v, double f)
 {
 	return Vec3(v.x() * f, v.y() * f, v.z() * f);
 }
 
-Vec3 operator*(float f, const Vec3 &v)
+Vec3 operator*(double f, const Vec3 &v)
 {
 	return Vec3(v.x() * f, v.y() * f, v.z() * f);
 }
 
-Vec3 operator/(const Vec3 &v, float f)
+Vec3 operator/(const Vec3 &v, double f)
 {
 	return Vec3(v.x() / f, v.y() / f, v.z() / f);
 }
 
-Vec3 operator/(float f, const Vec3 &v)
+Vec3 operator/(double f, const Vec3 &v)
 {
 	return Vec3(v.x() / f, v.y() / f, v.z() / f);
 }
@@ -69,7 +69,7 @@ void Vec3::set(const Point &p)
 	e[2] = p.z();
 }
 
-float dot(Vec3 const &v1, Vec3 const &v2)
+double dot(Vec3 const &v1, Vec3 const &v2)
 {
 	return (v1.e[0]*v2.e[0] + v1.e[1]*v2.e[1] + v1.e[2]*v2.e[2]);
 }
@@ -83,7 +83,7 @@ Vec3 cross(Vec3 const &v1, Vec3 const &v2)
 	);
 }
 
-float triple_product(const Vec3 &v1, const Vec3 &v2, const Vec3 &v3)
+double triple_product(const Vec3 &v1, const Vec3 &v2, const Vec3 &v3)
 {
 	return dot(cross(v1, v2), v3);
 }
@@ -98,16 +98,16 @@ Vec3 reflect(const Vec3 &in, const Vec3 &norm)
 	return Vec3(in - 2.0f * dot(in, norm) * norm);
 }
 
-Vec3 refract(const Vec3 &in, const Vec3 &norm, const float ext_ior, const float int_ior)
+Vec3 refract(const Vec3 &in, const Vec3 &norm, const double ext_ior, const double int_ior)
 {
-	float n = ext_ior / int_ior;
-	float cos_i = -dot(norm, in);
-	float cos_t2 = 1.0f - n * n * (1.0f - cos_i * cos_i);
+	double n = ext_ior / int_ior;
+	double cos_i = -dot(norm, in);
+	double cos_t2 = 1.0f - n * n * (1.0f - cos_i * cos_i);
 
 	return Vec3((n * in) + (n * cos_i - sqrt(cos_t2)) * norm);
 }
 
-Vec3 random_dir(const Vec3 &dir, float rn1, float rn2)
+Vec3 random_dir(const Vec3 &dir, double rn1, double rn2)
 {
 	ONB uvw;
 
@@ -115,13 +115,13 @@ Vec3 random_dir(const Vec3 &dir, float rn1, float rn2)
 
 	uvw.normalize_vectors();
 
-	float two_pi = 6.28318530718f;
-	float phi = two_pi * rn1;
-	float r = sqrt(rn2);
-	float x = r * cos(phi);
-	float y = r * sin(phi);
+	double two_pi = 6.28318530718f;
+	double phi = two_pi * rn1;
+	double r = sqrt(rn2);
+	double x = r * cos(phi);
+	double y = r * sin(phi);
 
-	float z = sqrt(1.0f - x*x - y*y);
+	double z = sqrt(1.0f - x*x - y*y);
 
 	return x*uvw.u() + y*uvw.v() + z*uvw.w();
 }

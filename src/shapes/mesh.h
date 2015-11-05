@@ -44,11 +44,11 @@ class Mesh : public Shape
 
 
 		// A Mesh cannot be intersected
-		bool hit(const Ray &r, float min_dist, float max_dist, HitRecord &hit) const
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const
 		{
 			return false;
 		}
-		bool shadow_hit(const Ray &r, float min_dist, float max_dist) const
+		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const
 		{
 			return false;
 		}

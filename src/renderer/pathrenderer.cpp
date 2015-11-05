@@ -10,14 +10,14 @@
 #include "material/dielectricmaterial.h"
 #include "scene/scene.h"
 
-const float PathRenderer::kepsilon = 1e-2; // Autohit.
+const double PathRenderer::kepsilon = 1e-2; // Autohit.
 
-RGB PathRenderer::get_color(Ray r, Scene *scene, float min_dist, float max_dist, int depth)
+RGB PathRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth)
 {
 	HitRecord	hit_r;
 	RGB			color,
                 temp_color;
-	float 		brdf;
+	double 		brdf;
 
 	Point		intersection;
 	Vec3		out_dir;

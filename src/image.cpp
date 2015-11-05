@@ -51,10 +51,10 @@ bool Image::get(int a_width, int a_height, RGB &a_color)
 	return true;
 }
 
-void Image::gamma_correct(float gamma)
+void Image::gamma_correct(double gamma)
 {
 	RGB temp;
-	float power = 1.0 / gamma;
+	double power = 1.0 / gamma;
 
 	for(int x = 0; x < width; x++) {
 		for(int y = 0; y < height; y++) {

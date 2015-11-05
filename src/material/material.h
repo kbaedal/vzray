@@ -49,7 +49,7 @@ class Material
 		 * \brief Calcula una direccion con los valores indicados y las caracterísiticas
 		 * del material.
 		 */
-		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, float &brdf, RGB &color, CRandomMersenne *rng)
+		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng)
 		{
 			return Vec3(0.0f, 0.0f, 0.0f);
 		}
