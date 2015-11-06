@@ -86,6 +86,8 @@
 		<Unit filename="src/shapes/box.h" />
 		<Unit filename="src/shapes/cylinder.cpp" />
 		<Unit filename="src/shapes/cylinder.h" />
+		<Unit filename="src/shapes/disc.cpp" />
+		<Unit filename="src/shapes/disc.h" />
 		<Unit filename="src/shapes/isecaux.cpp" />
 		<Unit filename="src/shapes/isecaux.h" />
 		<Unit filename="src/shapes/mesh.cpp" />

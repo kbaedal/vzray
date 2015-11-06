@@ -15,22 +15,22 @@ Fichero de descripción de escena de VZRay v0.0.1
 <config>
 	<renderer>
 		<type>whitted</type>
-		<samples>10</samples>
+		<samples>1</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
 		<type>pinhole</type>
-		<pos>0, 0, -18</pos>
-		<gaze>0, 0, 1</gaze>
-		<up>0, 1, 0</up>
-		<dist>.035</dist>
-		<low_corner>-.0125, -.0125</low_corner>
-		<high_corner>.0125, .0125</high_corner>
-		<push>0</push>
-	</camera>
+		<pos>50, 52, 295.6</pos>
+		<gaze>0, -0.042612, -1</gaze>
+		<up>0, -1, 0</up>
+		<dist>1</dist>
+		<low_corner>0.34233, 0.25739</low_corner>
+		<high_corner>-0.34233, -0.25739</high_corner>
+		<push>140</push>
+	</camera>	
 	<image>
-		<res_x>500</res_x>
-		<res_y>500</res_y>
+		<res_x>512</res_x>
+		<res_y>384</res_y>
 		<bgcolor>0, 0, 0</bgcolor>
 	</image>
 </config>
@@ -69,14 +69,14 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<texture>
 		<type>simple</type>
 		<id>LightWhite</id>
-		<color>12.0, 12.0, 12.0</color>
+		<color>1.0, 1.0, 1.0</color>
 	</texture>
 	<texture>
 		<type>simple</type>
 		<id>PureBlack</id>
 		<color>0.0, 0.0, 0.0</color>
 	</texture>
-
+	
 	<!-- Materials -->
 	<material>
 		<type>diffuse</type>
@@ -119,148 +119,127 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<id>Light</id>
 		<texture_id>LightWhite</texture_id>
 	</material>
-	<material>
-		<type>light</type>
-		<id>DiffuseLight</id>
-		<texture_id>PureWhite</texture_id>
-	</material>
-
+	
 	<!-- Objects -->
-
+	
+	<!-- Mirror sphere 
+	<object>
+		<type>sphere</type>
+		<center>27, 16.5, 47</center>
+		<radius>16.5</radius>
+		<material>Specular</material>
+	</object>
+	-->
+	
+	<!-- Glass sphere 
+	<object>
+		<type>sphere</type>
+		<center>73, 16.5, 78</center>
+		<radius>16.5</radius>
+		<material>Dielectric</material>
+	</object>
+	-->
+	
+	<!-- Diffuse spheres -->
+	<object>
+		<type>sphere</type>
+		<center>27, 16.5, 47</center>
+		<radius>16.5</radius>
+		<material>DiffuseWhite</material>
+	</object>
+	
+	<object>
+		<type>sphere</type>
+		<center>73, 16.5, 78</center>
+		<radius>16.5</radius>
+		<material>DiffuseWhite</material>
+	</object>
+	
 	<!-- Left wall (red) -->
 	<object>
 		<type>plane</type>
 		<normal>1, 0, 0</normal>
-		<distance>5</distance>
+		<distance>-1</distance>
 		<material>DiffuseRed</material>
 	</object>
-
+	
 	<!-- Right wall (blue) -->
 	<object>
 		<type>plane</type>
 		<normal>-1, 0, 0</normal>
-		<distance>5</distance>
+		<distance>99</distance>
 		<material>DiffuseBlue</material>
 	</object>
-
+	
 	<!-- Back wall -->
 	<object>
 		<type>plane</type>
-		<normal>0, 0, -1</normal>
-		<distance>5</distance>
+		<normal>0, 0, 1</normal>
+		<distance>0</distance>
 		<material>DiffuseWhite</material>
-	</object>
-
-	<!-- Front wall
+	</object>	
+	
+	<!-- Front wall -->
 	<object>
 		<type>plane</type>
-		<normal>0, 0, 1</normal>
-		<distance>5</distance>
+		<normal>0, 0, -1</normal>
+		<distance>170</distance>
 		<material>DiffusePureBlack</material>
 	</object>
-	-->
-
+	
 	<!-- Bottom wall -->
 	<object>
 		<type>plane</type>
 		<normal>0, 1, 0</normal>
-		<distance>5</distance>
+		<distance>0</distance>
 		<material>DiffuseWhite</material>
 	</object>
-
+		
 	<!-- Top wall -->
 	<object>
 		<type>plane</type>
 		<normal>0, -1, 0</normal>
-		<distance>5</distance>
+		<distance>81.6</distance>
 		<material>DiffuseWhite</material>
-	</object>
-
+	</object>	
+		
 	<!-- Light sphere
 	<object>
 		<type>sphere</type>
-		<center>0,0,0</center>
-		<radius>1</radius>
+		<center>50,681.33,81.6</center>
+		<radius>600</radius>
 		<material>Light</material>
 	</object>
-
-
+	-->
+	
 	<object>
 		<type>sphere</type>
-		<center>-2, -3.25, -1</center>
-		<radius>1.75</radius>
-		<material>DiffuseWhite</material>
-	</object>
-
-	<object>
-		<type>sphere</type>
-		<center>2, -3.25, 1</center>
-		<radius>1.75</radius>
-		<material>DiffuseWhite</material>
-	</object>
-
-
-	<object>
-		<type>sphere</type>
-		<center>0, 0, 0</center>
-		<radius>.5</radius>
-		<material>DiffuseWhite</material>
+		<center>0,0,0</center>
+		<radius>17.5</radius>
+		<material>Light</material>
 		<transform>
-			<rotate_y>45</rotate_y>
-			<translate>-2, 1, 3</translate>
+			<scale>1.0, 0.001, 1.0</scale>
+			<translate>50,80.0,81.6</translate>
 		</transform>
 	</object>
-	-->
+	
 	<!-- Light parallelogram
 	<object>
 		<type>parallelogram</type>
-		<base>-1,4.99,-1</base>
-		<vec_u>2, 0, 0</vec_u>
-		<vec_v>0, 0, 2</vec_v>
-		<material>DiffuseLight</material>
+		<base>32.5,81.5,64.1</base>
+		<vec_u>35, 0, 0</vec_u>
+		<vec_v>0, 0, 35</vec_v>
+		<material>Light</material>
 	</object>
 	-->
-	<!-- Sphere light (whitted test) -->
-	<object>
-		<type>sphere</type>
-		<center>0, 0, 0</center>
-		<radius>.25</radius>
-		<material>DiffuseLight</material>
-		<transform>
-			<translate>0, 4.5, 0</translate>
-		</transform>
-	</object>
 
 	<!--
 	<object>
-		<type>sphere</type>
-		<center>-1, -1, -1</center>
-		<radius>.125</radius>
-		<material>DiffuseRed</material>
-	</object>
-	-->
-	
-	<object>
-		<type>sphere</type>
-		<center>0, 0, 0</center>
-		<radius>1.5</radius>
+		<type>disc</type>
+		<center>0.0, 0.0, 0.0</center>
+		<normal>0.0, 0.0, 1.0</normal>
+		<radius>25.0</radius>
 		<material>DiffuseGreen</material>
-	</object>
-
-	<!--
-	<object>
-		<type>sphere</type>
-		<center>1, 1, 1</center>
-		<radius>.125</radius>
-		<material>DiffuseBlue</material>
-	</object>
-	
-	<object>
-		<type>cylinder</type>
-		<center_0>1, 1, 1</center_0>
-		<center_1>1, 5, 5</center_1>
-		<radius>.25</radius>
-		<material>DiffuseWhite</material>
-	</object>
+	</object>	
 	-->
 </scene>

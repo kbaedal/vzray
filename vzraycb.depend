@@ -1080,7 +1080,7 @@
 1446719749 source:c:\prog\vzraycb\src\onb.cpp
 	"onb.h"
 
-1446719878 source:c:\prog\vzraycb\src\parser\parser.cpp
+1446810256 source:c:\prog\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -1108,6 +1108,7 @@
 	"shapes/shape.h"
 	"shapes/parallelogram.h"
 	"shapes/plane.h"
+	"shapes/disc.h"
 	"shapes/sphere.h"
 	"shapes/cylinder.h"
 	"shapes/box.h"
@@ -1115,7 +1116,7 @@
 	"shapes/mesh.h"
 	"shapes/meshtriangle.h"
 
-1446719749 c:\prog\vzraycb\src\parser\parser.h
+1446805896 c:\prog\vzraycb\src\parser\parser.h
 	<iostream>
 	<fstream>
 	<cstdlib>
@@ -1127,7 +1128,7 @@
 	"shapes/meshtriangle.h"
 	"matrix/transform.h"
 
-1446719610 c:\prog\vzraycb\src\vzray.h
+1446830371 c:\prog\vzraycb\src\vzray.h
 	"camera/camera.h"
 	"scene/scene.h"
 	"image.h"
@@ -1250,7 +1251,7 @@
 1446719750 source:c:\prog\vzraycb\src\ray.cpp
 	"ray.h"
 
-1446724900 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
+1446812732 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1381,7 +1382,7 @@
 1446719750 source:c:\prog\vzraycb\src\vec2.cpp
 	"vec2.h"
 
-1446741607 source:c:\prog\vzraycb\src\vec3.cpp
+1446802232 source:c:\prog\vzraycb\src\vec3.cpp
 	<cmath>
 	<ctime>
 	<cstdio>
@@ -1390,7 +1391,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1446741482 source:c:\prog\vzraycb\src\vzray.cpp
+1446808633 source:c:\prog\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -1897,4 +1898,24 @@
 	"shapes/isecaux.h"
 	"shapes/box.h"
 	"vec3.h"
+
+1446828811 source:c:\prog\vzraycb\src\shapes\disc.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	<float.h>
+	"shapes/disc.h"
+	"onb.h"
+	"ray.h"
+	"statistics.h"
+
+1446812360 c:\prog\vzraycb\src\shapes\disc.h
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
 

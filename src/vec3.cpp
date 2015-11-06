@@ -109,8 +109,7 @@ Vec3 refract(const Vec3 &in, const Vec3 &norm, const double ext_ior, const doubl
 
 Vec3 random_dir(const Vec3 &dir, double rn1, double rn2)
 {
-    /*
-	ONB uvw;
+    ONB uvw;
 
 	uvw.init_from_w(dir);
 
@@ -124,20 +123,7 @@ Vec3 random_dir(const Vec3 &dir, double rn1, double rn2)
 
 	double z = sqrt(1.0f - x*x - y*y);
 
-	return x*uvw.u() + y*uvw.v() + z*uvw.w();
-	*/
-
-	//
-	//
-	// YOYOXPERIMENTO
-	//
-	//
-
-	ONB uvw;
-
-	uvw.init_from_w(dir);
-	uvw.normalize_vectors();
-
+	/*
 	double m = 10.0f;
 
     double two_pi = 6.28318530718f;
@@ -147,6 +133,7 @@ Vec3 random_dir(const Vec3 &dir, double rn1, double rn2)
     double x = sin(theta) * cos(phi);
     double y = sin(theta) * cos(theta);
     double z = cos(theta);
+    */
 
     return x*uvw.u() + y*uvw.v() + z*uvw.w();
 }

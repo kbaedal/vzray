@@ -82,6 +82,7 @@ class Parser {
 
 		bool process_object();
 		bool process_plane();
+		bool process_disc();
 		bool process_sphere();
 		bool process_cylinder();
 		bool process_box();

@@ -34,6 +34,7 @@
 #include "shapes/shape.h"
 #include "shapes/parallelogram.h"
 #include "shapes/plane.h"
+#include "shapes/disc.h"
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
 #include "shapes/box.h"
@@ -732,14 +733,14 @@ bool Parser::process_renderer()
 		return false;
 
 	if(tipo == "whitted") {
-		if(globales->renderer == NULL)
+		if(globales->renderer == nullptr)
 			globales->renderer = new DirectRenderer(globales->max_depth);
 		else // Renderer ya creado, error.
 			return false;
 	}
 	else if(tipo == "path") {
-		if(globales->renderer == NULL)
-			globales->renderer = new PathRenderer(globales->max_depth, time(NULL));
+		if(globales->renderer == nullptr)
+			globales->renderer = new PathRenderer(globales->max_depth, time(nullptr));
 		else
 			return false;
 	}
@@ -799,7 +800,7 @@ bool Parser::process_camera()
 		return false;
 
 	if(tipo == "pinhole") {
-		if(globales->camera == NULL)
+		if(globales->camera == nullptr)
 			globales->camera = new Pinhole(pos, gaze, up, dist,
 				low_x, low_y, high_x, high_y, push);
 		else // Camera ya creada, error.
@@ -842,7 +843,7 @@ bool Parser::process_image()
 	if(temp != "/image")
 		return false;
 
-	if(globales->image == NULL)
+	if(globales->image == nullptr)
 		globales->image = new Image(res_x, res_y,
 			RGB(background_color[0], background_color[1], background_color[2]));
 	else // Image ya creada, error.
@@ -856,7 +857,7 @@ bool Parser::process_scene()
 	std::string etiqueta;
     bool 		fin_bloque = false;
 
-	if(globales->scene == NULL) {
+	if(globales->scene == nullptr) {
 		globales->scene = new Scene;
 
 		while(!fin_bloque) {
@@ -989,7 +990,7 @@ bool Parser::process_diffuse_mat()
 	if(temp != "/material")
 		return false;
 
-	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+	if((texture = globales->scene->get_texture(texture_id)) != nullptr) {
 		material = new DiffuseMaterial(texture);
 		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
@@ -1021,7 +1022,7 @@ bool Parser::process_specular_mat()
 	if(temp != "/material")
 		return false;
 
-	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+	if((texture = globales->scene->get_texture(texture_id)) != nullptr) {
 		material = new SpecularMaterial(texture);
 		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
@@ -1057,7 +1058,7 @@ bool Parser::process_dielectric_mat()
 	if(temp != "/material")
 		return false;
 
-	if((texture = globales->scene->get_texture(texture_id)) != NULL) {
+	if((texture = globales->scene->get_texture(texture_id)) != nullptr) {
 		material = new DielectricMaterial(texture, ior);
 		if(!globales->scene->add_material(material, texture_id, id))
 			return false; // Existe un material con el mismo ID.
@@ -1109,6 +1110,10 @@ bool Parser::process_object()
 
 	if(tipo == "plane") {
 		if(!process_plane())
+			return false;
+	}
+	else if(tipo == "disc") {
+		if(!process_disc())
 			return false;
 	}
 	else if(tipo == "sphere") {
@@ -1180,8 +1185,62 @@ bool Parser::process_plane()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape = new Plane(normal, dist, material);
+		shape->set_trans(&trans);
+		globales->scene->add_object(shape, material_id, material->is_light());
+
+		return true;
+	}
+	else { // Material asociado al objeto desconocido.
+		return false;
+	}
+}
+
+bool Parser::process_disc()
+{
+	std::string material_id, temp;
+	Point       center;
+	Vec3		normal;
+	double		radius;
+	Material	*material;
+	Shape		*shape;
+	Transform	trans;
+
+	if(!read_bloque_point("center", center))
+		return false;
+
+    if(!read_bloque_vec3("normal", normal))
+		return false;
+
+	if(!read_bloque_floats("radius", 1, &radius))
+		return false;
+
+	if(!read_bloque_txt("material", material_id))
+		return false;
+
+	if(!ignorar_chars())
+		return false;
+
+	if(!read_token(temp))
+		return false;
+
+	if(temp == "transform") {
+		if(!process_transform(&trans))
+			return false;
+
+		if(!ignorar_chars())
+			return false;
+
+		if(!read_token(temp))
+			return false;
+	}
+
+	if(temp != "/object")
+		return false;
+
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
+		shape = new Disc(center, normal, radius, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
 	}
@@ -1229,7 +1288,7 @@ bool Parser::process_sphere()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape = new Sphere(center, radius, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
@@ -1281,7 +1340,7 @@ bool Parser::process_cylinder()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape = new Cylinder(bottom, top, radius, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
@@ -1329,7 +1388,7 @@ bool Parser::process_box()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape = new Box(min_corner, max_corner, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
@@ -1382,7 +1441,7 @@ bool Parser::process_parallelogram()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape = new Parallelogram(base, u, v, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
@@ -1435,7 +1494,7 @@ bool Parser::process_triangle()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape = new Triangle(p0, p1, p2, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
@@ -1506,7 +1565,7 @@ bool Parser::process_mesh()
 	if(temp != "/object")
 		return false;
 
-	if((material = globales->scene->get_material(material_id)) != NULL) {
+	if((material = globales->scene->get_material(material_id)) != nullptr) {
 		shape->set_material(material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());

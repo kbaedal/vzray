@@ -137,8 +137,8 @@ RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit)
 			}
 			if(!shadow_hit) {
 				if(hit.material != NULL) {
-					Vec2 v2(0., 0.);
-					Vec3 v3(0., 0., 0.);
+					Vec2 v2(0.0f, 0.0f);
+					Vec3 v3(0.0f, 0.0f, 0.0f);
 					diffuse_color = hit.material->radiance() * scene->get_light(i)->get_material()->radiance() * diffuse;
 				}
 			}
