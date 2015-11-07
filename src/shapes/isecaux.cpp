@@ -2,12 +2,12 @@
 #include "statistics.h"
 
 bool isecaux::test_ray_box(
-	const Ray &r, 		    // Ray to test
-	const Point &minimo,	// Box min and max
+	const Ray   &r, 		    // Ray to test
+	const Point &minimo,	    // Box min and max
 	const Point &maximo,
-	double min_dist, 		// Min and Max distance
-	double max_dist,
-	double &dist)
+	double      min_dist, 		// Min and Max distance
+	double      max_dist,
+	double      &dist)
 {
     ++Statistics::num_prim_tests;
 
@@ -82,9 +82,9 @@ bool isecaux::solve_quadratic(double a, double b, double c, double &t0, double &
 }
 
 bool isecaux::test_ray_sphere(
-	const Ray 	&r,
-	const double min_dist,
-	const double max_dist,
+	const Ray   &r,
+	double      min_dist,
+	double      max_dist,
 	double 		&dist)
 {
     ++Statistics::num_prim_tests;
@@ -118,13 +118,13 @@ bool isecaux::test_ray_sphere(
 }
 
 bool isecaux::test_ray_triangle(
-	const Ray &r,	 			// Ray to test
-	const Point &p0, 			// Triangle vertexs
+	const Ray   &r,	 		// Ray to test
+	const Point &p0, 		// Triangle vertexs
 	const Point &p1,
 	const Point &p2,
-	double min_dist, 			// Min and Max distance
-	double max_dist,
-	double &dist)				// Dist to hit, if it happens
+	double      min_dist,   // Min and Max distance
+	double      max_dist,
+	double      &dist)		// If hit, stores distance.
 {
     ++Statistics::num_triangle_tests;
 
@@ -174,9 +174,9 @@ bool isecaux::test_ray_triangle(
 }
 
 bool isecaux::test_ray_cylinder(
-	const Ray 	&r,
-	const double min_dist,
-	const double max_dist,
+	const Ray   &r,
+	double      min_dist,
+	double      max_dist,
 	double 		&dist)
 {
     ++Statistics::num_prim_tests;
@@ -237,3 +237,74 @@ bool isecaux::test_ray_cylinder(
 
 	return true;
 }
+
+bool isecaux::test_ray_plane(
+    const Ray   &r,
+    const Point &base,
+    const Vec3  &normal,
+    double      min_dist,
+    double      max_dist,
+    double      &dist)
+{
+    ++Statistics::num_prim_tests;
+
+    double  denom,
+            num,
+            t;
+
+    denom = dot(r.direction(), normal);
+    if(denom != 0.0f) {
+        num = dot(Vec3(base - r.origin()), normal);
+        t   = num/denom;
+
+        if((t > 0.0f) && (t > min_dist) && (t < max_dist))  { // Hit.
+            ++Statistics::num_prim_isecs;
+
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+bool isecaux::test_ray_disc(
+    const Ray   &r,
+    const Point &center,
+    const Vec3  &normal,
+    double      radius,
+    double      min_dist,
+    double      max_dist,
+    double      &dist)
+{
+    ++Statistics::num_prim_tests;
+
+    double  denom,
+            num,
+            t;
+
+    denom = dot(r.direction(), normal);
+    if(denom != 0.0f) {
+        num = dot(Vec3(center - r.origin()), normal);
+        t   = num/denom;
+
+        if((t > 0.0f) && (t > min_dist) && (t < max_dist))  { // Hit en el plano.
+            Point   p(r.get_point(t));
+            Vec3    vp(p - center);
+
+            if(vp.length() <= radius) { // Hit en el disco.
+                ++Statistics::num_prim_isecs;
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    return false;
+}
+

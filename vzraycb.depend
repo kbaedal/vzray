@@ -1128,7 +1128,7 @@
 	"shapes/meshtriangle.h"
 	"matrix/transform.h"
 
-1446830371 c:\prog\vzraycb\src\vzray.h
+1446830435 c:\prog\vzraycb\src\vzray.h
 	"camera/camera.h"
 	"scene/scene.h"
 	"image.h"
@@ -1305,7 +1305,7 @@
 	"shapes/box.h"
 	"vec3.h"
 
-1446719749 c:\prog\vzraycb\src\shapes\isecaux.h
+1446899869 c:\prog\vzraycb\src\shapes\isecaux.h
 	"ray.h"
 	"vec3.h"
 	"point.h"
@@ -1899,7 +1899,7 @@
 	"shapes/box.h"
 	"vec3.h"
 
-1446828811 source:c:\prog\vzraycb\src\shapes\disc.cpp
+1446899891 source:c:\prog\vzraycb\src\shapes\disc.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1907,12 +1907,12 @@
 	<fstream>
 	<vector>
 	<float.h>
-	"shapes/disc.h"
+	"disc.h"
+	"isecaux.h"
 	"onb.h"
-	"ray.h"
 	"statistics.h"
 
-1446812360 c:\prog\vzraycb\src\shapes\disc.h
+1446896980 c:\prog\vzraycb\src\shapes\disc.h
 	"shape.h"
 	"vec3.h"
 	"point.h"

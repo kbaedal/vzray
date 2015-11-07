@@ -14,8 +14,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <config>
 	<renderer>
-		<type>whitted</type>
-		<samples>1</samples>
+		<type>path</type>
+		<samples>4</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -63,13 +63,18 @@ Fichero de descripción de escena de VZRay v0.0.1
 	</texture>
 	<texture>
 		<type>simple</type>
+		<id>Purple</id>
+		<color>0.50, 0.00, 0.50</color>
+	</texture>
+	<texture>
+		<type>simple</type>
 		<id>PureWhite</id>
 		<color>1.0, 1.0, 1.0</color>
 	</texture>
 	<texture>
 		<type>simple</type>
 		<id>LightWhite</id>
-		<color>1.0, 1.0, 1.0</color>
+		<color>12.0, 12.0, 12.0</color>
 	</texture>
 	<texture>
 		<type>simple</type>
@@ -97,6 +102,11 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<type>diffuse</type>
 		<id>DiffuseBlue</id>
 		<texture_id>Blue</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffusePurple</id>
+		<texture_id>Purple</texture_id>
 	</material>
 	<material>
 		<type>diffuse</type>
@@ -147,14 +157,14 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<radius>16.5</radius>
 		<material>DiffuseWhite</material>
 	</object>
-	
+		
 	<object>
 		<type>sphere</type>
 		<center>73, 16.5, 78</center>
 		<radius>16.5</radius>
 		<material>DiffuseWhite</material>
 	</object>
-	
+		
 	<!-- Left wall (red) -->
 	<object>
 		<type>plane</type>
@@ -210,18 +220,6 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<radius>600</radius>
 		<material>Light</material>
 	</object>
-	-->
-	
-	<object>
-		<type>sphere</type>
-		<center>0,0,0</center>
-		<radius>17.5</radius>
-		<material>Light</material>
-		<transform>
-			<scale>1.0, 0.001, 1.0</scale>
-			<translate>50,80.0,81.6</translate>
-		</transform>
-	</object>
 	
 	<!-- Light parallelogram
 	<object>
@@ -232,14 +230,12 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<material>Light</material>
 	</object>
 	-->
-
-	<!--
+	
 	<object>
 		<type>disc</type>
-		<center>0.0, 0.0, 0.0</center>
-		<normal>0.0, 0.0, 1.0</normal>
-		<radius>25.0</radius>
-		<material>DiffuseGreen</material>
+		<center>50.0, 81.59, 81.6</center>
+		<normal>0.0, 1.0, 0.0</normal>
+		<radius>17.50</radius>
+		<material>Light</material>
 	</object>	
-	-->
 </scene>

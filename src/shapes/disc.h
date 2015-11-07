@@ -14,7 +14,7 @@ class Disc : public Shape
 		Disc(Point a_center, Vec3 a_normal, double a_radius, Material *a_material)
 		{
             center      = a_center;
-			normal 	    = a_normal;
+			normal 	    = versor(a_normal);
 			radius      = a_radius;
 			material	= a_material;
 
@@ -44,7 +44,8 @@ class Disc : public Shape
 	//private:
         Point   center;
         Vec3 	normal;
-        double  radius;
+        double  radius,
+                dist;       // EXPERIMENTOS DE LOS CHULOS.
 
     private:
         static const double kdisc_epsilon;
