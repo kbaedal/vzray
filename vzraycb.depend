@@ -1410,147 +1410,147 @@
 1446719610 source:c:\prog\vzraycb\src\statistics.cpp
 	"statistics.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\aabb\aabb.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\aabb\aabb.cpp
 	"aabb/aabb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\aabb\aabb.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\aabb\aabb.h
 	<cmath>
 	"point.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\point.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\point.h
 	<iostream>
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\camera\pinhole.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\camera\pinhole.cpp
 	"camera/pinhole.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\camera\pinhole.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\camera\pinhole.h
 	"camera.h"
 	"vec3.h"
 	"point.h"
 	"onb.h"
 	"ray.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\camera\camera.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\camera\camera.h
 	"ray.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\ray.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\ray.h
 	<iostream>
 	"vec3.h"
 	"point.h"
 	"material/material.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\vec3.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\vec3.h
 	<cmath>
 	<iostream>
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\material\material.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\material\material.h
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\rgb.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\rgb.h
 	<iostream>
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\textures\texture.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\textures\texture.h
 	"vec3.h"
 	"vec2.h"
 	"rgb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\vec2.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\vec2.h
 	<math.h>
 	<iostream>
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\randomc\randomc.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\randomc\randomc.h
 	<inttypes.h>
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\onb.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\onb.h
 	<iostream>
 	<math.h>
 	"vec3.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\camera\thinlens.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\camera\thinlens.cpp
 	"camera/thinlens.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\camera\thinlens.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\camera\thinlens.h
 	"vec3.h"
 	"point.h"
 	"onb.h"
 	"ray.h"
 	"camera/camera.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\image.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\image.cpp
 	<cmath>
 	"image.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\image.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\image.h
 	<iostream>
 	"rgb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\material\dielectricmaterial.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\material\dielectricmaterial.cpp
 	"material/dielectricmaterial.h"
 	"vec2.h"
 	"vec3.h"
 	<stdio.h>
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\material\dielectricmaterial.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\material\dielectricmaterial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\material\diffusematerial.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\material\diffusematerial.cpp
 	"material/diffusematerial.h"
 	"vec2.h"
 	"vec3.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\material\diffusematerial.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\material\diffusematerial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\material\lightmaterial.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\material\lightmaterial.cpp
 	"material/lightmaterial.h"
 	"vec2.h"
 	"vec3.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\material\lightmaterial.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\material\lightmaterial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\material\specularmaterial.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\material\specularmaterial.cpp
 	"material/specularmaterial.h"
 	"vec2.h"
 	"vec3.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\material\specularmaterial.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\material\specularmaterial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\matrix\matrix.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\matrix\matrix.cpp
 	<vector>
 	"matrix/matrix.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\matrix\matrix.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\matrix\matrix.h
 	<iostream>
 	<iomanip>
 	"vec3.h"
 	"point.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\matrix\transform.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\matrix\transform.cpp
 	<cstdlib>
 	"matrix/transform.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\matrix\transform.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\matrix\transform.h
 	<iostream>
 	"matrix.h"
 	"vec3.h"
@@ -1558,10 +1558,10 @@
 	"ray.h"
 	"aabb/aabb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\onb.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\onb.cpp
 	"onb.h"
 
-1446577610 source:c:\users\kbaedal\development\vzraycb\src\parser\parser.cpp
+1446918480 source:c:\users\kbaedal\development\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -1589,6 +1589,7 @@
 	"shapes/shape.h"
 	"shapes/parallelogram.h"
 	"shapes/plane.h"
+	"shapes/disc.h"
 	"shapes/sphere.h"
 	"shapes/cylinder.h"
 	"shapes/box.h"
@@ -1596,7 +1597,7 @@
 	"shapes/mesh.h"
 	"shapes/meshtriangle.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\parser\parser.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\parser\parser.h
 	<iostream>
 	<fstream>
 	<cstdlib>
@@ -1608,13 +1609,13 @@
 	"shapes/meshtriangle.h"
 	"matrix/transform.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\vzray.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\vzray.h
 	"camera/camera.h"
 	"scene/scene.h"
 	"image.h"
 	"renderer/renderer.h"
 
-1446626293 c:\users\kbaedal\development\vzraycb\src\scene\scene.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
 	"material/material.h"
@@ -1623,7 +1624,7 @@
 	"ray.h"
 	"rgb.h"
 
-1446626367 c:\users\kbaedal\development\vzraycb\src\shapes\shape.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\shape.h
 	"vec3.h"
 	"point.h"
 	"ray.h"
@@ -1636,7 +1637,7 @@
 1446317449 c:\users\kbaedal\development\vzraycb\src\utils\dllist.h
 	<string>
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\renderer\renderer.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\renderer\renderer.h
 	<vector>
 	"ray.h"
 	"vec3.h"
@@ -1644,14 +1645,14 @@
 	"shapes/shape.h"
 	"scene/scene.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\meshtriangle.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\meshtriangle.h
 	"shape.h"
 	"mesh.h"
 	"vec3.h"
 	"ray.h"
 	"rgb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\mesh.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\mesh.h
 	<vector>
 	"shape.h"
 	"vec3.h"
@@ -1660,7 +1661,7 @@
 	"ray.h"
 	"rgb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\renderer\directrenderer.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\renderer\directrenderer.h
 	<vector>
 	"renderer.h"
 	"ray.h"
@@ -1671,7 +1672,7 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\renderer\pathrenderer.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\renderer\pathrenderer.h
 	<vector>
 	"renderer/renderer.h"
 	"ray.h"
@@ -1681,31 +1682,31 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\textures\simpletexture.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\textures\simpletexture.h
 	"textures/texture.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\parallelogram.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\parallelogram.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
 	"ray.h"
 	"rgb.h"
 
-1446626862 c:\users\kbaedal\development\vzraycb\src\shapes\plane.h
+1446919412 c:\users\kbaedal\development\vzraycb\src\shapes\plane.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
 	"ray.h"
 	"rgb.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\sphere.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\sphere.h
 	"shape.h"
 	"vec3.h"
 	"ray.h"
 	"rgb.h"
 	"randomc/randomc.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\cylinder.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\cylinder.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
@@ -1713,7 +1714,7 @@
 	"rgb.h"
 	"randomc/randomc.h"
 
-1446626841 c:\users\kbaedal\development\vzraycb\src\shapes\box.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\box.h
 	<ctime>
 	"vec3.h"
 	"point.h"
@@ -1722,25 +1723,25 @@
 	"shapes/shape.h"
 	"randomc/randomc.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\triangle.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\triangle.h
 	"vec3.h"
 	"ray.h"
 	"rgb.h"
 	"shapes/shape.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\point.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\point.cpp
 	"point.h"
 	"vec3.h"
 	"randomc/randomc.h"
 	"onb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\randomc\randomc.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\randomc\randomc.cpp
 	"randomc/randomc.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\ray.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\ray.cpp
 	"ray.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\renderer\directrenderer.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1752,7 +1753,7 @@
 	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1446592994 source:c:\users\kbaedal\development\vzraycb\src\renderer\pathrenderer.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\renderer\pathrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1764,10 +1765,10 @@
 	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\rgb.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1446626762 source:c:\users\kbaedal\development\vzraycb\src\scene\scene.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"
@@ -1781,35 +1782,35 @@
 	"material/material.h"
 	"material/diffusematerial.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\statistics.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\statistics.h
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\cylinder.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\cylinder.cpp
 	<cmath>
 	"isecaux.h"
 	"cylinder.h"
 	"onb.h"
 	"randomc/randomc.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\shapes\isecaux.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\shapes\isecaux.h
 	"ray.h"
 	"vec3.h"
 	"point.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\isecaux.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\isecaux.cpp
 	"isecaux.h"
 	"statistics.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\mesh.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\mesh.cpp
 	"mesh.h"
 	<cmath>
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\meshtriangle.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\meshtriangle.cpp
 	<cstdio>
 	"isecaux.h"
 	"mesh.h"
 	"meshtriangle.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\parallelogram.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\parallelogram.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1820,7 +1821,7 @@
 	"parallelogram.h"
 	"onb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\plane.cpp
+1446918658 source:c:\users\kbaedal\development\vzraycb\src\shapes\plane.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1830,9 +1831,10 @@
 	<float.h>
 	"shapes/plane.h"
 	"onb.h"
+	"isecaux.h"
 	"statistics.h"
 
-1446325544 source:c:\users\kbaedal\development\vzraycb\src\shapes\sphere.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -1846,24 +1848,24 @@
 	"onb.h"
 	"randomc/randomc.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\shapes\triangle.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\triangle.cpp
 	"shapes/isecaux.h"
 	"shapes/triangle.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\statistics.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\statistics.cpp
 	"statistics.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\test.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\test.cpp
 	"test.h"
 	"matrix/matrix.h"
 	"matrix/transform.h"
 
-1446317449 c:\users\kbaedal\development\vzraycb\src\test.h
+1446917933 c:\users\kbaedal\development\vzraycb\src\test.h
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\vec2.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\vec2.cpp
 	"vec2.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\vec3.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\vec3.cpp
 	<cmath>
 	<ctime>
 	<cstdio>
@@ -1872,7 +1874,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1446317449 source:c:\users\kbaedal\development\vzraycb\src\vzray.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -1886,7 +1888,7 @@
 	"vzray.h"
 	"statistics.h"
 
-1446317649 source:c:\users\kbaedal\development\vzraycb\src\shapes\box.cpp
+1446917933 source:c:\users\kbaedal\development\vzraycb\src\shapes\box.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -1918,4 +1920,24 @@
 	"point.h"
 	"ray.h"
 	"rgb.h"
+
+1446918368 c:\users\kbaedal\development\vzraycb\src\shapes\disc.h
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+
+1446918354 source:c:\users\kbaedal\development\vzraycb\src\shapes\disc.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	<float.h>
+	"disc.h"
+	"isecaux.h"
+	"onb.h"
+	"statistics.h"
 

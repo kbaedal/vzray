@@ -23,9 +23,6 @@ RGB PathRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_dis
 	Vec3		out_dir;
 	Ray			out_ray;
 
-    if(depth > max_depth)
-        std::clog << "Max depth WARPNING: " << depth << "\n";
-
     if(depth < max_depth) {
         if(scene->nearest_intersection(r, min_dist, max_dist, hit_r)) {
             // Añadimos emittance

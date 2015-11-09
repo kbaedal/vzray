@@ -14,8 +14,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <config>
 	<renderer>
-		<type>path</type>
-		<samples>4</samples>
+		<type>whitted</type>
+		<samples>1</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -74,7 +74,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<texture>
 		<type>simple</type>
 		<id>LightWhite</id>
-		<color>12.0, 12.0, 12.0</color>
+		<color>1.0, 1.0, 1.0</color>
 	</texture>
 	<texture>
 		<type>simple</type>
@@ -132,25 +132,23 @@ Fichero de descripción de escena de VZRay v0.0.1
 	
 	<!-- Objects -->
 	
-	<!-- Mirror sphere 
+	<!-- Mirror sphere -->
 	<object>
 		<type>sphere</type>
 		<center>27, 16.5, 47</center>
 		<radius>16.5</radius>
 		<material>Specular</material>
-	</object>
-	-->
+	</object>	
 	
-	<!-- Glass sphere 
+	<!-- Glass sphere -->
 	<object>
 		<type>sphere</type>
 		<center>73, 16.5, 78</center>
 		<radius>16.5</radius>
 		<material>Dielectric</material>
 	</object>
-	-->
-	
-	<!-- Diffuse spheres -->
+		
+	<!-- Diffuse spheres
 	<object>
 		<type>sphere</type>
 		<center>27, 16.5, 47</center>
@@ -164,55 +162,56 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<radius>16.5</radius>
 		<material>DiffuseWhite</material>
 	</object>
+	-->
 		
 	<!-- Left wall (red) -->
 	<object>
 		<type>plane</type>
+		<base>1, 0, 0</base>
 		<normal>1, 0, 0</normal>
-		<distance>-1</distance>
 		<material>DiffuseRed</material>
 	</object>
 	
 	<!-- Right wall (blue) -->
 	<object>
 		<type>plane</type>
+		<base>99, 0, 0</base>
 		<normal>-1, 0, 0</normal>
-		<distance>99</distance>
 		<material>DiffuseBlue</material>
-	</object>
-	
+	</object>	
+		
 	<!-- Back wall -->
 	<object>
 		<type>plane</type>
+		<base>0, 0, 0</base>
 		<normal>0, 0, 1</normal>
-		<distance>0</distance>
 		<material>DiffuseWhite</material>
 	</object>	
 	
 	<!-- Front wall -->
 	<object>
 		<type>plane</type>
+		<base>0, 0, 170</base>
 		<normal>0, 0, -1</normal>
-		<distance>170</distance>
 		<material>DiffusePureBlack</material>
-	</object>
-	
+	</object>	
+		
 	<!-- Bottom wall -->
 	<object>
 		<type>plane</type>
+		<base>0, 0, 0</base>
 		<normal>0, 1, 0</normal>
-		<distance>0</distance>
 		<material>DiffuseWhite</material>
 	</object>
-		
+			
 	<!-- Top wall -->
 	<object>
 		<type>plane</type>
+		<base>0, 81.6, 0</base>
 		<normal>0, -1, 0</normal>
-		<distance>81.6</distance>
 		<material>DiffuseWhite</material>
 	</object>	
-		
+			
 	<!-- Light sphere
 	<object>
 		<type>sphere</type>
@@ -220,6 +219,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<radius>600</radius>
 		<material>Light</material>
 	</object>
+	-->
 	
 	<!-- Light parallelogram
 	<object>

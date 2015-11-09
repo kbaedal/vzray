@@ -41,15 +41,10 @@ class Disc : public Shape
 		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 
-	//private:
+	private:
         Point   center;
         Vec3 	normal;
-        double  radius,
-                dist;       // EXPERIMENTOS DE LOS CHULOS.
-
-    private:
-        static const double kdisc_epsilon;
-
+        double  radius;
 };
 
 #endif // DISC_H_INCLUDED

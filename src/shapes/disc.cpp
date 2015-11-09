@@ -14,8 +14,6 @@
 
 #include "statistics.h"
 
-const double Disc::kdisc_epsilon = 1e-8;
-
 bool Disc::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit_r) const
 {
     double t;

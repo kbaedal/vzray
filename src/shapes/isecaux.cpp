@@ -260,6 +260,8 @@ bool isecaux::test_ray_plane(
         if((t > 0.0f) && (t > min_dist) && (t < max_dist))  { // Hit.
             ++Statistics::num_prim_isecs;
 
+            dist = t;
+
             return true;
         }
         else {
@@ -296,6 +298,8 @@ bool isecaux::test_ray_disc(
 
             if(vp.length() <= radius) { // Hit en el disco.
                 ++Statistics::num_prim_isecs;
+
+                dist = t;
 
                 return true;
             }

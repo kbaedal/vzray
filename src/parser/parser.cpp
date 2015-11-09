@@ -1150,16 +1150,16 @@ bool Parser::process_object()
 bool Parser::process_plane()
 {
 	std::string material_id, temp;
+	Point       base;
 	Vec3		normal;
-	double		dist;
 	Material	*material;
 	Shape		*shape;
 	Transform	trans;
 
-	if(!read_bloque_vec3("normal", normal))
+	if(!read_bloque_point("base", base))
 		return false;
 
-	if(!read_bloque_floats("distance", 1, &dist))
+	if(!read_bloque_vec3("normal", normal))
 		return false;
 
 	if(!read_bloque_txt("material", material_id))
@@ -1186,7 +1186,7 @@ bool Parser::process_plane()
 		return false;
 
 	if((material = globales->scene->get_material(material_id)) != nullptr) {
-		shape = new Plane(normal, dist, material);
+		shape = new Plane(base, normal, material);
 		shape->set_trans(&trans);
 		globales->scene->add_object(shape, material_id, material->is_light());
 

@@ -11,10 +11,10 @@
 class Plane : public Shape
 {
 	public:
-		Plane(Vec3 a_normal, double a_dist, Material *a_material)
+		Plane(Point a_base, Vec3 a_normal, Material *a_material)
 		{
-			normal 	    = a_normal;
-			dist	 	= a_dist;
+			base        = a_base;
+			normal 	    = versor(a_normal);
 			material	= a_material;
 
 			trans 	    = new Transform;
@@ -24,8 +24,8 @@ class Plane : public Shape
 		}
 		Plane()
 		{
+		    base        = Point(0.0f);
 			normal 	    = Vec3(0.0f, 1.0f, 0.0f);
-			dist     	= 0.0f;
 			material	= nullptr;
 
 			trans   	= new Transform;
@@ -35,17 +35,13 @@ class Plane : public Shape
 		}
 		~Plane() { if(trans != nullptr) delete trans; }
 
-		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) const;
+		bool hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit_r) const;
 		bool shadow_hit(const Ray &r, double min_dist, double max_dist) const;
 		bool get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const;
 
-	//private:
+	private:
+        Point   base;
 		Vec3 	normal;
-		double 	dist;
-
-    private:
-        static const double kplane_epsilon;
-
 };
 
 #endif // __PLANE_H__

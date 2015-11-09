@@ -18,7 +18,7 @@ Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, double 
 	float	n1,
 			n2;			// Refraction index
 	float	cos_t,
-			cos_t2;      // Aux for TIR calculation
+			cos_t2;     // Aux for TIR calculation
 
 	cos_t = dot(in, norm);
 	if(cos_t < 0.0f) {
