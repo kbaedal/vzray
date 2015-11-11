@@ -17,6 +17,7 @@ class Vec2
 		{
 			this->set(a, b);
 		}
+		Vec2(double a) { this->set(a); }
 		Vec2() { e[0] = e[1] = 0.f; }
 		Vec2(const Vec2 &v) { this->set(v); }
 
@@ -47,6 +48,10 @@ class Vec2
 		{
 			e[0] = v.x();
 			e[1] = v.y();
+		}
+		void set(double a)
+		{
+			e[0] = e[1] = a;
 		}
 
 		// Acceso rapido a los componentes.

@@ -16,7 +16,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<renderer>
 		<type>whitted</type>
 		<samples>1</samples>
-		<max_depth>5</max_depth>
+		<max_depth>1</max_depth>
 	</renderer>
 	<camera>
 		<type>pinhole</type>
@@ -132,23 +132,25 @@ Fichero de descripción de escena de VZRay v0.0.1
 	
 	<!-- Objects -->
 	
-	<!-- Mirror sphere -->
+	<!-- Mirror sphere
 	<object>
 		<type>sphere</type>
 		<center>27, 16.5, 47</center>
 		<radius>16.5</radius>
 		<material>Specular</material>
 	</object>	
+	-->
 	
-	<!-- Glass sphere -->
+	<!-- Glass sphere
 	<object>
 		<type>sphere</type>
 		<center>73, 16.5, 78</center>
 		<radius>16.5</radius>
 		<material>Dielectric</material>
 	</object>
+	-->
 		
-	<!-- Diffuse spheres
+	<!-- Diffuse spheres -->
 	<object>
 		<type>sphere</type>
 		<center>27, 16.5, 47</center>
@@ -162,7 +164,6 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<radius>16.5</radius>
 		<material>DiffuseWhite</material>
 	</object>
-	-->
 		
 	<!-- Left wall (red) -->
 	<object>

@@ -11,6 +11,7 @@ class RGB
 	public:
 		// Constructores
 		RGB() { R = G = B = 0.f; }
+		RGB(double c) { set(c, c, c); }
 		RGB(double a_r, double a_g, double a_b)
 		{
 			this->set(a_r, a_g, a_b);

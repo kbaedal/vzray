@@ -94,7 +94,7 @@ Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, double &b
 	if(cos_t < 0.0f) { // Incoming ray
 		n1      = 1.0f;
 		n2	    = ior;
-		cos_t    = cos_t;
+		//cos_t   = cos_t;
 	}
 	else { // Outgoing ray
 		n1      = ior;
@@ -109,6 +109,7 @@ Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, double &b
 	double pr = (re + 0.5) / 2.0;
 
 	brdf = re / pr;
+
 	color = radiance();
 
 	if(dot(in, norm) < 0.0f) { // Ray going in
@@ -138,20 +139,19 @@ Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, double &b
 	double c = 1 - cos_t;
 
 	double re = r0 + (1 - r0) * c * c * c * c * c;
-	double pr = (re + 0.5) / 2.0;
+	double pr = (re + 0.5f) / 2.0f;
 
-	//dBRDF = (1.0 - Re) / (1.0 - Pr);
 	brdf = 1 - (re / pr);
 	color = radiance();
 
 	if(dot(in, norm) < 0.0f) { // Ray going in
-		return refract(in, norm, 1.0, ior);
+		return refract(in, norm, 1.0f, ior);
 	} else { // Ray going out
-		return refract(in, -norm, ior, 1.0);
+		return refract(in, -norm, ior, 1.0f);
 	}
 }
 
 double DielectricMaterial::get_reflectance(Vec3 const &in, Vec3 const &norm)
 {
-	return 0.f;
+	return 0.0f;
 }

@@ -970,13 +970,13 @@
 	"point.h"
 	"material/material.h"
 
-1446719749 c:\prog\vzraycb\src\material\material.h
+1447238722 c:\prog\vzraycb\src\material\material.h
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446719750 c:\prog\vzraycb\src\rgb.h
+1447259148 c:\prog\vzraycb\src\rgb.h
 	<iostream>
 
 1446719610 c:\prog\vzraycb\src\textures\texture.h
@@ -984,7 +984,7 @@
 	"vec2.h"
 	"rgb.h"
 
-1446719750 c:\prog\vzraycb\src\vec2.h
+1447263462 c:\prog\vzraycb\src\vec2.h
 	<math.h>
 	<iostream>
 
@@ -1006,7 +1006,7 @@
 	<iostream>
 	"rgb.h"
 
-1446719750 source:c:\prog\vzraycb\src\material\dielectricmaterial.cpp
+1447246925 source:c:\prog\vzraycb\src\material\dielectricmaterial.cpp
 	"material/dielectricmaterial.h"
 	"vec2.h"
 	"vec3.h"
@@ -1019,7 +1019,7 @@
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1446719750 source:c:\prog\vzraycb\src\material\diffusematerial.cpp
+1447256774 source:c:\prog\vzraycb\src\material\diffusematerial.cpp
 	"material/diffusematerial.h"
 	"vec2.h"
 	"vec3.h"
@@ -1080,7 +1080,7 @@
 1446719749 source:c:\prog\vzraycb\src\onb.cpp
 	"onb.h"
 
-1446810256 source:c:\prog\vzraycb\src\parser\parser.cpp
+1447061957 source:c:\prog\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -1211,7 +1211,7 @@
 	"ray.h"
 	"rgb.h"
 
-1446719749 c:\prog\vzraycb\src\shapes\plane.h
+1447061957 c:\prog\vzraycb\src\shapes\plane.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
@@ -1251,7 +1251,7 @@
 1446719750 source:c:\prog\vzraycb\src\ray.cpp
 	"ray.h"
 
-1446812732 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
+1447260545 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1263,7 +1263,7 @@
 	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1446719749 source:c:\prog\vzraycb\src\renderer\pathrenderer.cpp
+1447061957 source:c:\prog\vzraycb\src\renderer\pathrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1317,7 +1317,7 @@
 	"onb.h"
 	"randomc/randomc.h"
 
-1446719749 source:c:\prog\vzraycb\src\shapes\isecaux.cpp
+1447061957 source:c:\prog\vzraycb\src\shapes\isecaux.cpp
 	"isecaux.h"
 	"statistics.h"
 
@@ -1342,7 +1342,7 @@
 	"parallelogram.h"
 	"onb.h"
 
-1446719749 source:c:\prog\vzraycb\src\shapes\plane.cpp
+1447061957 source:c:\prog\vzraycb\src\shapes\plane.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1352,6 +1352,7 @@
 	<float.h>
 	"shapes/plane.h"
 	"onb.h"
+	"isecaux.h"
 	"statistics.h"
 
 1446719749 source:c:\prog\vzraycb\src\shapes\sphere.cpp
@@ -1901,7 +1902,7 @@
 	"shapes/box.h"
 	"vec3.h"
 
-1446899891 source:c:\prog\vzraycb\src\shapes\disc.cpp
+1447061957 source:c:\prog\vzraycb\src\shapes\disc.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1914,7 +1915,7 @@
 	"onb.h"
 	"statistics.h"
 
-1446896980 c:\prog\vzraycb\src\shapes\disc.h
+1447061957 c:\prog\vzraycb\src\shapes\disc.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
