@@ -171,7 +171,7 @@ bool start_render(Globals *globales)
 		for(int j = 0; j < globales->res_y; j++) {
 			RGB pixel_color(0.0f, 0.0f, 0.0f);
 
-			//i = globales->nResX/2; j = globales->nResY/2;
+			//i = globales->res_x/2; j = globales->res_y/2;
 			//i=50; j=250;
 			//std::clog << "StartRender::Shooting ray!" << endl;
 			if(globales->samples_per_pixel > 1) {
@@ -190,10 +190,10 @@ bool start_render(Globals *globales)
 				pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 			}
 
-			//std::clog << "RgbPixelColor: " << rgbPixelColor << endl;
+			//std::clog << "RgbPixelColor: " << pixel_color << endl;
 			globales->image->set(i, j, pixel_color);
 
-			//i=globales->nResX; j=globales->nResY;
+			//i=globales->res_x; j=globales->res_y;
 		}
 	}
 

@@ -18,7 +18,7 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_d
 	HitRecord   hit_r;
 	RGB			color,
                 temp_color;
-	double		brdf;
+	double		brdf = 1.0;
 	Vec3		out_dir;
     Point		intersection;
     Ray			out_ray;
@@ -35,17 +35,18 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_d
         // Y el ambiente.
         color = color + hit_r.material->ambient();
 
+        // Calculamos el punto de interseccion.
+        intersection = r.get_point(hit_r.dist);
+
         if(depth < max_depth) {
-            intersection = r.get_point(hit_r.dist);
             // Veamos la direccion a la que enviamos la luz
             out_dir = hit_r.material->out_direction(r.direction(), hit_r.normal, brdf, temp_color, &rng);
 
             out_ray.set(intersection, out_dir);
             color = color + temp_color * get_color(out_ray, scene, min_dist, max_dist, depth+1);
         }
-        color = color + direct_light(intersection, scene, hit_r) * brdf;
 
-        return color;
+        return color + direct_light(intersection, scene, hit_r) * brdf;
     }
     else {
         // Si no hay interseccion, devolvemos el color de fondo.
@@ -53,7 +54,7 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_d
     }
 }
 
-RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit)
+RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit_r)
 {
 	RGB 	diffuse_color;
 	Point 	light_point;
@@ -64,8 +65,9 @@ RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit)
 	bool 	shadow_hit;
 
 	for(int i = 0; i < scene->get_num_lights(); i++) {
+        Shape *light = scene->get_light(i);
 
-		if(scene->get_light(i)->get_random_point(p, &rng, light_point)) {
+		if(light->get_random_point(p, &rng, light_point)) {
 			// Direccion desde el punto de interseccion a la luz a testear.
 			light_dir.set(light_point - p);
 			// Distancia entre ambos puntos.
@@ -75,22 +77,24 @@ RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit)
 
 			shadow_ray.set(p + kepsilon * Point(light_dir), light_dir);
 
-			diffuse = dot(versor(hit.normal), versor(shadow_ray.direction()));
+            // Se supone que tanto la normal como la direccion están normalizados.
+			diffuse = dot(hit_r.normal, shadow_ray.direction());
 
 			shadow_hit = false;
 			int j = 0;
 			while(!shadow_hit && j < scene->get_num_objs()) {
-				if(scene->get_object(j) != scene->get_light(i)) {
-					if(scene->get_object(j)->shadow_hit(shadow_ray, kepsilon, light_dist))
+                Shape *test_obj = scene->get_object(j);
+				if(test_obj != light) {
+					if(test_obj->shadow_hit(shadow_ray, kepsilon, light_dist))
 						shadow_hit = true;
 				}
 				++j;
 			}
 			if(!shadow_hit) {
-				if(hit.material != NULL) {
+				if(hit_r.material != NULL) {
 					Vec2 v2(0.0f);
 					Vec3 v3(0.0f);
-					diffuse_color = hit.material->radiance() * scene->get_light(i)->get_material()->radiance() * diffuse;
+					diffuse_color = hit_r.material->radiance() * light->get_material()->radiance() * diffuse;
 				}
 			}
 		}

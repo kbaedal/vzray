@@ -1143,7 +1143,7 @@
 	"ray.h"
 	"rgb.h"
 
-1446719749 c:\prog\vzraycb\src\shapes\shape.h
+1447346867 c:\prog\vzraycb\src\shapes\shape.h
 	"vec3.h"
 	"point.h"
 	"ray.h"
@@ -1211,14 +1211,14 @@
 	"ray.h"
 	"rgb.h"
 
-1447061957 c:\prog\vzraycb\src\shapes\plane.h
+1447346882 c:\prog\vzraycb\src\shapes\plane.h
 	"shape.h"
 	"vec3.h"
 	"point.h"
 	"ray.h"
 	"rgb.h"
 
-1446719749 c:\prog\vzraycb\src\shapes\sphere.h
+1447346889 c:\prog\vzraycb\src\shapes\sphere.h
 	"shape.h"
 	"vec3.h"
 	"ray.h"
@@ -1251,7 +1251,7 @@
 1446719750 source:c:\prog\vzraycb\src\ray.cpp
 	"ray.h"
 
-1447260545 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
+1447333569 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1355,7 +1355,7 @@
 	"isecaux.h"
 	"statistics.h"
 
-1446719749 source:c:\prog\vzraycb\src\shapes\sphere.cpp
+1447346895 source:c:\prog\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -1392,7 +1392,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1446808633 source:c:\prog\vzraycb\src\vzray.cpp
+1447345853 source:c:\prog\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
