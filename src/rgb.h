@@ -18,6 +18,7 @@ class RGB
 		}
 
 		// Operadores
+		RGB &operator+=(RGB const &b) { R += b.R; G += b.G; B += b.B; return *this; }
 		RGB operator+(RGB const &b) { return RGB(R + b.R, G + b.G, B + b.B); }
 		RGB operator-(RGB const &b) { return RGB(R - b.R, G - b.G, B - b.B); }
 		RGB operator*(RGB const &b) { return RGB(R * b.R, G * b.G, B * b.B); }

@@ -31,8 +31,13 @@ void print_statistics();
 
 // Intiating data structures
 bool init_data(Globals *globales);
+// Leer la escena del archivo.
+bool parse_file(Globals *globals, std::string scene_desc_file);
 // Main render loop
 bool start_render(Globals *globales);
+bool start_render_v2(Globals *globales);
+// Guarda la imagen.
+bool save_file(Globals *globales, std::string output_file);
 // Cleaning the room
 bool clean_data(Globals *globales);
 
@@ -48,10 +53,12 @@ int main(int argc, char *argv[])
 	clock_t render_ticks;
             //tInitDataTicks,
             //tCleanDataTicks;
+    std::string scene_desc_file,
+                output_file;
 	bool end_status;
 
 	if(argc > 1) {
-		for(int i = 1; i < argc; i++) {
+		for(int i = 1; i < argc; ++i) {
 			if(argv[i][0] == '-') { // Procesamos las opciones.
 				if(std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
 					muestra_ayuda(argv[0]);
@@ -68,50 +75,69 @@ int main(int argc, char *argv[])
 				// Se proporciona fichero, anulamos el test.
 				globales.options &= ~GLB_DO_TEST;
 
-				if(globales.scene_file.size() == 0)
+				if(scene_desc_file.empty())
 					// Fichero de escena a renderizar
-					globales.scene_file.assign(argv[i]);
+					scene_desc_file.assign(argv[i]);
 				else
 					// Fichero donde guardar la imagen
-					globales.output_file.assign(argv[i]);
+					output_file.assign(argv[i]);
 			}
 		}
 	}
 
-	if((globales.scene_file.size() == 0) || (argc < 2)) {
+	if(scene_desc_file.empty() || (argc < 2)) {
 		muestra_ayuda(argv[0]);
 		return 0;
 	}
+	else {
+        std::streambuf *log_buf, *backup;
+        std::fstream log;
 
-	std::streambuf *log_buf, *backup;
-	std::fstream log;
+        // Redirigiremos clog a un fichero para escribir cosas interesantes en él.
+        log.open("log.txt", std::fstream::out);
 
-	// Redirigiremos clog a un fichero para escribir cosas interesantes en él.
-	log.open("log.txt", std::fstream::out);
+        backup = std::clog.rdbuf();	// Backup del streambuf de clog
 
-	backup = std::clog.rdbuf();	// Backup del streambuf de clog
+        log_buf = log.rdbuf();      // Obtenemos el streambuf del fichero
+        std::clog.rdbuf(log_buf);	// Redirigimos clog
 
-	log_buf = log.rdbuf();      // Obtenemos el streambuf del fichero
-	std::clog.rdbuf(log_buf);	// Redirigimos clog
+        if(globales.options & GLB_DO_TEST) {
+            Test test;
+            end_status = test.launch_test();
+        }
+        else {
+            end_status = parse_file(&globales, scene_desc_file);
+            if(end_status) {
+                render_ticks = clock();
 
-    if(globales.options & GLB_DO_TEST) {
-        Test test;
-        end_status = test.launch_test();
+                // Start render loop
+                end_status = start_render(&globales);
+
+                render_ticks = clock() - render_ticks;
+
+                print_time("\nRender Time: ", static_cast<float>(render_ticks)/CLOCKS_PER_SEC);
+                print_statistics();
+
+
+                if(output_file.empty()) {
+                    std::string	temp;
+
+                    // Averiguamos el nombre del fichero.
+                    image_file_name(scene_desc_file, temp);
+
+                    // Añadimos la extension.
+                    temp += ".ppm";
+
+                    output_file = temp;
+                }
+
+                save_file(&globales, output_file);
+            }
+        }
+
+        std::clog.rdbuf(backup);		// Restauramos el streambuf de clog
+        log.close();					// Cerramos el fichero de log.
     }
-    else {
-        render_ticks = clock();
-
-        // Start render loop
-        end_status = start_render(&globales);
-
-        render_ticks = clock() - render_ticks;
-
-        print_time("\nRender Time: ", ((float)render_ticks)/CLOCKS_PER_SEC);
-        print_statistics();
-    }
-
-	std::clog.rdbuf(backup);		// Restauramos el streambuf de clog
-	log.close();					// Cerramos el fichero de log.
 
 	if(end_status)
 		return 0;
@@ -122,23 +148,7 @@ int main(int argc, char *argv[])
 bool start_render(Globals *globales)
 {
 	CRandomMother 	rng(time(NULL));
-	Parser			parser;
-	std::string 	renderer_type;
-
-	std::cout << "\nReading file: " << globales->scene_file << " ... ";
-
-	if(!parser.leer_fichero(globales->scene_file, globales)) {
-		std::string err_type;
-		int err_code, line;
-
-		parser.get_error(err_type, line, err_code);
-		std::cerr << "ERROR: Linea " << line;
-		std::cerr << " (" << err_code << ") - " << err_type << std::endl;
-
-		return false;
-	}
-
-	std::cout << "Done." << std::endl;
+	std::string     renderer_type;
 
 	switch(globales->renderer->renderer_type()) {
 		case 0:
@@ -159,8 +169,7 @@ bool start_render(Globals *globales)
 				<< " - Illumination strategy: \t" << renderer_type
 				<< std::endl << std::endl;
 
-	std::clog 	<< "Rendering file " << globales->scene_file << std::endl
-				<< "Enter: Main render loop.\n";
+	std::clog 	<< "Enter: Main render loop.\n";
 
 	// Si se indica, mostramos las AABB
 	if(globales->options & GLB_SHOW_AABB)
@@ -199,7 +208,91 @@ bool start_render(Globals *globales)
 
 	std::clog << "Exit: Main render loop.\n";
 
-	globales->image->gamma_correct(2.2f);
+	return true;
+}
+
+/*
+bool start_render_v2(Globals *globales)
+{
+	CRandomMother 	rng(time(NULL));
+	Parser			parser;
+	std::string 	renderer_type;
+
+	std::cout << "\nReading file: " << globales->scene_file << " ... ";
+
+	if(!parser.leer_fichero(globales->scene_file, globales)) {
+		std::string err_type;
+		int err_code, line;
+
+		parser.get_error(err_type, line, err_code);
+		std::cerr << "\n\n\tERROR: Linea " << line;
+		std::cerr << " (" << err_code << ") - " << err_type << std::endl;
+
+		return false;
+	}
+
+	std::cout << "Done." << std::endl;
+
+	switch(globales->renderer->renderer_type()) {
+		case 0:
+			renderer_type = "Whitted raytracing";
+			break;
+		case 1:
+			renderer_type = "Pathtracing";
+			break;
+		default:
+			renderer_type = "Unknown";
+			break;
+	}
+
+	std::cout 	<< "\nRendering:\n"
+				<< " - Samples per pixel:     \t" << globales->samples_per_pixel << " spp\n"
+				<< " - Shadow rays per sample:\t" << globales->shadow_rays << " sps\n"
+				<< " - Image resolution:      \t" << globales->res_x << "x" << globales->res_y << " px\n"
+				<< " - Illumination strategy: \t" << renderer_type
+				<< std::endl << std::endl;
+
+	std::clog 	<< "Rendering file " << globales->scene_file << std::endl
+				<< "Enter: Main render loop.\n";
+
+	// Si se indica, mostramos las AABB
+	if(globales->options & GLB_SHOW_AABB)
+		globales->scene->show_AABB();
+
+	for(int i = 0; i < globales->res_x; i++) {
+		imprime_info(i+1, globales->res_x);
+		for(int j = 0; j < globales->res_y; j++) {
+			Contrib pixel_color;
+
+			//i = globales->res_x/2; j = globales->res_y/2;
+			//i=50; j=250;
+			//std::clog << "StartRender::Shooting ray!" << endl;
+			if(globales->samples_per_pixel > 1) {
+				for(int k = 0; k < globales->samples_per_pixel; k++) {
+					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
+					Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
+                    //Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), 0.0f, 0.0f);
+
+					pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
+				}
+			}
+			else
+			{
+				Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), rng.Random(), rng.Random());
+
+				pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
+			}
+
+			//std::clog << "RgbPixelColor: " << pixel_color << endl;
+			globales->image->set(i, j, pixel_color);
+
+			//i=globales->res_x; j=globales->res_y;
+		}
+	}
+
+	std::clog << "Exit: Main render loop.\n";
+
+	globales->img_final->gamma_correct(2.2f);
 
 	ofstream 	os_image_file;
 
@@ -222,13 +315,14 @@ bool start_render(Globals *globales)
 
 	os_image_file.open(globales->output_file.c_str(), ios::binary);
 
-	globales->image->save_ppm(os_image_file);
+	globales->img_final->save_ppm(os_image_file);
 
 	os_image_file.close();
 	std::cout << "Done.\n";
 
 	return true;
 }
+*/
 
 void imprime_info(int linea_act, int lineas_tot)
 {
@@ -297,4 +391,45 @@ void image_file_name(const std::string &input_file, std::string &output_file)
     found = output_file.find_last_of(".");
     if(found != -1)
         output_file = output_file.substr(0, found);
+}
+
+bool parse_file(Globals *globales, std::string scene_desc_file)
+{
+    Parser parser;
+
+    std::cout << "\nReading file: " << scene_desc_file << " ... ";
+
+	if(!parser.leer_fichero(scene_desc_file, globales)) {
+		std::string err_type;
+		int err_code, line;
+
+		parser.get_error(err_type, line, err_code);
+		std::cerr << "ERROR: Linea " << line;
+		std::cerr << " (" << err_code << ") - " << err_type << std::endl;
+
+		return false;
+	}
+
+	std::cout << "Done." << std::endl;
+
+	return true;
+}
+
+bool save_file(Globals *globales, std::string output_file)
+{
+    ofstream 	os_image_file;
+
+    globales->image->gamma_correct(2.2f);
+
+	std::cout << "\n\nSaving file: " << output_file << " ... ";
+
+	os_image_file.open(output_file.c_str(), ios::binary);
+
+	globales->image->save_ppm(os_image_file);
+
+	os_image_file.close();
+
+	std::cout << "Done.\n";
+
+	return true;
 }
