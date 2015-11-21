@@ -976,7 +976,7 @@
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1448024586 c:\prog\vzraycb\src\rgb.h
+1448093625 c:\prog\vzraycb\src\rgb.h
 	<iostream>
 
 1446719610 c:\prog\vzraycb\src\textures\texture.h
@@ -998,11 +998,11 @@
 	"ray.h"
 	"camera/camera.h"
 
-1448017247 source:c:\prog\vzraycb\src\image.cpp
+1448097804 source:c:\prog\vzraycb\src\image.cpp
 	<cmath>
 	"image.h"
 
-1448033633 c:\prog\vzraycb\src\image.h
+1448098083 c:\prog\vzraycb\src\image.h
 	<iostream>
 	"rgb.h"
 
@@ -1251,7 +1251,7 @@
 1446719750 source:c:\prog\vzraycb\src\ray.cpp
 	"ray.h"
 
-1447347056 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
+1448096635 source:c:\prog\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1263,7 +1263,7 @@
 	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1447061957 source:c:\prog\vzraycb\src\renderer\pathrenderer.cpp
+1448096654 source:c:\prog\vzraycb\src\renderer\pathrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -1392,7 +1392,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1448023158 source:c:\prog\vzraycb\src\vzray.cpp
+1448097422 source:c:\prog\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>

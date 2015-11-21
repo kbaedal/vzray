@@ -43,7 +43,7 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_d
             out_dir = hit_r.material->out_direction(r.direction(), hit_r.normal, brdf, temp_color, &rng);
 
             out_ray.set(intersection, out_dir);
-            color = color + temp_color * get_color(out_ray, scene, min_dist, max_dist, depth+1);
+            color += temp_color * get_color(out_ray, scene, min_dist, max_dist, depth+1);
         }
 
         return color + direct_light(intersection, scene, hit_r) * brdf;

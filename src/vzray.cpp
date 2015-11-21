@@ -189,14 +189,15 @@ bool start_render(Globals *globales)
                     Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
                     //Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), 0.0f, 0.0f);
 
-					pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
+					pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
 				}
 			}
 			else
 			{
 				Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), rng.Random(), rng.Random());
 
-				pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
+				//pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
+				pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 			}
 
 			//std::clog << "RgbPixelColor: " << pixel_color << endl;
@@ -211,27 +212,10 @@ bool start_render(Globals *globales)
 	return true;
 }
 
-/*
 bool start_render_v2(Globals *globales)
 {
 	CRandomMother 	rng(time(NULL));
-	Parser			parser;
-	std::string 	renderer_type;
-
-	std::cout << "\nReading file: " << globales->scene_file << " ... ";
-
-	if(!parser.leer_fichero(globales->scene_file, globales)) {
-		std::string err_type;
-		int err_code, line;
-
-		parser.get_error(err_type, line, err_code);
-		std::cerr << "\n\n\tERROR: Linea " << line;
-		std::cerr << " (" << err_code << ") - " << err_type << std::endl;
-
-		return false;
-	}
-
-	std::cout << "Done." << std::endl;
+	std::string     renderer_type;
 
 	switch(globales->renderer->renderer_type()) {
 		case 0:
@@ -252,8 +236,7 @@ bool start_render_v2(Globals *globales)
 				<< " - Illumination strategy: \t" << renderer_type
 				<< std::endl << std::endl;
 
-	std::clog 	<< "Rendering file " << globales->scene_file << std::endl
-				<< "Enter: Main render loop.\n";
+	std::clog 	<< "Enter: Main render loop.\n";
 
 	// Si se indica, mostramos las AABB
 	if(globales->options & GLB_SHOW_AABB)
@@ -262,7 +245,7 @@ bool start_render_v2(Globals *globales)
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
 		for(int j = 0; j < globales->res_y; j++) {
-			Contrib pixel_color;
+			RGB pixel_color(0.0f, 0.0f, 0.0f);
 
 			//i = globales->res_x/2; j = globales->res_y/2;
 			//i=50; j=250;
@@ -270,17 +253,18 @@ bool start_render_v2(Globals *globales)
 			if(globales->samples_per_pixel > 1) {
 				for(int k = 0; k < globales->samples_per_pixel; k++) {
 					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
-					Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
+                    Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
                     //Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), 0.0f, 0.0f);
 
-					pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
+					pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
 				}
 			}
 			else
 			{
 				Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), rng.Random(), rng.Random());
 
-				pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
+				//pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
+				pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 			}
 
 			//std::clog << "RgbPixelColor: " << pixel_color << endl;
@@ -292,37 +276,8 @@ bool start_render_v2(Globals *globales)
 
 	std::clog << "Exit: Main render loop.\n";
 
-	globales->img_final->gamma_correct(2.2f);
-
-	ofstream 	os_image_file;
-
-	if(globales->output_file.size() == 0) {
-        std::string	temp;
-
-        // Averiguamos el nombre del fichero.
-		image_file_name(globales->scene_file, temp);
-
-		// Añadimos la extension.
-		temp += ".ppm";
-
-		globales->output_file = temp;
-	}
-
-	std::cout << "\n\nSaving file: " << globales->output_file << " ... ";
-
-	//std::string strImageFile = globales->strTheFile + ".ppm";
-	//fsImage.open(strImageFile.c_str(), ios::binary);
-
-	os_image_file.open(globales->output_file.c_str(), ios::binary);
-
-	globales->img_final->save_ppm(os_image_file);
-
-	os_image_file.close();
-	std::cout << "Done.\n";
-
 	return true;
 }
-*/
 
 void imprime_info(int linea_act, int lineas_tot)
 {

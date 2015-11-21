@@ -10,7 +10,7 @@ class RGB
 {
 	public:
 		// Constructores
-		RGB() { R = G = B = 0.f; }
+		RGB() { R = G = B = 0.0f; }
 		RGB(double c) { set(c, c, c); }
 		RGB(double a_r, double a_g, double a_b)
 		{

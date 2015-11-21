@@ -41,7 +41,7 @@ RGB PathRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_dis
                 // Nuevo rayo:
                 out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
 
-                color = color + get_color(out_ray, scene, min_dist, 1e5, depth + 1) * temp_color * brdf;
+                color += get_color(out_ray, scene, min_dist, 1e5, depth + 1) * temp_color * brdf;
             }
 
             return color;
