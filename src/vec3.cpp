@@ -17,9 +17,18 @@ Vec3::Vec3(const Point &p)
 
 std::ostream &operator<<(std::ostream &os, const Vec3 &v)
 {
-	os << '<' << v.e[0] << ", " << v.e[1] << ", " << v.e[2] << '>';
+	os << "Vec3<" << v.e[0] << ", " << v.e[1] << ", " << v.e[2] << ">";
 
 	return os;
+}
+
+Vec3 &Vec3::operator+=(Vec3 const &v)
+{
+    e[0] += v.e[0];
+    e[1] += v.e[1];
+    e[2] += v.e[2];
+
+    return *this;
 }
 
 bool operator==(const Vec3 &v1, const Vec3 &v2)
@@ -32,34 +41,31 @@ bool operator!=(const Vec3 &v1, const Vec3 &v2)
 	return !(v1 == v2);
 }
 
-Vec3 operator+(const Vec3 &v1, const Vec3 &v2)
+Vec3 operator+(Vec3 v1, const Vec3 &v2)
 {
 	return Vec3(v1.x() + v2.x(), v1.y() + v2.y(), v1.z() + v2.z());
 }
 
-Vec3 operator-(const Vec3 &v1, const Vec3 &v2)
+Vec3 operator-(Vec3 v1, const Vec3 &v2)
 {
 	return Vec3(v1.x() - v2.x(), v1.y() - v2.y(), v1.z() - v2.z());
 }
 
-Vec3 operator*(const Vec3 &v, double f)
+Vec3 operator*(Vec3 v, double f)
 {
 	return Vec3(v.x() * f, v.y() * f, v.z() * f);
 }
 
-Vec3 operator*(double f, const Vec3 &v)
+Vec3 operator*(double f, Vec3 v)
 {
 	return Vec3(v.x() * f, v.y() * f, v.z() * f);
 }
 
-Vec3 operator/(const Vec3 &v, double f)
+Vec3 operator/(Vec3 v, double f)
 {
-	return Vec3(v.x() / f, v.y() / f, v.z() / f);
-}
+    double inv = 1.0f / f;
 
-Vec3 operator/(double f, const Vec3 &v)
-{
-	return Vec3(v.x() / f, v.y() / f, v.z() / f);
+	return Vec3(v.x() * inv, v.y() * inv, v.z() * inv);
 }
 
 void Vec3::set(const Point &p)

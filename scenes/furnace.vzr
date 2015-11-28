@@ -1,0 +1,162 @@
+<!--
+
+Fichero de descripción de escena de VZRay v0.0.1
+
+-->
+
+<!-- FORMATO NO DEFINITIVO - ES PREVISIBLE QUE HAYA CAMBIOS -->
+
+<!--
+	Cabecera, para configurar el renderer a usar, la camara, la imagen
+	a generar, etc. En definitiva, todos los datos necesarios para
+	producir la imagen excepto la definición geométrica de la escena.
+-->
+
+<config>
+	<renderer>
+		<type>path</type>
+		<samples>16</samples>
+		<max_depth>5</max_depth>
+	</renderer>
+	<camera>
+		<type>pinhole</type>
+		<pos>0, 0, 4</pos>
+		<gaze>0, 0, -4</gaze>
+		<up>0, 1, 0</up>
+		<dist>2</dist>
+		<low_corner>-2, -2</low_corner>
+		<high_corner>2, 2</high_corner>
+		<push>0</push>
+	</camera>	
+	<image>
+		<res_x>202</res_x>
+		<res_y>202</res_y>
+	</image>
+</config>
+
+<!-- Fin de la cabecera -->
+
+<!-- Inicio de la descripción de la escena. -->
+
+<scene>
+	<!-- Settings -->
+	<settings>
+		<ambient_color>0, 0, 0</ambient_color>
+		<bg_color>1, 1, 1</bg_color>
+	</settings>
+	<!-- Textures -->
+	<texture>
+		<type>simple</type>
+		<id>White</id>
+		<color>0.75, 0.75, 0.75</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Red</id>
+		<color>0.75, 0.25, 0.25</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Green</id>
+		<color>0.25, 0.75, 0.25</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Blue</id>
+		<color>0.25, 0.25, 0.75</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>Purple</id>
+		<color>0.50, 0.00, 0.50</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>PureWhite</id>
+		<color>1.0, 1.0, 1.0</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>LightWhite</id>
+		<color>1.0, 1.0, 1.0</color>
+	</texture>
+	<texture>
+		<type>simple</type>
+		<id>PureBlack</id>
+		<color>0.0, 0.0, 0.0</color>
+	</texture>
+	
+	<!-- Materials -->
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseWhite</id>
+		<texture_id>White</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseRed</id>
+		<texture_id>Red</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseGreen</id>
+		<texture_id>Green</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffuseBlue</id>
+		<texture_id>Blue</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffusePurple</id>
+		<texture_id>Purple</texture_id>
+	</material>
+	<material>
+		<type>diffuse</type>
+		<id>DiffusePureBlack</id>
+		<texture_id>PureBlack</texture_id>
+	</material>
+	<material>
+		<type>specular</type>
+		<id>Specular</id>
+		<texture_id>PureWhite</texture_id>
+	</material>
+	<material>
+		<type>dielectric</type>
+		<id>Dielectric</id>
+		<texture_id>PureWhite</texture_id>
+		<ior>1.5</ior>
+	</material>
+	<material>
+		<type>light</type>
+		<id>Light</id>
+		<texture_id>LightWhite</texture_id>
+	</material>
+	
+	<!-- Objects -->
+	
+	<!-- Light sphere 
+	<object>
+		<type>sphere</type>
+		<center>0,2.82842,0</center>
+		<radius>1.41421</radius>
+		<material>Light</material>
+	</object>
+	-->
+	
+	<object>
+		<type>sphere</type>
+		<center>0,0,0</center>
+		<radius>1.41421</radius>
+		<material>DiffuseWhite</material>
+	</object>
+	
+	<object>
+		<type>plane</type>
+		<base>0, -1.41421, 0</base>
+		<normal>0, 1, 0</normal>
+		<material>DiffuseWhite</material>
+	</object>	
+	
+</scene>

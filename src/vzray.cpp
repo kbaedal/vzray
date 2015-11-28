@@ -14,6 +14,14 @@
 #include "vzray.h"
 #include "statistics.h"
 
+// Máscaras para los flags.
+// Declaradas como extern. En la definición es reduntante, y no necesario.
+namespace Global_opts {
+    const unsigned int kglb_show_aabb    = 0x01; // 0000 0001
+    const unsigned int kglb_do_test      = 0x02; // 0000 0010
+    const unsigned int kglb_do_contrib   = 0x04; // 0000 0100
+};
+
 static void muestra_ayuda(std::string name)
 {
     std::cerr 	<< "Uso: " << name << " <opcion(es)> fichero-a-renderizar <fichero-imagen-salida>\n"
@@ -21,6 +29,7 @@ static void muestra_ayuda(std::string name)
 				<< "\t-h,--help    \t\tMuestra este mensaje.\n"
 				<< "\t-t,--test    \t\tRealiza un test (ignorado si se indica fichero-a-renderizar).\n"
 				<< "\t-s,--showaabb\t\tMuestra las AABB en la escena.\n"
+				<< "\t-c,--contrib \t\tCrea diferentes imaganes para cada tipo de contribucion al color.\n"
 				<< std::endl;
 }
 
@@ -37,7 +46,7 @@ bool parse_file(Globals *globals, std::string scene_desc_file);
 bool start_render(Globals *globales);
 bool start_render_v2(Globals *globales);
 // Guarda la imagen.
-bool save_file(Globals *globales, std::string output_file);
+bool save_file(Globals *globales, std::string output_file, int type = 0);
 // Cleaning the room
 bool clean_data(Globals *globales);
 
@@ -54,7 +63,10 @@ int main(int argc, char *argv[])
             //tInitDataTicks,
             //tCleanDataTicks;
     std::string scene_desc_file,
-                output_file;
+                output_file,
+                output_file_dir,
+                output_file_path;
+
 	bool end_status;
 
 	if(argc > 1) {
@@ -65,15 +77,18 @@ int main(int argc, char *argv[])
 					return 0;
 				}
 				else if(std::string(argv[i]) == "-t" || std::string(argv[i]) == "--test") {
-					globales.options |= GLB_DO_TEST;
+					globales.options |= Global_opts::kglb_do_test;
 				}
 				else if(std::string(argv[i]) == "-s" || std::string(argv[i]) == "--showaabb") {
-					globales.options |= GLB_SHOW_AABB;
+					globales.options |= Global_opts::kglb_show_aabb;
+				}
+				else if(std::string(argv[i]) == "-c" || std::string(argv[i]) == "--contrib") {
+					globales.options |= Global_opts::kglb_do_contrib;
 				}
 			}
 			else {
 				// Se proporciona fichero, anulamos el test.
-				globales.options &= ~GLB_DO_TEST;
+				globales.options &= ~Global_opts::kglb_do_test;
 
 				if(scene_desc_file.empty())
 					// Fichero de escena a renderizar
@@ -101,7 +116,7 @@ int main(int argc, char *argv[])
         log_buf = log.rdbuf();      // Obtenemos el streambuf del fichero
         std::clog.rdbuf(log_buf);	// Redirigimos clog
 
-        if(globales.options & GLB_DO_TEST) {
+        if(globales.options & Global_opts::kglb_do_test) {
             Test test;
             end_status = test.launch_test();
         }
@@ -111,7 +126,10 @@ int main(int argc, char *argv[])
                 render_ticks = clock();
 
                 // Start render loop
-                end_status = start_render(&globales);
+                if(globales.options & Global_opts::kglb_do_contrib)
+                    end_status = start_render_v2(&globales);
+                else
+                    end_status = start_render(&globales);
 
                 render_ticks = clock() - render_ticks;
 
@@ -126,12 +144,22 @@ int main(int argc, char *argv[])
                     image_file_name(scene_desc_file, temp);
 
                     // Añadimos la extension.
-                    temp += ".ppm";
-
-                    output_file = temp;
+                    output_file         = temp + ".ppm";
+                    output_file_dir     = temp + "_dir.ppm";
+                    output_file_path    = temp + "_path.ppm";
                 }
 
-                save_file(&globales, output_file);
+                if(globales.options & Global_opts::kglb_do_contrib)
+                    globales.image->create_final_img();
+
+                globales.image->gamma_correct(2.2f);
+
+                save_file(&globales, output_file, 0);
+
+                if(globales.options & Global_opts::kglb_do_contrib) {
+                    save_file(&globales, output_file_dir, 1);
+                    save_file(&globales, output_file_path, 2);
+                }
             }
         }
 
@@ -148,31 +176,19 @@ int main(int argc, char *argv[])
 bool start_render(Globals *globales)
 {
 	CRandomMother 	rng(time(NULL));
-	std::string     renderer_type;
-
-	switch(globales->renderer->renderer_type()) {
-		case 0:
-			renderer_type = "Whitted raytracing";
-			break;
-		case 1:
-			renderer_type = "Pathtracing";
-			break;
-		default:
-			renderer_type = "Unknown";
-			break;
-	}
 
 	std::cout 	<< "\nRendering:\n"
 				<< " - Samples per pixel:     \t" << globales->samples_per_pixel << " spp\n"
 				<< " - Shadow rays per sample:\t" << globales->shadow_rays << " sps\n"
+				<< " - Maximum depth:         \t" << globales->max_depth << "\n"
 				<< " - Image resolution:      \t" << globales->res_x << "x" << globales->res_y << " px\n"
-				<< " - Illumination strategy: \t" << renderer_type
+				<< " - Illumination strategy: \t" << globales->renderer->renderer_type()
 				<< std::endl << std::endl;
 
 	std::clog 	<< "Enter: Main render loop.\n";
 
 	// Si se indica, mostramos las AABB
-	if(globales->options & GLB_SHOW_AABB)
+	if(globales->options & Global_opts::kglb_show_aabb)
 		globales->scene->show_AABB();
 
 	for(int i = 0; i < globales->res_x; i++) {
@@ -184,17 +200,30 @@ bool start_render(Globals *globales)
 			//i=50; j=250;
 			//std::clog << "StartRender::Shooting ray!" << endl;
 			if(globales->samples_per_pixel > 1) {
+                // Una divisón y n multiplicacones se hacen mas
+                // rapido que n divisiones.
+                double samp_div = 1.0f / globales->samples_per_pixel;
+
 				for(int k = 0; k < globales->samples_per_pixel; k++) {
 					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
-                    Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
-                    //Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), 0.0f, 0.0f);
+					double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
+                            cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
+                            cam_sx = rng.Random(),
+                            cam_sy = rng.Random();
 
-					pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
+                    Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
+
+					pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * samp_div;
 				}
 			}
 			else
 			{
-				Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), rng.Random(), rng.Random());
+			    double  cam_x = static_cast<double>(i)/static_cast<double>(globales->res_x),
+                        cam_y = static_cast<double>(j)/static_cast<double>(globales->res_y),
+                        cam_sx = rng.Random(),
+                        cam_sy = rng.Random();
+
+				Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
 
 				//pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 				pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
@@ -215,56 +244,56 @@ bool start_render(Globals *globales)
 bool start_render_v2(Globals *globales)
 {
 	CRandomMother 	rng(time(NULL));
-	std::string     renderer_type;
-
-	switch(globales->renderer->renderer_type()) {
-		case 0:
-			renderer_type = "Whitted raytracing";
-			break;
-		case 1:
-			renderer_type = "Pathtracing";
-			break;
-		default:
-			renderer_type = "Unknown";
-			break;
-	}
 
 	std::cout 	<< "\nRendering:\n"
 				<< " - Samples per pixel:     \t" << globales->samples_per_pixel << " spp\n"
 				<< " - Shadow rays per sample:\t" << globales->shadow_rays << " sps\n"
 				<< " - Image resolution:      \t" << globales->res_x << "x" << globales->res_y << " px\n"
-				<< " - Illumination strategy: \t" << renderer_type
+				<< " - Illumination strategy: \t" << globales->renderer->renderer_type()
 				<< std::endl << std::endl;
 
 	std::clog 	<< "Enter: Main render loop.\n";
 
 	// Si se indica, mostramos las AABB
-	if(globales->options & GLB_SHOW_AABB)
+	if(globales->options & Global_opts::kglb_show_aabb)
 		globales->scene->show_AABB();
 
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
 		for(int j = 0; j < globales->res_y; j++) {
-			RGB pixel_color(0.0f, 0.0f, 0.0f);
+			Contrib pixel_color;
 
 			//i = globales->res_x/2; j = globales->res_y/2;
 			//i=50; j=250;
 			//std::clog << "StartRender::Shooting ray!" << endl;
 			if(globales->samples_per_pixel > 1) {
+                // Una divisón y n multiplicacones se hacen mas
+                // rapido que n divisiones.
+                double samp_div = 1.0f / globales->samples_per_pixel;
+
 				for(int k = 0; k < globales->samples_per_pixel; k++) {
 					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
-                    Ray r = globales->camera->get_ray((double(i)+rng.Random()-.5)/double(globales->res_x), (double(j)+rng.Random()-.5)/double(globales->res_y), rng.Random(), rng.Random());
-                    //Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), 0.0f, 0.0f);
+					double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
+                            cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
+                            cam_sx = rng.Random(),
+                            cam_sy = rng.Random();
 
-					pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * 1.0/globales->samples_per_pixel;
+                    Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
+
+					pixel_color += globales->renderer->get_color_v2(r, globales->scene, .00001f, 1e5, 1) * samp_div;
 				}
 			}
 			else
 			{
-				Ray r = globales->camera->get_ray(double(i)/double(globales->res_x), double(j)/double(globales->res_y), rng.Random(), rng.Random());
+			    double  cam_x = static_cast<double>(i)/static_cast<double>(globales->res_x),
+                        cam_y = static_cast<double>(j)/static_cast<double>(globales->res_y),
+                        cam_sx = rng.Random(),
+                        cam_sy = rng.Random();
+
+				Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
 
 				//pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
-				pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
+				pixel_color += globales->renderer->get_color_v2(r, globales->scene, .00001f, 1e5, 1);
 			}
 
 			//std::clog << "RgbPixelColor: " << pixel_color << endl;
@@ -370,17 +399,15 @@ bool parse_file(Globals *globales, std::string scene_desc_file)
 	return true;
 }
 
-bool save_file(Globals *globales, std::string output_file)
+bool save_file(Globals *globales, std::string output_file, int type)
 {
     ofstream 	os_image_file;
-
-    globales->image->gamma_correct(2.2f);
 
 	std::cout << "\n\nSaving file: " << output_file << " ... ";
 
 	os_image_file.open(output_file.c_str(), ios::binary);
 
-	globales->image->save_ppm(os_image_file);
+	globales->image->save_ppm(os_image_file, type);
 
 	os_image_file.close();
 

@@ -104,6 +104,12 @@ class Scene {
 		// Devuelve el elemento i-ésimo de la lista de luces.
 		Shape *get_light(int i) { return lights[i]->s; };
 
+		// Cambia el color de ambiente de la escena.
+		void set_ambient_color(const RGB &color) { ambient_color = color; }
+
+		// Obtiene el color de ambiente.
+		RGB get_ambient_color() const { return ambient_color; }
+
 		// Cambia el color de fondo de la escena.
 		void set_bg_color(const RGB &color) { bg_color = color; }
 
@@ -119,7 +125,8 @@ class Scene {
 		std::vector<Material_node *>  materials;
 		std::vector<Texture_node *>   textures;
 
-		RGB bg_color;
+		RGB ambient_color,
+            bg_color;
 };
 
 #endif // __SCENE_HPP__

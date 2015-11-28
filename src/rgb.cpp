@@ -20,7 +20,7 @@ void RGB::clamp(double min_val, double max_val)
 
 std::ostream& operator<<(std::ostream &os, const RGB &c)
 {
-	os << '<' << c.r() << ", " << c.g() << ", " << c.b() << '>';
+	os << "RGB<" << c.r() << ", " << c.g() << ", " << c.b() << ">";
 
 	return os;
 }

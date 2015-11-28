@@ -1,5 +1,6 @@
 #include "statistics.h"
 
+// Definición. Están declaradas como extern, pero aquí es redundante.
 namespace Statistics
 {
     int     num_primary_rays    = 0;

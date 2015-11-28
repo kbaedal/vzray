@@ -81,10 +81,10 @@ bool Image::get(int a_width, int a_height, Contrib &a_contrib)
 void Image::gamma_correct(double gamma)
 {
 	Contrib c;
-	double  power = 1.0 / gamma;
+	double  power = 1.0f / gamma;
 
-	for(int x = 0; x < width; x++) {
-		for(int y = 0; y < height; y++) {
+	for(int x = 0; x < width; ++x) {
+		for(int y = 0; y < height; ++y) {
 			c = pixels[x][y];
 
 			for(int z = 0; z < 4; ++z)
@@ -124,4 +124,17 @@ void Image::save_ppm(std::ostream &os, int type)
 			os.put(file_b);
 		}
 	}
+}
+
+void Image::create_final_img()
+{
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
+            pixels[x][y][0].set(0.0f, 0.0f, 0.0f);
+
+            // Acumulamos los resultados.
+            for(int z = 1; z < 4; ++z)
+                pixels[x][y][0] += pixels[x][y][z];
+        }
+    }
 }

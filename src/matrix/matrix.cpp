@@ -28,6 +28,26 @@ void Matrix4x4::set(double m[16])
 			e[i][j] = m[k++];
 }
 
+Matrix4x4 Matrix4x4::operator-() const
+{
+    Matrix4x4 m;
+
+    for(int i = 0; i < 4; ++i)
+        for(int j = 0; j < 4; ++j)
+			m.e[i][j] = -e[i][j];
+
+    return m;
+}
+
+Matrix4x4 &Matrix4x4::operator+=(Matrix4x4 const &m)
+{
+    for(int i = 0; i < 4; ++i)
+        for(int j = 0; j < 4; ++j)
+            e[i][j] += m.e[i][j];
+
+    return *this;
+}
+
 Matrix4x4 Matrix4x4::get_inv()
 {
 	// Aplicaremos el método de cálculo por determinates:
@@ -87,7 +107,7 @@ Matrix4x4 Matrix4x4::get_cofactor()
     return mtemp;
 }
 
-Matrix4x4 operator+(const Matrix4x4 &m1, const Matrix4x4 &m2)
+Matrix4x4 operator+(Matrix4x4 m1, const Matrix4x4 &m2)
 {
 	Matrix4x4 mtemp;
 
@@ -98,7 +118,7 @@ Matrix4x4 operator+(const Matrix4x4 &m1, const Matrix4x4 &m2)
     return mtemp;
 }
 
-Matrix4x4 operator-(const Matrix4x4 &m1, const Matrix4x4 &m2)
+Matrix4x4 operator-(Matrix4x4 m1, const Matrix4x4 &m2)
 {
 	Matrix4x4 mtemp;
 
@@ -109,7 +129,7 @@ Matrix4x4 operator-(const Matrix4x4 &m1, const Matrix4x4 &m2)
     return mtemp;
 }
 
-Matrix4x4 operator*(const Matrix4x4 &m1, const Matrix4x4 &m2)
+Matrix4x4 operator*(Matrix4x4 m1, const Matrix4x4 &m2)
 {
     Matrix4x4 mtemp;
 
@@ -126,7 +146,7 @@ Matrix4x4 operator*(const Matrix4x4 &m1, const Matrix4x4 &m2)
     return mtemp;
 }
 
-Matrix4x4 operator/(const Matrix4x4 &m1, const Matrix4x4 &m2)
+Matrix4x4 operator/(Matrix4x4 m1, const Matrix4x4 &m2)
 {
     Matrix4x4 mres, mtemp;
 
@@ -191,7 +211,7 @@ Point Matrix4x4::transform(const Point &p)
     return Point(nuevas_comp[0], nuevas_comp[1], nuevas_comp[2]);
 }
 
-Matrix4x4 operator*(const Matrix4x4 &m, double v)
+Matrix4x4 operator*(Matrix4x4 m, double v)
 {
 	Matrix4x4 mtemp;
 
@@ -202,14 +222,16 @@ Matrix4x4 operator*(const Matrix4x4 &m, double v)
 	return mtemp;
 }
 
-Matrix4x4 operator/(const Matrix4x4 &m, double v)
+Matrix4x4 operator/(Matrix4x4 m, double v)
 {
 	Matrix4x4 mtemp;
 
 	if(v != 0.0) {
+        double inv = 1.0f / v;
+
 		for(int i = 0; i < 4; i++)
 			for(int j = 0; j < 4; j++)
-				mtemp.e[i][j] = m.e[i][j] / v;
+				mtemp.e[i][j] = m.e[i][j] * inv;
 	}
 
 	return mtemp;

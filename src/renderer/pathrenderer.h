@@ -2,6 +2,7 @@
 #define __PATHRENDERER_H__ 1
 
 #include <vector>
+#include <string>
 
 #include "renderer/renderer.h"
 #include "ray.h"
@@ -14,14 +15,16 @@
 class PathRenderer : public Renderer
 {
 	public:
-		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth);
-		PathRenderer(int a_max_depth = 5, int seed = 65535)
+	    PathRenderer(int a_max_depth = 5, int seed = 65535) : max_depth(a_max_depth)
 		{
-			max_depth = a_max_depth;
 			rng.RandomInit(seed);
 		}
 
-		int renderer_type() { return 1; }
+		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth) final;
+		Contrib get_color_v2(Ray r, Scene *scene, double min_dist, double max_dist, int depth) final;
+
+
+		std::string renderer_type() { return std::string("Pathtracing"); }
 
 	private:
 		int 			max_depth;

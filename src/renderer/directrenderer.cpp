@@ -54,6 +54,66 @@ RGB DirectRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_d
     }
 }
 
+Contrib DirectRenderer::get_color_v2(Ray r, Scene *scene, double min_dist, double max_dist, int depth)
+{
+    HitRecord   hit_r;
+	RGB			color,
+                temp_color;
+	double		brdf = 1.0;
+	Vec3		out_dir;
+    Point		intersection;
+    Ray			out_ray;
+
+    Contrib c, temp_contrib;
+
+    //
+    // TODO: Tratar cara a cara con materiales especulares, transmisivos, etc.
+    //
+
+    // Comprobar que tenemos una interseccion.
+    if(scene->nearest_intersection(r, min_dist, max_dist, hit_r)) {
+        // Añadimos el color emitido
+        if(depth == 1)
+            c[1] += hit_r.material->emittance();
+        else
+            c[2] += hit_r.material->emittance();
+
+
+        if(depth == 1)// Y el ambiente.
+            c[1] += hit_r.material->ambient();
+        else
+            c[2] += hit_r.material->ambient();
+
+        // Calculamos el punto de interseccion.
+        intersection = r.get_point(hit_r.dist);
+
+        if(depth < max_depth) {
+            // Veamos la direccion a la que enviamos la luz
+            out_dir = hit_r.material->out_direction(r.direction(), hit_r.normal, brdf, temp_color, &rng);
+
+            out_ray.set(intersection, out_dir);
+            c += temp_contrib * get_color_v2(out_ray, scene, min_dist, max_dist, depth+1);
+
+        }
+
+        if(depth == 1)
+            c[1] += direct_light(intersection, scene, hit_r) * brdf;
+        else
+            c[2] += direct_light(intersection, scene, hit_r) * brdf;
+
+        return c;
+    }
+    else {
+        // Si no hay interseccion, devolvemos el color de fondo.
+        if(depth == 1)
+            c[1] = scene->get_bg_color();
+        else
+            c[2] = scene->get_bg_color();
+
+        return c;
+    }
+}
+
 RGB DirectRenderer::direct_light(Point p, Scene *scene, HitRecord &hit_r)
 {
 	RGB 	diffuse_color;

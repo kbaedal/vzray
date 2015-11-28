@@ -19,15 +19,17 @@ class Vec3
 		Vec3(const Vec3 &v) { this->set(v); }
 		Vec3(const Point &p);
 
-		// Operadores aritmeticos
+		// Operadores aritmeticos unarios
 		const Vec3 &operator+() const { return *this; }
 		Vec3 operator-() const { return Vec3(-e[0], -e[1], -e[2]); }
-		friend Vec3 operator+(const Vec3 &v1, const Vec3 &v2);
-		friend Vec3 operator-(const Vec3 &v1, const Vec3 &v2);
-		friend Vec3 operator*(const Vec3 &v, double f);
-		friend Vec3 operator*(double f, const Vec3 &v);
-		friend Vec3 operator/(const Vec3 &v, double f);
-		friend Vec3 operator/(double f, const Vec3 &v);
+		Vec3 &operator+=(Vec3 const &v);
+
+		// Operadores aritmeticos binarios
+		friend Vec3 operator+(Vec3 v1, const Vec3 &v2);
+		friend Vec3 operator-(Vec3 v1, const Vec3 &v2);
+		friend Vec3 operator*(Vec3 v, double f);
+		friend Vec3 operator*(double f, Vec3 v);
+		friend Vec3 operator/(Vec3 v, double f);
 
 		// Operadores logicos
 		friend bool operator==(const Vec3 &v1, const Vec3 &v2);
@@ -110,9 +112,9 @@ class Vec3
 		 */
 		friend Vec3 refract(
 			const Vec3 &in, 		// Incoming vector
-			const Vec3 &norm, 	// Normal at intersection point
+			const Vec3 &norm, 	    // Normal at intersection point
 			const double ext_ior, 	// External index of refraction
-			const double int_ior		// Internal index of refraction
+			const double int_ior	// Internal index of refraction
 		);
 
 		/**

@@ -2,6 +2,7 @@
 #define __DIRECTRENDERER_H__ 1
 
 #include <vector>
+#include <string>
 
 #include "renderer.h"
 
@@ -16,15 +17,16 @@
 class DirectRenderer : public Renderer
 {
 	public:
-		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth);
-		DirectRenderer(int a_max_depth = 5, int a_shadow_samps = 1, int seed = 65535)
+		DirectRenderer(int a_max_depth = 5, int a_shadow_samps = 1, int seed = 65535) :
+            max_depth(a_max_depth), shadow_samps(a_shadow_samps)
 		{
-			max_depth 	    = a_max_depth;
-			shadow_samps 	= a_shadow_samps;
 			rng.RandomInit(seed);
 		}
 
-		int renderer_type() { return 0; }
+		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth) final;
+		Contrib get_color_v2(Ray r, Scene *scene, double min_dist, double max_dist, int depth) final;
+
+		std::string renderer_type() { return std::string("Whitted raytracing"); }
 
 	private:
 		RGB direct_light(Point p, Scene *scene, HitRecord &hit);

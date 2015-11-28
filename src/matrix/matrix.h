@@ -80,26 +80,34 @@ class Matrix4x4 {
          */
         Point transform(const Point &p);
 
-        friend Matrix4x4 operator+(const Matrix4x4 &m1, const Matrix4x4 &m2);
-        friend Matrix4x4 operator-(const Matrix4x4 &m1, const Matrix4x4 &m2);
-		friend Matrix4x4 operator*(const Matrix4x4 &m1, const Matrix4x4 &m2);
-		friend Matrix4x4 operator/(const Matrix4x4 &m1, const Matrix4x4 &m2);
+        // Operadores aritmeticos unarios
+		const Matrix4x4 &operator+() const { return *this; }
+		Matrix4x4 operator-() const;
+		Matrix4x4 &operator+=(Matrix4x4 const &m);
 
-        friend Matrix4x4 operator*(const Matrix4x4 &m, double v);
+        // Operadores atitmeticos binarios
+        friend Matrix4x4 operator+(Matrix4x4 m1, const Matrix4x4 &m2);
+        friend Matrix4x4 operator-(Matrix4x4 m1, const Matrix4x4 &m2);
+		friend Matrix4x4 operator*(Matrix4x4 m1, const Matrix4x4 &m2);
+		friend Matrix4x4 operator/(Matrix4x4 m1, const Matrix4x4 &m2);
+
+        friend Matrix4x4 operator*(Matrix4x4 m, double v);
 
         /**
          * \brief El operador / devolvera la matriz identidad si se intenta dividir por 0.
          */
-        friend Matrix4x4 operator/(const Matrix4x4 &m, double v);
+        friend Matrix4x4 operator/(Matrix4x4 m, double v);
 
         friend inline std::ostream &operator<<(std::ostream &os, const Matrix4x4 &m)
         {
-            for(int i = 0; i < 4; i++) {
-                for(int j = 0; j < 4; j++) {
-                    os << std::setw(11) << std::setprecision(5) << ((fabs(m.e[i][j]) < .00001) ? 0.f : m.e[i][j]) << " ";
+            os << "Matrix4x4<";
+            for(int i = 0; i < 4; ++i) {
+                for(int j = 0; j < 4; ++j) {
+                    os << std::setw(11) << std::setprecision(5) << ((fabs(m.e[i][j]) < .00001) ? 0.0f : m.e[i][j]) << " ";
                 }
                 os << std::endl;
             }
+            os << ">" << std::endl;
 
             return os;
         }

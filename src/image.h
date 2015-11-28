@@ -4,36 +4,6 @@
 #include <iostream>
 #include "rgb.h"
 
-struct Contrib {
-    Contrib &operator+=(const Contrib &c)
-    {
-        for(int i = 0; i < 4; ++i)
-            comp[i] += c[i];
-
-        return *this;
-    }
-
-    friend Contrib operator+(Contrib c1, const Contrib &c2)
-    {
-        c1 += c2;
-        return c1;
-    }
-
-    void set(const Contrib &c)
-    {
-        for(int i = 0; i < 4; ++i)
-            comp[i] = c[i];
-    }
-
-    RGB &operator[](int i) { return comp[i]; }
-    const RGB &operator[](int i) const { return comp[i]; }
-
-    RGB comp[4];  // 0 final image (1+2+3)
-                  // 1 direct contribution
-                  // 2 pathtracing contribution
-                  // 3 caustics contribution
-};
-
 /**
  * \class Clase para el manejo de la imagen generada por el raytracer.
  *
@@ -66,6 +36,11 @@ class Image
 		 * \param type Componente a guardar. Si 0, imagen completa.
 		 */
 		void save_ppm(std::ostream &os, int type = 0);
+
+		/**
+		 * \brief Compone la imagen final sumando las contribuciones.
+		 */
+        void create_final_img();
 
 	private:
 		Contrib **pixels;

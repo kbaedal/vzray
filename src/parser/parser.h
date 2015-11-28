@@ -68,6 +68,7 @@ class Parser {
 		bool process_image();
 
 		bool process_scene();
+		bool process_settings();
 
 		bool process_transform(Transform *t);
 

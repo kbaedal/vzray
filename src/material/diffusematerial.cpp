@@ -13,7 +13,7 @@ Vec3 DiffuseMaterial::out_direction(Vec3 const &in, Vec3 const &norm, double &br
 {
 	// Generamos una nueva direccion. Sera una direccion aleatoria en la
 	// semiesfera definida por la normal.
-	brdf = 1.0 / 3.14159;
+	brdf = 1.0f;
 	color = radiance() * brdf;
 	return versor(random_dir(norm, rng->Random(), rng->Random()));
 }

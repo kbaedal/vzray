@@ -817,7 +817,7 @@ bool Parser::process_image()
 {
 	std::string temp;
 	int			res_x, res_y;
-	double		background_color[3];
+//	double		bgcolor[3];
 
 	if(!read_bloque_ints("res_x", 1, &res_x))
 		return false;
@@ -825,8 +825,10 @@ bool Parser::process_image()
 	if(!read_bloque_ints("res_y", 1, &res_y))
 		return false;
 
-	if(!read_bloque_floats("bgcolor", 3, background_color))
+/*
+	if(!read_bloque_floats("bgcolor", 3, bgcolor))
 		return false;
+*/
 
 	if(res_x > 0) // Otherwise, use default.
 		globales->res_x = res_x;
@@ -844,8 +846,9 @@ bool Parser::process_image()
 		return false;
 
 	if(globales->image == nullptr)
-		globales->image = new Image(res_x, res_y,
-			RGB(background_color[0], background_color[1], background_color[2]));
+		globales->image = new Image(res_x, res_y);
+		//globales->scene->set_bg_color(RGB(background_color[0], background_color[1], background_color[2]));
+
 	else // Image ya creada, error.
 		return false;
 
@@ -868,11 +871,15 @@ bool Parser::process_scene()
 			if(!read_token(etiqueta))
 				return false;
 
-			if(etiqueta == "/scene")
+            if(etiqueta == "/scene")
 				fin_bloque = true;
 			else
 			{
-				if(etiqueta == "texture") {
+			    if(etiqueta == "settings") {
+					if(!process_settings())
+						return false;
+				}
+				else if(etiqueta == "texture") {
 					if(!process_texture())
 						return false;
 				}
@@ -884,7 +891,7 @@ bool Parser::process_scene()
 					if(!process_object())
 						return false;
 				}
-				else // Etiqueta desconocida, no perteneciente a la seccion config.
+				else // Etiqueta desconocida, no perteneciente a la seccion scene.
 					return false;
 			}
 		}
@@ -893,6 +900,33 @@ bool Parser::process_scene()
 		return false;
 
 	return true;
+}
+
+bool Parser::process_settings()
+{
+    std::string temp;
+	double		ambient_color[3],
+                bg_color[3];
+
+	if(!read_bloque_floats("ambient_color", 3, ambient_color))
+		return false;
+
+    if(!read_bloque_floats("bg_color", 3, bg_color))
+		return false;
+
+	if(!ignorar_chars())
+		return false;
+
+	if(!read_token(temp))
+		return false;
+
+	if(temp != "/settings")
+		return false;
+
+    globales->scene->set_ambient_color(RGB(ambient_color));
+    globales->scene->set_bg_color(RGB(bg_color));
+
+    return true;
 }
 
 bool Parser::process_texture()

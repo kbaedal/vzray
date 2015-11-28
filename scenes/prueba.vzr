@@ -14,9 +14,9 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <config>
 	<renderer>
-		<type>whitted</type>
-		<samples>1</samples>
-		<max_depth>1</max_depth>
+		<type>path</type>
+		<samples>4</samples>
+		<max_depth>64</max_depth>
 	</renderer>
 	<camera>
 		<type>pinhole</type>
@@ -31,7 +31,6 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<image>
 		<res_x>512</res_x>
 		<res_y>384</res_y>
-		<bgcolor>0, 0, 0</bgcolor>
 	</image>
 </config>
 

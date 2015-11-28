@@ -48,5 +48,14 @@ RGB PathRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_dis
         }
     }
 
-    return RGB(0.0f, 0.0f, 0.0f);
+    return scene->get_bg_color();
+}
+
+Contrib PathRenderer::get_color_v2(Ray r, Scene *scene, double min_dist, double max_dist, int depth)
+{
+    Contrib c;
+
+    c[0] = RGB(0.0f);
+
+    return c;
 }

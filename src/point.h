@@ -17,15 +17,17 @@ class Point
 		Point(const Point &p) { this->set(p); }
 		Point(const Vec3 &v);
 
-		// Operadores aritmeticos
+		// Operadores aritmeticos unarios
 		const Point &operator+() const { return *this; }
 		Point operator-() const { return Point(-e[0], -e[1], -e[2]); }
-		friend Point operator+(const Point &p1, const Point &p2);
-		friend Point operator-(const Point &p1, const Point &p2);
-		friend Point operator*(const Point &p, double f);
-		friend Point operator*(double f, const Point &p);
-		friend Point operator/(const Point &p, double f);
-		friend Point operator/(double f, const Point &p);
+		Point &operator+=(Point const &p);
+
+		// Operadores aritmeticos binarios
+		friend Point operator+(Point p1, const Point &p2);
+		friend Point operator-(Point p1, const Point &p2);
+		friend Point operator*(Point p, double f);
+		friend Point operator*(double f, Point p);
+		friend Point operator/(Point p, double f);
 
 		// Operadores logicos
 		friend bool operator==(const Point &p1, const Point &p2);
