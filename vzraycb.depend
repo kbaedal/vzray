@@ -1019,7 +1019,7 @@
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1448627949 source:c:\prog\vzraycb\src\material\diffusematerial.cpp
+1448899973 source:c:\prog\vzraycb\src\material\diffusematerial.cpp
 	"material/diffusematerial.h"
 	"vec2.h"
 	"vec3.h"
@@ -1080,7 +1080,7 @@
 1446719749 source:c:\prog\vzraycb\src\onb.cpp
 	"onb.h"
 
-1448705286 source:c:\prog\vzraycb\src\parser\parser.cpp
+1448706225 source:c:\prog\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -1395,7 +1395,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1448628064 source:c:\prog\vzraycb\src\vzray.cpp
+1448885124 source:c:\prog\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>

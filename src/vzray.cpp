@@ -204,7 +204,7 @@ bool start_render(Globals *globales)
                 // rapido que n divisiones.
                 double samp_div = 1.0f / globales->samples_per_pixel;
 
-				for(int k = 0; k < globales->samples_per_pixel; k++) {
+				for(int k = 0; k < globales->samples_per_pixel; ++k) {
 					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
 					double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
                             cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
@@ -271,7 +271,7 @@ bool start_render_v2(Globals *globales)
                 // rapido que n divisiones.
                 double samp_div = 1.0f / globales->samples_per_pixel;
 
-				for(int k = 0; k < globales->samples_per_pixel; k++) {
+				for(int k = 0; k < globales->samples_per_pixel; ++k) {
 					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
 					double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
                             cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
