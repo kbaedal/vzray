@@ -81,6 +81,6 @@ bool Parallelogram::shadow_hit(const Ray &r, double min_dist, double max_dist) c
 
 bool Parallelogram::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point &light_pos) const
 {
-	light_pos = Point(base + rng->Random() * Point(u) + rng->Random() * Point(v));
+	light_pos = Point(base + (Point(u) * rng->Random()) + (Point(v) * rng->Random()));
 	return true;
 }

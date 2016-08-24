@@ -14,8 +14,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <config>
 	<renderer>
-		<type>path</type>
-		<samples>10</samples>
+		<type>whitted</type>
+		<samples>1</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -69,7 +69,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<texture>
 		<type>simple</type>
 		<id>LightWhite</id>
-		<color>12.0, 12.0, 12.0</color>
+		<color>1.0, 1.0, 1.0</color>
 	</texture>
 	<texture>
 		<type>simple</type>
@@ -127,7 +127,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<type>sphere</type>
 		<center>27, 16.5, 47</center>
 		<radius>16.5</radius>
-		<material>Specular</material>
+		<!-- <material>Specular</material> -->
+		<material>DiffuseWhite</material>
 	</object>
 	
 	<!-- Glass sphere -->
@@ -135,72 +136,64 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<type>sphere</type>
 		<center>73, 16.5, 78</center>
 		<radius>16.5</radius>
-		<material>Dielectric</material>
-	</object>
-		
-	<!-- Left wall (red) -->
-	<object>
-		<type>plane</type>
-		<normal>1, 0, 0</normal>
-		<distance>-1</distance>
-		<material>DiffuseRed</material>
-	</object>
-	
-	<!-- Right wall (blue) -->
-	<object>
-		<type>plane</type>
-		<normal>-1, 0, 0</normal>
-		<distance>99</distance>
-		<material>DiffuseBlue</material>
-	</object>
-	
-	<!-- Back wall -->
-	<object>
-		<type>plane</type>
-		<normal>0, 0, 1</normal>
-		<distance>0</distance>
-		<material>DiffuseWhite</material>
-	</object>
-	
-	<!-- Front wall -->
-	<object>
-		<type>plane</type>
-		<normal>0, 0, -1</normal>
-		<distance>170</distance>
-		<material>DiffusePureBlack</material>
-	</object>
-	
-	<!-- Bottom wall -->
-	<object>
-		<type>plane</type>
-		<normal>0, 1, 0</normal>
-		<distance>0</distance>
+		<!-- <material>Dielectric</material> -->
 		<material>DiffuseWhite</material>
 	</object>
 		
-	<!-- Top wall -->
-	<object>
-		<type>plane</type>
-		<normal>0, -1, 0</normal>
-		<distance>81.6</distance>
-		<material>DiffuseWhite</material>
-	</object>	
-		
-	<!-- Light sphere
+	<!-- Light sphere -->
 	<object>
 		<type>sphere</type>
 		<center>50,681.33,81.6</center>
 		<radius>600</radius>
 		<material>Light</material>
 	</object>
-	-->
 	
-	<!-- Light parallelogram -->
+	<!-- Left Wall (Red) -->
 	<object>
-		<type>parallelogram</type>
-		<base>32.5,81.5,64.1</base>
-		<vec_u>35, 0, 0</vec_u>
-		<vec_v>0, 0, 35</vec_v>
-		<material>Light</material>
-	</object>	
+		<type>sphere</type>
+		<center>100001,40.80,81.6</center>
+		<radius>100000</radius>
+		<material>DiffuseRed</material>
+	</object>
+	
+	<!-- Right wall (Blue) -->
+	<object>
+		<type>sphere</type>
+		<center>-99901,40.80,81.6</center>
+		<radius>100000</radius>
+		<material>DiffuseBlue</material>
+	</object>
+	
+	<!-- Back wall (White) -->
+	<object>
+		<type>sphere</type>
+		<center>50,40.80,100000</center>
+		<radius>100000</radius>
+		<material>DiffuseWhite</material>
+	</object>
+	
+	<!-- Front wall (Black) -->
+	<object>
+		<type>sphere</type>
+		<center>50,40.80,-99830</center>
+		<radius>100000</radius>
+		<material>DiffusePureBlack</material>
+	</object>
+	
+	<!-- Bottom wall (White) -->
+	<object>
+		<type>sphere</type>
+		<center>50,100000,81.6</center>
+		<radius>100000</radius>
+		<material>DiffuseWhite</material>
+	</object>
+	
+	<!-- Top wall (White) -->
+	<object>
+		<type>sphere</type>
+		<center>50,-99918.4,81.6</center>
+		<radius>100000</radius>
+		<material>DiffuseWhite</material>
+	</object>
+	
 </scene>

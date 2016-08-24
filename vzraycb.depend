@@ -1945,3 +1945,514 @@
 	"onb.h"
 	"statistics.h"
 
+1446723210 source:c:\develop\projects\vzraycb\src\aabb\aabb.cpp
+	"aabb/aabb.h"
+
+1446723210 c:\develop\projects\vzraycb\src\aabb\aabb.h
+	<cmath>
+	"point.h"
+
+1448447934 c:\develop\projects\vzraycb\src\point.h
+	<iostream>
+
+1446723349 source:c:\develop\projects\vzraycb\src\camera\pinhole.cpp
+	"camera/pinhole.h"
+
+1446723350 c:\develop\projects\vzraycb\src\camera\pinhole.h
+	"camera.h"
+	"vec3.h"
+	"point.h"
+	"onb.h"
+	"ray.h"
+
+1448363677 c:\develop\projects\vzraycb\src\camera\camera.h
+	"ray.h"
+
+1446723350 c:\develop\projects\vzraycb\src\ray.h
+	<iostream>
+	"vec3.h"
+	"point.h"
+	"material/material.h"
+
+1448448183 c:\develop\projects\vzraycb\src\vec3.h
+	<cmath>
+	<iostream>
+
+1447242322 c:\develop\projects\vzraycb\src\material\material.h
+	"rgb.h"
+	"vec3.h"
+	"textures/texture.h"
+	"randomc/randomc.h"
+
+1472037184 c:\develop\projects\vzraycb\src\rgb.h
+	<iostream>
+
+1446723210 c:\develop\projects\vzraycb\src\textures\texture.h
+	"vec3.h"
+	"vec2.h"
+	"rgb.h"
+
+1447267062 c:\develop\projects\vzraycb\src\vec2.h
+	<math.h>
+	<iostream>
+
+1446723349 c:\develop\projects\vzraycb\src\randomc\randomc.h
+	<inttypes.h>
+
+1446723349 c:\develop\projects\vzraycb\src\onb.h
+	<iostream>
+	<math.h>
+	"vec3.h"
+
+1446723350 source:c:\develop\projects\vzraycb\src\camera\thinlens.cpp
+	"camera/thinlens.h"
+
+1446723350 c:\develop\projects\vzraycb\src\camera\thinlens.h
+	"vec3.h"
+	"point.h"
+	"onb.h"
+	"ray.h"
+	"camera/camera.h"
+
+1448707415 source:c:\develop\projects\vzraycb\src\image.cpp
+	<cmath>
+	"image.h"
+
+1448369794 c:\develop\projects\vzraycb\src\image.h
+	<iostream>
+	"rgb.h"
+
+1447250525 source:c:\develop\projects\vzraycb\src\material\dielectricmaterial.cpp
+	"material/dielectricmaterial.h"
+	"vec2.h"
+	"vec3.h"
+	<stdio.h>
+
+1446723350 c:\develop\projects\vzraycb\src\material\dielectricmaterial.h
+	"material/material.h"
+	"rgb.h"
+	"vec3.h"
+	"textures/texture.h"
+	"randomc/randomc.h"
+
+1448903573 source:c:\develop\projects\vzraycb\src\material\diffusematerial.cpp
+	"material/diffusematerial.h"
+	"vec2.h"
+	"vec3.h"
+
+1446723350 c:\develop\projects\vzraycb\src\material\diffusematerial.h
+	"material/material.h"
+	"rgb.h"
+	"vec3.h"
+	"textures/texture.h"
+	"randomc/randomc.h"
+
+1448648188 source:c:\develop\projects\vzraycb\src\material\lightmaterial.cpp
+	"material/lightmaterial.h"
+	"vec2.h"
+	"vec3.h"
+
+1446723349 c:\develop\projects\vzraycb\src\material\lightmaterial.h
+	"material/material.h"
+	"rgb.h"
+	"vec3.h"
+	"textures/texture.h"
+	"randomc/randomc.h"
+
+1446723210 source:c:\develop\projects\vzraycb\src\material\specularmaterial.cpp
+	"material/specularmaterial.h"
+	"vec2.h"
+	"vec3.h"
+
+1446723349 c:\develop\projects\vzraycb\src\material\specularmaterial.h
+	"material/material.h"
+	"rgb.h"
+	"vec3.h"
+	"textures/texture.h"
+	"randomc/randomc.h"
+
+1448473483 source:c:\develop\projects\vzraycb\src\matrix\matrix.cpp
+	<vector>
+	"matrix/matrix.h"
+
+1448539830 c:\develop\projects\vzraycb\src\matrix\matrix.h
+	<iostream>
+	<iomanip>
+	"vec3.h"
+	"point.h"
+
+1446723349 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
+	<cstdlib>
+	"matrix/transform.h"
+
+1446723349 c:\develop\projects\vzraycb\src\matrix\transform.h
+	<iostream>
+	"matrix.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"aabb/aabb.h"
+
+1446723349 source:c:\develop\projects\vzraycb\src\onb.cpp
+	"onb.h"
+
+1472030215 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
+	<iostream>
+	<fstream>
+	<sstream>
+	<cstdlib>
+	<string>
+	<ctime>
+	<cstdio>
+	"parser.h"
+	"scene/scene.h"
+	"renderer/renderer.h"
+	"renderer/directrenderer.h"
+	"renderer/pathrenderer.h"
+	"camera/camera.h"
+	"camera/pinhole.h"
+	"camera/thinlens.h"
+	"image.h"
+	"textures/texture.h"
+	"textures/simpletexture.h"
+	"material/material.h"
+	"material/dielectricmaterial.h"
+	"material/diffusematerial.h"
+	"material/specularmaterial.h"
+	"material/lightmaterial.h"
+	"matrix/transform.h"
+	"shapes/shape.h"
+	"shapes/parallelogram.h"
+	"shapes/plane.h"
+	"shapes/disc.h"
+	"shapes/sphere.h"
+	"shapes/cylinder.h"
+	"shapes/box.h"
+	"shapes/triangle.h"
+	"shapes/mesh.h"
+	"shapes/meshtriangle.h"
+
+1448708482 c:\develop\projects\vzraycb\src\parser\parser.h
+	<iostream>
+	<fstream>
+	<cstdlib>
+	<string>
+	"vzray.h"
+	"vec3.h"
+	"point.h"
+	"shapes/shape.h"
+	"shapes/meshtriangle.h"
+	"matrix/transform.h"
+
+1448542977 c:\develop\projects\vzraycb\src\vzray.h
+	"camera/camera.h"
+	"scene/scene.h"
+	"image.h"
+	"renderer/renderer.h"
+
+1448708730 c:\develop\projects\vzraycb\src\scene\scene.h
+	<string>
+	<vector>
+	"material/material.h"
+	"shapes/shape.h"
+	"textures/texture.h"
+	"ray.h"
+	"rgb.h"
+
+1447350467 c:\develop\projects\vzraycb\src\shapes\shape.h
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+	"material/material.h"
+	"matrix/transform.h"
+	"randomc/randomc.h"
+	"aabb/aabb.h"
+
+1448363757 c:\develop\projects\vzraycb\src\renderer\renderer.h
+	<vector>
+	<string>
+	"ray.h"
+	"vec3.h"
+	"rgb.h"
+	"shapes/shape.h"
+	"scene/scene.h"
+
+1446723349 c:\develop\projects\vzraycb\src\shapes\meshtriangle.h
+	"shape.h"
+	"mesh.h"
+	"vec3.h"
+	"ray.h"
+	"rgb.h"
+
+1446723349 c:\develop\projects\vzraycb\src\shapes\mesh.h
+	<vector>
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"vec2.h"
+	"ray.h"
+	"rgb.h"
+
+1448365184 c:\develop\projects\vzraycb\src\renderer\directrenderer.h
+	<vector>
+	<string>
+	"renderer.h"
+	"ray.h"
+	"vec3.h"
+	"point.h"
+	"rgb.h"
+	"shapes/shape.h"
+	"randomc/randomc.h"
+	"scene/scene.h"
+
+1448363825 c:\develop\projects\vzraycb\src\renderer\pathrenderer.h
+	<vector>
+	<string>
+	"renderer/renderer.h"
+	"ray.h"
+	"vec3.h"
+	"rgb.h"
+	"shapes/shape.h"
+	"randomc/randomc.h"
+	"scene/scene.h"
+
+1446723210 c:\develop\projects\vzraycb\src\textures\simpletexture.h
+	"textures/texture.h"
+
+1446723349 c:\develop\projects\vzraycb\src\shapes\parallelogram.h
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+
+1447350482 c:\develop\projects\vzraycb\src\shapes\plane.h
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+
+1447065557 c:\develop\projects\vzraycb\src\shapes\disc.h
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+
+1447350489 c:\develop\projects\vzraycb\src\shapes\sphere.h
+	"shape.h"
+	"vec3.h"
+	"ray.h"
+	"rgb.h"
+	"randomc/randomc.h"
+
+1446723349 c:\develop\projects\vzraycb\src\shapes\cylinder.h
+	"shape.h"
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+	"randomc/randomc.h"
+
+1446723350 c:\develop\projects\vzraycb\src\shapes\box.h
+	<ctime>
+	"vec3.h"
+	"point.h"
+	"ray.h"
+	"rgb.h"
+	"shapes/shape.h"
+	"randomc/randomc.h"
+
+1446723350 c:\develop\projects\vzraycb\src\shapes\triangle.h
+	"vec3.h"
+	"ray.h"
+	"rgb.h"
+	"shapes/shape.h"
+
+1448447957 source:c:\develop\projects\vzraycb\src\point.cpp
+	"point.h"
+	"vec3.h"
+	"randomc/randomc.h"
+	"onb.h"
+
+1446723349 source:c:\develop\projects\vzraycb\src\randomc\randomc.cpp
+	"randomc/randomc.h"
+
+1446723350 source:c:\develop\projects\vzraycb\src\ray.cpp
+	"ray.h"
+
+1448707446 source:c:\develop\projects\vzraycb\src\renderer\pathrenderer.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	"renderer/pathrenderer.h"
+	"randomc/randomc.h"
+	"material/dielectricmaterial.h"
+	"scene/scene.h"
+
+1448386670 source:c:\develop\projects\vzraycb\src\rgb.cpp
+	"rgb.h"
+
+1446723349 source:c:\develop\projects\vzraycb\src\scene\scene.cpp
+	<vector>
+	"scene.h"
+	"statistics.h"
+	"ray.h"
+	"shapes/shape.h"
+	"aabb/aabb.h"
+	"shapes/box.h"
+	"shapes/sphere.h"
+	"textures/texture.h"
+	"textures/simpletexture.h"
+	"material/material.h"
+	"material/diffusematerial.h"
+
+1446723210 c:\develop\projects\vzraycb\src\statistics.h
+
+1446723350 source:c:\develop\projects\vzraycb\src\shapes\box.cpp
+	<cmath>
+	<cstdlib>
+	<cstdio>
+	<iostream>
+	<fstream>
+	<vector>
+	<ctime>
+	<float.h>
+	"shapes/isecaux.h"
+	"shapes/box.h"
+	"vec3.h"
+
+1446903469 c:\develop\projects\vzraycb\src\shapes\isecaux.h
+	"ray.h"
+	"vec3.h"
+	"point.h"
+
+1446723350 source:c:\develop\projects\vzraycb\src\shapes\cylinder.cpp
+	<cmath>
+	"isecaux.h"
+	"cylinder.h"
+	"onb.h"
+	"randomc/randomc.h"
+
+1447065557 source:c:\develop\projects\vzraycb\src\shapes\disc.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	<float.h>
+	"disc.h"
+	"isecaux.h"
+	"onb.h"
+	"statistics.h"
+
+1447065557 source:c:\develop\projects\vzraycb\src\shapes\isecaux.cpp
+	"isecaux.h"
+	"statistics.h"
+
+1446723210 source:c:\develop\projects\vzraycb\src\shapes\mesh.cpp
+	"mesh.h"
+	<cmath>
+
+1446723349 source:c:\develop\projects\vzraycb\src\shapes\meshtriangle.cpp
+	<cstdio>
+	"isecaux.h"
+	"mesh.h"
+	"meshtriangle.h"
+
+1472036567 source:c:\develop\projects\vzraycb\src\shapes\parallelogram.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	<float.h>
+	"parallelogram.h"
+	"onb.h"
+
+1447065557 source:c:\develop\projects\vzraycb\src\shapes\plane.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	<float.h>
+	"shapes/plane.h"
+	"onb.h"
+	"isecaux.h"
+	"statistics.h"
+
+1447350495 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
+	<cmath>
+	<cstdlib>
+	<cstdio>
+	<iostream>
+	<fstream>
+	<vector>
+	<ctime>
+	<float.h>
+	"sphere.h"
+	"isecaux.h"
+	"onb.h"
+	"randomc/randomc.h"
+
+1446723350 source:c:\develop\projects\vzraycb\src\shapes\triangle.cpp
+	"shapes/isecaux.h"
+	"shapes/triangle.h"
+
+1448622885 source:c:\develop\projects\vzraycb\src\statistics.cpp
+	"statistics.h"
+
+1446723210 source:c:\develop\projects\vzraycb\src\test.cpp
+	"test.h"
+	"matrix/matrix.h"
+	"matrix/transform.h"
+
+1446723210 c:\develop\projects\vzraycb\src\test.h
+
+1446723350 source:c:\develop\projects\vzraycb\src\vec2.cpp
+	"vec2.h"
+
+1448448220 source:c:\develop\projects\vzraycb\src\vec3.cpp
+	<cmath>
+	<ctime>
+	<cstdio>
+	"vec3.h"
+	"point.h"
+	"randomc/randomc.h"
+	"onb.h"
+
+1448888724 source:c:\develop\projects\vzraycb\src\vzray.cpp
+	<cmath>
+	<cstdlib>
+	<cstdio>
+	<iostream>
+	<fstream>
+	<vector>
+	<ctime>
+	<cstring>
+	"parser/parser.h"
+	"test.h"
+	"vzray.h"
+	"statistics.h"
+
+1448906978 source:c:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	"directrenderer.h"
+	"randomc/randomc.h"
+	"material/dielectricmaterial.h"
+	"scene/scene.h"
+

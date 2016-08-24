@@ -14,8 +14,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 
 <config>
 	<renderer>
-		<type>path</type>
-		<samples>100</samples>
+		<type>whitted</type>
+		<samples>1</samples>
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -206,7 +206,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<material>DiffuseRed</material>
 	</object>
 
-	<!-- Light -->
+	<!-- Light
 	<object>
 		<type>parallelogram</type>
 		<base>213.0, 548.799, 227.0</base>
@@ -214,7 +214,14 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<vec_v>0, 0, 105.0</vec_v>
 		<material>Light</material>
 	</object>
-
+	-->
+	
+	<object>
+		<type>sphere</type>
+		<center>278,445.00,279.50</center>
+		<radius>100</radius>
+		<material>Light</material>
+	</object>
 </scene>
 
 

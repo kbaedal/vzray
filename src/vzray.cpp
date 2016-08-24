@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 
                 render_ticks = clock() - render_ticks;
 
-                print_time("\nRender Time: ", static_cast<float>(render_ticks)/CLOCKS_PER_SEC);
+                print_time("\n\nRender Time: ", static_cast<float>(render_ticks)/CLOCKS_PER_SEC);
                 print_statistics();
 
 
@@ -200,7 +200,7 @@ bool start_render(Globals *globales)
 			//i=50; j=250;
 			//std::clog << "StartRender::Shooting ray!" << endl;
 			if(globales->samples_per_pixel > 1) {
-                // Una divisón y n multiplicacones se hacen mas
+                // Una divisón y n multiplicaciones se hacen mas
                 // rapido que n divisiones.
                 double samp_div = 1.0f / globales->samples_per_pixel;
 
@@ -280,7 +280,7 @@ bool start_render_v2(Globals *globales)
 
                     Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
 
-					pixel_color += globales->renderer->get_color_v2(r, globales->scene, .00001f, 1e5, 1) * samp_div;
+                    pixel_color += globales->renderer->get_color_v2(r, globales->scene, .00001f, 1e5, 1) * samp_div;
 				}
 			}
 			else
@@ -292,7 +292,6 @@ bool start_render_v2(Globals *globales)
 
 				Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
 
-				//pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
 				pixel_color += globales->renderer->get_color_v2(r, globales->scene, .00001f, 1e5, 1);
 			}
 

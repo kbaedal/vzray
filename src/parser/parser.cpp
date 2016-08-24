@@ -817,7 +817,7 @@ bool Parser::process_image()
 {
 	std::string temp;
 	int			res_x, res_y;
-//	double		bgcolor[3];
+	double		bgcolor[3];
 
 	if(!read_bloque_ints("res_x", 1, &res_x))
 		return false;
@@ -825,10 +825,8 @@ bool Parser::process_image()
 	if(!read_bloque_ints("res_y", 1, &res_y))
 		return false;
 
-/*
 	if(!read_bloque_floats("bgcolor", 3, bgcolor))
 		return false;
-*/
 
 	if(res_x > 0) // Otherwise, use default.
 		globales->res_x = res_x;

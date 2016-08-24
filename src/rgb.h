@@ -92,7 +92,8 @@ class Contrib {
     public:
         const Contrib &operator+() const { return *this; }
         Contrib operator-() const
-        {   Contrib c;
+        {
+            Contrib c;
 
             for(int i = 0; i < 4; ++i)
                 c[i] = -comp[i];
@@ -114,14 +115,16 @@ class Contrib {
             return c1;
         }
 
-        friend Contrib operator*(Contrib c, double f) {
+        friend Contrib operator*(Contrib c, double f)
+        {
             for(int i = 0; i < 4; ++i)
                 c[i] += c[i] * f;
 
             return c;
         }
 
-        friend Contrib operator*(double f, Contrib c) {
+        friend Contrib operator*(double f, Contrib c)
+        {
             return c * f;
         }
 
@@ -131,7 +134,8 @@ class Contrib {
             return c1;
         }
 
-        friend Contrib operator/(Contrib c, double f) {
+        friend Contrib operator/(Contrib c, double f)
+        {
             for(int i = 0; i < 4; ++i)
                 c[i] += c[i] * (1.0f / f);
 
