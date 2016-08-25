@@ -78,6 +78,8 @@
 		<Unit filename="src/renderer/pathrenderer.cpp" />
 		<Unit filename="src/renderer/pathrenderer.h" />
 		<Unit filename="src/renderer/renderer.h" />
+		<Unit filename="src/renderer/whittedrenderer.cpp" />
+		<Unit filename="src/renderer/whittedrenderer.h" />
 		<Unit filename="src/rgb.cpp" />
 		<Unit filename="src/rgb.h" />
 		<Unit filename="src/scene/scene.cpp" />

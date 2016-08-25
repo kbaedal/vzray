@@ -1,5 +1,5 @@
-#ifndef __DIRECTRENDERER_H__
-#define __DIRECTRENDERER_H__ 1
+#ifndef WHITTEDRENDERER_H_INCLUDED
+#define WHITTEDRENDERER_H_INCLUDED
 
 #include <vector>
 #include <string>
@@ -14,10 +14,10 @@
 #include "randomc/randomc.h"
 #include "scene/scene.h"
 
-class DirectRenderer : public Renderer
+class WhittedRenderer : public Renderer
 {
 	public:
-		DirectRenderer(int a_max_depth = 5, int a_shadow_samps = 1, int seed = 65535) :
+		WhittedRenderer(int a_max_depth = 5, int a_shadow_samps = 1, int seed = 65535) :
             max_depth(a_max_depth), shadow_samps(a_shadow_samps)
 		{
 			rng.RandomInit(seed);
@@ -26,7 +26,7 @@ class DirectRenderer : public Renderer
 		RGB get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth) final;
 		Contrib get_color_v2(Ray r, Scene *scene, double min_dist, double max_dist, int depth) final;
 
-		std::string renderer_type() { return std::string("Path + Direct raytracing"); }
+		std::string renderer_type() { return std::string("Whitted raytracing"); }
 
 	private:
 		RGB direct_light(Point p, Scene *scene, HitRecord &hit);
@@ -38,4 +38,4 @@ class DirectRenderer : public Renderer
 		static const double kepsilon; // Autohit.
 };
 
-#endif // __DIRECTRENDERER_H__
+#endif // WHITTEDRENDERER_H_INCLUDED

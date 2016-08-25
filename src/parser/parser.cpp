@@ -11,6 +11,7 @@
 #include "scene/scene.h"
 
 #include "renderer/renderer.h"
+#include "renderer/whittedrenderer.h"
 #include "renderer/directrenderer.h"
 #include "renderer/pathrenderer.h"
 
@@ -734,7 +735,7 @@ bool Parser::process_renderer()
 
 	if(tipo == "whitted") {
 		if(globales->renderer == nullptr)
-			globales->renderer = new DirectRenderer(globales->max_depth);
+			globales->renderer = new WhittedRenderer(globales->max_depth);
 		else // Renderer ya creado, error.
 			return false;
 	}
@@ -744,7 +745,13 @@ bool Parser::process_renderer()
 		else
 			return false;
 	}
-	else // Renderer desconocido, error.
+	else if(tipo == "direct") {
+        if(globales->renderer == nullptr)
+			globales->renderer = new DirectRenderer(globales->max_depth, time(nullptr));
+		else
+			return false;
+	}
+    else// Renderer desconocido, error.
 		return false;
 
 	return true;

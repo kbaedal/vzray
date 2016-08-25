@@ -2194,7 +2194,7 @@
 	"ray.h"
 	"rgb.h"
 
-1448365184 c:\develop\projects\vzraycb\src\renderer\directrenderer.h
+1472122131 c:\develop\projects\vzraycb\src\renderer\directrenderer.h
 	<vector>
 	<string>
 	"renderer.h"
@@ -2430,7 +2430,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1448888724 source:c:\develop\projects\vzraycb\src\vzray.cpp
+1472054060 source:c:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2444,7 +2444,7 @@
 	"vzray.h"
 	"statistics.h"
 
-1448906978 source:c:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
+1472140412 source:c:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -2454,5 +2454,29 @@
 	"directrenderer.h"
 	"randomc/randomc.h"
 	"material/dielectricmaterial.h"
+	"scene/scene.h"
+
+1472140679 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
+	<math.h>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	"whittedrenderer.h"
+	"randomc/randomc.h"
+	"material/dielectricmaterial.h"
+	"scene/scene.h"
+
+1472122098 c:\develop\projects\vzraycb\src\renderer\whittedrenderer.h
+	<vector>
+	<string>
+	"renderer.h"
+	"ray.h"
+	"vec3.h"
+	"point.h"
+	"rgb.h"
+	"shapes/shape.h"
+	"randomc/randomc.h"
 	"scene/scene.h"
 
