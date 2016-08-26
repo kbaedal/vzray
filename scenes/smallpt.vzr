@@ -127,8 +127,8 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<type>sphere</type>
 		<center>27, 16.5, 47</center>
 		<radius>16.5</radius>
-		<!-- <material>Specular</material> -->
-		<material>DiffuseWhite</material>
+		<material>Specular</material>
+		<!-- <material>DiffuseWhite</material> -->
 	</object>
 	
 	<!-- Glass sphere -->
@@ -137,7 +137,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<center>73, 16.5, 78</center>
 		<radius>16.5</radius>
 		<!-- <material>Dielectric</material> -->
-		<material>DiffuseRed</material>
+		<material>DiffuseWhite</material>
 	</object>
 		
 	<!-- Light sphere 

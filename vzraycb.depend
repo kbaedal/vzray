@@ -2022,7 +2022,7 @@
 	<iostream>
 	"rgb.h"
 
-1447250525 source:c:\develop\projects\vzraycb\src\material\dielectricmaterial.cpp
+1472226186 source:c:\develop\projects\vzraycb\src\material\dielectricmaterial.cpp
 	"material/dielectricmaterial.h"
 	"vec2.h"
 	"vec3.h"
@@ -2096,7 +2096,7 @@
 1446723349 source:c:\develop\projects\vzraycb\src\onb.cpp
 	"onb.h"
 
-1472030215 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
+1472140825 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -2107,6 +2107,7 @@
 	"parser.h"
 	"scene/scene.h"
 	"renderer/renderer.h"
+	"renderer/whittedrenderer.h"
 	"renderer/directrenderer.h"
 	"renderer/pathrenderer.h"
 	"camera/camera.h"
@@ -2390,7 +2391,7 @@
 	"isecaux.h"
 	"statistics.h"
 
-1447350495 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
+1472212146 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2456,7 +2457,7 @@
 	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1472140679 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
+1472212053 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>

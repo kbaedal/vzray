@@ -57,7 +57,6 @@ Vec3 DielectricMaterial::out_direction(Vec3 const &in, Vec3 const &norm, double 
 	double pr = (re + 0.5) / 2.0;
 	double rg = rng->Random();
 
-
 	if(rg > pr) { // Transmit
 		brdf = (1.0 - re) / (1.0 - pr);
 		return refract(in, t_norm, n1, n2);
