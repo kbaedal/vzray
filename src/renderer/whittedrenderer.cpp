@@ -44,7 +44,10 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
         // No me fio un pelo del brdf ni de la luz directa.
         //
         if(depth < max_depth) {
-
+            if(hit_r.material->is_light()) {
+                // Devolvemos el color de la luz.
+                color += hit_r.material->radiance();
+            }
             if(hit_r.material->is_specular() || hit_r.material->is_specular()) {
                 // Aplicar Ley de Snell.
             }
@@ -106,7 +109,7 @@ RGB WhittedRenderer::direct_light(Point p, Scene *scene, HitRecord &hit_r)
 				if(hit_r.material != NULL) {
 					Vec2 v2(0.0f);
 					Vec3 v3(0.0f);
-					diffuse_color = hit_r.material->radiance() * light->get_material()->radiance() * diffuse;
+					diffuse_color += hit_r.material->radiance() * light->get_material()->radiance() * diffuse;
 				}
 			}
 		}

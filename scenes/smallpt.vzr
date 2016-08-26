@@ -137,14 +137,21 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<center>73, 16.5, 78</center>
 		<radius>16.5</radius>
 		<!-- <material>Dielectric</material> -->
-		<material>DiffuseWhite</material>
+		<material>DiffuseRed</material>
 	</object>
 		
-	<!-- Light sphere -->
+	<!-- Light sphere 
 	<object>
 		<type>sphere</type>
 		<center>50,681.33,81.6</center>
 		<radius>600</radius>
+		<material>Light</material>
+	</object>
+	-->
+	<object>
+		<type>sphere</type>
+		<center>50,76.33,81.6</center>
+		<radius>.5</radius>
 		<material>Light</material>
 	</object>
 	
