@@ -17,7 +17,6 @@ class DielectricMaterial : public Material
 		{
 			texture		    = a_texture;
 			ior 			= a_ior;
-			reflectance 	= 1.0f;
 
 			rng.RandomInit(12321);
 		}
@@ -30,7 +29,6 @@ class DielectricMaterial : public Material
 		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng);
 
 		float			ior;
-		double 			reflectance;
 		CRandomMother	rng;
 
 		/**
@@ -49,9 +47,10 @@ class DielectricMaterial : public Material
 		Vec3 refract_dir(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color);
 
 		/**
-		 * \brief Aplicando las leyes de Snell, obtendremos la reflectividad de la superficie.
+		 * \brief Aplicando las ecuaciones de Fresnel, o la aproximacion de Schlick,
+		 * obtendremos la reflectividad de la superficie.
 		 */
-		double get_reflectance(Vec3 const &in, Vec3 const &norm);
+		double reflectance(const Vec3 &in, const Vec3 &norm, double n1);
 };
 
 #endif // __DIELECTRICMATERIAL_H__

@@ -50,18 +50,33 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
             }
             if(hit_r.material->is_specular() || hit_r.material->is_transmissive()) {
                 // Aplicamos Ley de Snell.
+                double reflectance = hit_r.material->reflectance(r.direction(), hit_r.normal, 1.0f);
 
                 // Punto de intersección.
                 intersection = r.get_point(hit_r.dist);
 
-                // Dirección del nuevo rayo.
-                out_dir	= hit_r.material->out_direction(r.direction(), hit_r.normal, brdf, temp_color, &rng);
-                out_dir.normalize();
+                if(reflectance > 0.0f) {
+                    // Acumulamos el resultado de la reflexión.
+                    // Dirección del nuevo rayo.
+                    out_dir	= reflect(r.direction(), hit_r.normal);
+                    out_dir.normalize();
 
-                // Nuevo rayo:
-                out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
+                    // Nuevo rayo:
+                    out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
 
-                color += get_color(out_ray, scene, min_dist, max_dist, ++depth);
+                    color += get_color(out_ray, scene, min_dist, max_dist, ++depth) * reflectance;
+                }
+
+                if((1.0f - reflectance) > 0.0f) {
+                    // Acumulamos el resultado de la refracción.
+                    out_dir	= refract(r.direction(), hit_r.normal, 1.0, 1.5);
+                    out_dir.normalize();
+
+                    // Nuevo rayo:
+                    out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
+
+                    color += get_color(out_ray, scene, min_dist, max_dist, ++depth) * (1.0f - reflectance) * hit_r.material->radiance();
+                }
             }
             else { // Superficie difusa.
                 color += this->direct_light(intersection, scene, hit_r);

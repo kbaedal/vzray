@@ -21,6 +21,7 @@ class SpecularMaterial : public Material
 
 		virtual RGB radiance();
 		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
+		double reflectance(const Vec3 &in, const Vec3 &norm, double n1) { return 1.0f; }
 
 		/**
 		 * \brief Aplicando las leyes de la reflexión, obtendremos la dirección.

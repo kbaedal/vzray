@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 
+#define _USE_FRESNEL_
+
 RGB DielectricMaterial::radiance()
 {
 	Vec2 v2;
@@ -118,7 +120,7 @@ Vec3 DielectricMaterial::reflect_dir(Vec3 const &in, Vec3 const &norm, double &b
 	}
 }
 
-Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color)
+Vec3 DielectricMaterial::refract_dir(const Vec3 &in, const Vec3 &norm, double &brdf, RGB &color)
 {
 	double n1, n2, cos_t;
 
@@ -150,7 +152,39 @@ Vec3 DielectricMaterial::refract_dir(Vec3 const &in, Vec3 const &norm, double &b
 	}
 }
 
-double DielectricMaterial::get_reflectance(Vec3 const &in, Vec3 const &norm)
+double DielectricMaterial::reflectance(Vec3 const &in, Vec3 const &norm, double n1)
 {
-	return 0.0f;
+#ifdef _USE_FRESNEL_ // Calculamos utilizando las ecuaciones de Fresnel
+    const double n      = n1 / ior;
+    const double cosI   = -dot(norm, in);
+    const double sinT2  = n * n * (1.0f - cosI * cosI);
+
+    if(sinT2 > 1.0f)
+        return 1.0f; // TIR
+
+    const double cosT   = sqrt(1.0f - sinT2);
+    const double rOrth  = (n1 * cosI - ior * cosT) / (n1 * cosI + ior * cosT);
+    const double rPar   = (ior * cosI - n1 * cosT) / (ior * cosI + n1 * cosT);
+
+    return (rOrth * rOrth + rPar * rPar) / 2.0f;
+#else
+    double r0   = (n1 - ior) / (n1 + ior);
+    double cosX = -dot(norm, in);
+
+    r0 *= r0;
+
+    if(n1 > ior) {
+        const double n      = n1 / ior;
+        const double sinT2  = n * n * (1.0f - cosX * cosX);
+
+        if(sinT2 > 1.0)
+            return 1.0f; // TIR
+
+        cosX = sqrt(1.0 - sinT2);
+    }
+
+    const double x = 1.0f - cosX;
+
+    return r0 + (1.0f - r0) * x * x * x * x * x;
+#endif
 }

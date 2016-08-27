@@ -33,17 +33,22 @@ class Material
 		/**
 		 * \brief Calcula el color de una superficie cuando esta es iluminada.
 		 */
-		virtual RGB radiance() { return RGB(0.0f, 0.0f, 0.0f); }
+		virtual RGB radiance() { return RGB(0.0f); }
 
 		/**
 		 * \brief Calcula el color de una superficie cuando esta no es iluminada.
 		 */
-		virtual RGB ambient() { return RGB(0.0f, 0.0f, 0.0f); }
+		virtual RGB ambient() { return RGB(0.0f); }
 
 		/**
 		 * \brief Calcula la luz emitida por la superficie.
 		 */
-		virtual RGB emittance() { return RGB(0.0f, 0.0f, 0.0f); }
+		virtual RGB emittance() { return RGB(0.0f); }
+
+		/**
+		 * \brief Calcula la reflectancia del material con los valores dados.
+		 */
+        virtual double reflectance(const Vec3 &in, const Vec3 &norm, double n1) { return 0.0f; }
 
 		/**
 		 * \brief Calcula una direccion con los valores indicados y las caracterísiticas
@@ -51,7 +56,7 @@ class Material
 		 */
 		virtual Vec3 out_direction(Vec3 const &in, Vec3 const &norm, double &brdf, RGB &color, CRandomMersenne *rng)
 		{
-			return Vec3(0.0f, 0.0f, 0.0f);
+			return Vec3(0.0f);
 		}
 
 		void set_texture(Texture *a_texture) { texture = a_texture; }
