@@ -93,7 +93,7 @@ class Vec3
 		 *
 		 * \param v3In Vector incidente sobre la superficie.
 		 * \param v3Normal Vector normal en el punto de interseccion.
-		 * \return La direccion de la reflexiÃ³n.
+		 * \return La direccion de la reflexión.
 		 */
 		friend Vec3 reflect(
 			const Vec3 &in, 	// Incoming vector
@@ -102,13 +102,13 @@ class Vec3
 
 		/**
 		 * \brief Calcula el vector refractado correspondiente a las
-		 * caracterÃ­sticas de las superficies y el vector incidente.
+		 * características de las superficies y el vector incidente.
 		 *
 		 * \param v3In Vector incidente sobre la superficie.
 		 * \param v3Normal Vector normal en el punto de interseccion.
 		 * \param dExtIOR Indice de refraccion del medio externo.
-		 * \param dIntIOR Indice de refracciÃ³n del medio interno.
-		 * \return La direccion de la refracciÃ³n.
+		 * \param dIntIOR Indice de refracción del medio interno.
+		 * \return La direccion de la refracción.
 		 */
 		friend Vec3 refract(
 			const Vec3 &in, 		// Incoming vector
@@ -118,8 +118,22 @@ class Vec3
 		);
 
 		/**
+		 * \brief Calcula si se produce reflexión interna total.
+		 *
+		 * \param in Vector incidente sobre la superficie.
+		 * \param norm Vector normal en el punto de interseccion.
+		 * \param ior Indice de refraccion del medio.
+		 * \return true si se produce, falso si no.
+		 */
+		friend bool tir(
+			const Vec3 &in, 		// Incoming vector.
+			const Vec3 &norm, 	    // Normal at intersection point.
+			const double ior 	    // Medium index of refraction.
+		);
+
+		/**
 		 * \brief Calcula un vector normalizado en una direccion aleatoria
-		 * que estarÃ¡ dentro del hemisferio definido por v3Dir.
+		 * que estará dentro del hemisferio definido por v3Dir.
 		 *
 		 * \param dir Vector que define el hemisferio.
 		 * \param rn1 Numero aleatorio tal que 0.f <= rn1 < 1.f

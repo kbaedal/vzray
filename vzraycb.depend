@@ -2509,11 +2509,11 @@
 	"point.h"
 	"material/material.h"
 
-1472157143 d:\develop\projects\vzraycb\src\vec3.h
+1472333853 d:\develop\projects\vzraycb\src\vec3.h
 	<cmath>
 	<iostream>
 
-1472157143 d:\develop\projects\vzraycb\src\material\material.h
+1472328212 d:\develop\projects\vzraycb\src\material\material.h
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
@@ -2557,13 +2557,13 @@
 	<iostream>
 	"rgb.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\material\dielectricmaterial.cpp
+1472415434 source:d:\develop\projects\vzraycb\src\material\dielectricmaterial.cpp
 	"material/dielectricmaterial.h"
 	"vec2.h"
 	"vec3.h"
 	<stdio.h>
 
-1472157143 d:\develop\projects\vzraycb\src\material\dielectricmaterial.h
+1472328212 d:\develop\projects\vzraycb\src\material\dielectricmaterial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
@@ -2599,7 +2599,7 @@
 	"vec2.h"
 	"vec3.h"
 
-1472157143 d:\develop\projects\vzraycb\src\material\specularmaterial.h
+1472328212 d:\develop\projects\vzraycb\src\material\specularmaterial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
@@ -2981,7 +2981,7 @@
 1472157143 source:d:\develop\projects\vzraycb\src\vec2.cpp
 	"vec2.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\vec3.cpp
+1472333978 source:d:\develop\projects\vzraycb\src\vec3.cpp
 	<cmath>
 	<ctime>
 	<cstdio>
@@ -3004,7 +3004,7 @@
 	"vzray.h"
 	"statistics.h"
 
-1472160175 source:d:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
+1472333945 source:d:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -3012,7 +3012,7 @@
 	<fstream>
 	<vector>
 	"whittedrenderer.h"
-	"randomc/randomc.h"
 	"material/dielectricmaterial.h"
+	"randomc/randomc.h"
 	"scene/scene.h"
 

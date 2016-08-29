@@ -113,6 +113,25 @@ Vec3 refract(const Vec3 &in, const Vec3 &norm, const double ext_ior, const doubl
 	return Vec3((n * in) + (n * cos_i - sqrt(cos_t2)) * norm);
 }
 
+bool tir(const Vec3 &in, const Vec3 &norm, const double ior)
+{
+    double cos_t2;			// Aux for TIR calculation
+
+	if(dot(in, norm) < 0.0f) {
+		return false;
+	}
+	else {
+		double t = -(dot(in, -norm));
+		cos_t2 = 1.0f - (ior * ior) * (1.0f - t * t);
+
+		if(cos_t2 < 0.0f)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 Vec3 random_dir(const Vec3 &dir, double rn1, double rn2)
 {
     ONB uvw;

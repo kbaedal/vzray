@@ -128,7 +128,7 @@ Vec3 DielectricMaterial::refract_dir(const Vec3 &in, const Vec3 &norm, double &b
 	if(cos_t < 0.0f) { // Incoming ray
 		n1      = 1.0f;
 		n2	    = ior;
-		cos_t    = -cos_t;
+		cos_t   = -cos_t;
 	}
 	else { // Outgoing ray
 		n1      = ior;

@@ -7,21 +7,17 @@
 
 #include "whittedrenderer.h"
 
+#include "material/dielectricmaterial.h"
+
 #include "randomc/randomc.h"
 #include "scene/scene.h"
 
-const double WhittedRenderer::kepsilon    = 1e-2;
+const double WhittedRenderer::kepsilon    = 1e-1;
 
 RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_dist, int depth)
 {
 	HitRecord   hit_r;
-	RGB			color,
-                temp_color;
-	double		brdf = 1.0;
-
-	Vec3		out_dir;
-    Point		intersection;
-    Ray			out_ray;
+	RGB			color;
 
     //
     // TODO: Tratar cara a cara con materiales especulares, transmisivos, etc.
@@ -35,55 +31,86 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
         // Y el ambiente.
         color += hit_r.material->ambient();
 
-        // Calculamos el punto de interseccion.
-        intersection = r.get_point(hit_r.dist);
-
-
-        //
-        // OJO A LO QUE TIENE QUE MULTPLICARSE O SUMARSE.
-        // No me fio un pelo del brdf ni de la luz directa.
-        //
         if(depth < max_depth) {
             if(hit_r.material->is_light()) {
                 // Devolvemos el color de la luz.
-                color += hit_r.material->radiance();
+                return color += hit_r.material->radiance();
             }
-            if(hit_r.material->is_specular() || hit_r.material->is_transmissive()) {
-                // Aplicamos Ley de Snell.
-                double reflectance = hit_r.material->reflectance(r.direction(), hit_r.normal, 1.0f);
+            if(hit_r.material->is_specular()) {
+                // Reflexión especular perfecta.
 
-                // Punto de intersección.
-                intersection = r.get_point(hit_r.dist);
+                // Calculamos el punto de interseccion.
+                Point intersection { r.get_point(hit_r.dist) };
 
-                if(reflectance > 0.0f) {
-                    // Acumulamos el resultado de la reflexión.
+                // Dirección del nuevo rayo.
+                Vec3 refl_dir { reflect(r.direction(), hit_r.normal) };
+                refl_dir.normalize();
+
+                // Nuevo rayo:
+                Ray refl_ray(intersection + (kepsilon * Point(refl_dir)), refl_dir);
+
+                return color += get_color(refl_ray, scene, min_dist, max_dist, ++depth);
+            }
+            if(hit_r.material->is_transmissive()) {
+                // Material transmisivo.
+                // Pasos:
+                //  - ¿El rayo entra en el objeto o sale de el? Ojo con los indices de refraccion.
+                //  - ¿Hay relfexion interna total? Si la hay, no calcular transimision, solo reflexion.
+                //  - Calcular reflectancia y aplicar a lo reflejado y a lo transmitido.
+
+                // Calculamos el punto de interseccion.
+                Point intersection { r.get_point(hit_r.dist) };
+
+                Vec3    rdir { r.direction() },
+                        norm { hit_r.normal };
+
+                double cos_t = dot(rdir, norm);
+                double n1, n2;
+
+                if(cos_t < 0.0f) { // Incoming ray
+                    n1      = 1.0f;
+                    n2	    = 1.5f;
+                    cos_t   = -cos_t;
+                }
+                else { // Outgoing ray
+                    n1      = 1.5f;
+                    n2      = 1.0f;
+                    norm    = -norm;
+
+                    if(tir(rdir, norm, 1.5)) {
                     // Dirección del nuevo rayo.
-                    out_dir	= reflect(r.direction(), hit_r.normal);
-                    out_dir.normalize();
+                        Vec3 refl_dir { reflect(r.direction(), hit_r.normal) };
+                        refl_dir.normalize();
 
-                    // Nuevo rayo:
-                    out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
+                        // Nuevo rayo:
+                        Ray refl_ray(intersection + (kepsilon * Point(refl_dir)), refl_dir);
 
-                    color += get_color(out_ray, scene, min_dist, max_dist, ++depth) * reflectance;
+                        return color += get_color(refl_ray, scene, min_dist, max_dist, ++depth);
+                    }
                 }
 
-                if((1.0f - reflectance) > 0.0f) {
-                    // Acumulamos el resultado de la refracción.
-                    out_dir	= refract(r.direction(), hit_r.normal, 1.0, 1.5);
-                    out_dir.normalize();
+                // No hay TIR, luego calculamos fresnel y lanzamos rayo reflejado y refractado.
+                double fresnel = hit_r.material->reflectance(rdir, norm, 1.5f);
 
-                    // Nuevo rayo:
-                    out_ray	= Ray(intersection + (kepsilon * Point(out_dir)), out_dir);
+                Vec3    refl_dir { reflect(rdir, norm)},
+                        refr_dir { refract(rdir, norm, n1, n2)};
 
-                    color += get_color(out_ray, scene, min_dist, max_dist, ++depth) * (1.0f - reflectance) * hit_r.material->radiance();
-                }
+                refl_dir.normalize();
+                refr_dir.normalize();
+
+                Ray     refl_ray(intersection + (kepsilon * Point(refl_dir)), refl_dir),
+                        refr_ray(intersection + (kepsilon * Point(refr_dir)), refr_dir);
+
+                return color += get_color(refl_ray, scene, min_dist, max_dist, ++depth) * fresnel +
+                    get_color(refr_ray, scene, min_dist, max_dist, ++depth) * (1.0f - fresnel);
             }
             else { // Superficie difusa.
-                color += this->direct_light(intersection, scene, hit_r);
+                // Calculamos el punto de interseccion.
+                Point intersection { r.get_point(hit_r.dist) };
+
+                return color += this->direct_light(intersection, scene, hit_r);
             }
         }
-
-        return color;
     }
     else {
         // Si no hay interseccion, devolvemos el color de fondo.

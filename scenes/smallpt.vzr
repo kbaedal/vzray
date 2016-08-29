@@ -151,7 +151,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<object>
 		<type>sphere</type>
 		<center>50,76.33,81.6</center>
-		<radius>.5</radius>
+		<radius>.05</radius>
 		<material>Light</material>
 	</object>
 	
