@@ -51,6 +51,14 @@ class DielectricMaterial : public Material
 		 * obtendremos la reflectividad de la superficie.
 		 */
 		double reflectance(const Vec3 &in, const Vec3 &norm, double n1);
+
+		/**
+		 * \brief Devuelve el indice de refracción del material, si lo tiene.
+		 */
+        double get_ior()
+        {
+            return ior;
+        }
 };
 
 #endif // __DIELECTRICMATERIAL_H__

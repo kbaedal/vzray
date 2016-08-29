@@ -50,6 +50,11 @@ class Material
 		 */
         virtual double reflectance(const Vec3 &in, const Vec3 &norm, double n1) { return 0.0f; }
 
+        /**
+		 * \brief Devuelve el indice de refracción del material, si lo tiene.
+		 */
+        virtual double get_ior() { return 0.0f; }
+
 		/**
 		 * \brief Calcula una direccion con los valores indicados y las caracterísiticas
 		 * del material.
