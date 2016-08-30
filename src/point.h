@@ -11,16 +11,18 @@ class Point
 {
 	public:
 		// Constructores
-		Point(double a, double b, double c) { this->set(a, b, c); }
-		Point() { e[0] = e[1] = e[2] = 0.0f; }
-		Point(double a) { this->set(a); }
-		Point(const Point &p) { this->set(p); }
+		Point(double a, double b, double c) : e{a, b, c} { }
+		Point(double a) : Point(a, a, a) { }
+		Point() : Point(0.0f) { }
+		Point(const Point &p) : Point(p.x(), p.y(), p.z()) { }
 		Point(const Vec3 &v);
 
 		// Operadores aritmeticos unarios
 		const Point &operator+() const { return *this; }
 		Point operator-() const { return Point(-e[0], -e[1], -e[2]); }
-		Point &operator+=(Point const &p);
+		Point &operator=(const Vec3 &v);
+		Point &operator+=(const Point &p);
+		Point &operator-=(const Point &p);
 
 		// Operadores aritmeticos binarios
 		friend Point operator+(Point p1, const Point &p2);
@@ -40,23 +42,6 @@ class Point
 			e[1] = b;
 			e[2] = c;
 		}
-		void set(const Point &p)
-		{
-			e[0] = p.x();
-			e[1] = p.y();
-			e[2] = p.z();
-		}
-		void set(double a)
-		{
-			e[0] = e[1] = e[2] = a;
-		}
-		void set(double *a)
-		{
-		    e[0] = a[0];
-		    e[1] = a[1];
-		    e[2] = a[2];
-		}
-		void set(const Vec3 &v);
 
 		// Acceso rapido a los componentes
 		double x() const { return e[0]; }

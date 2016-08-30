@@ -389,24 +389,24 @@ bool Parser::read_bloque_ints(const std::string &etiqueta, const int cantidad, i
 
 bool Parser::read_bloque_vec3(const std::string &etiqueta, Vec3 &v)
 {
-	double componentes[3];
+	double c[3];
 
-	if(!read_bloque_floats(etiqueta, 3, componentes))
+	if(!read_bloque_floats(etiqueta, 3, c))
 		return false;
 
-	v.set(componentes);
+    v.set(c[0], c[1], c[2]);
 
 	return true;
 }
 
 bool Parser::read_bloque_point(const std::string &etiqueta, Point &p)
 {
-	double componentes[3];
+	double c[3];
 
-	if(!read_bloque_floats(etiqueta, 3, componentes))
+	if(!read_bloque_floats(etiqueta, 3, c))
 		return false;
 
-	p.set(componentes);
+	p.set(c[0], c[1], c[2]);
 
 	return true;
 }

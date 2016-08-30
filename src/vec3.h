@@ -13,16 +13,18 @@ class Vec3
 {
 	public:
 		// Constructores
-		Vec3(double a, double b, double c)	{ this->set(a, b, c); }
-		Vec3() { e[0] = e[1] = e[2] = 0.0f; }
-		Vec3(double a) { this->set(a); }
-		Vec3(const Vec3 &v) { this->set(v); }
+		Vec3(double a, double b, double c) : e { a, b, c} { }
+		Vec3(double a) : Vec3(a, a, a) { }
+		Vec3() : Vec3(0.0f) { }
+		Vec3(const Vec3 &v) : Vec3(v.x(), v.y(), v.z()) { }
 		Vec3(const Point &p);
 
 		// Operadores aritmeticos unarios
 		const Vec3 &operator+() const { return *this; }
 		Vec3 operator-() const { return Vec3(-e[0], -e[1], -e[2]); }
-		Vec3 &operator+=(Vec3 const &v);
+		Vec3 &operator=(const Point &p);
+		Vec3 &operator+=(const Vec3 &v);
+		Vec3 &operator-=(const Vec3 &v);
 
 		// Operadores aritmeticos binarios
 		friend Vec3 operator+(Vec3 v1, const Vec3 &v2);
@@ -39,29 +41,13 @@ class Vec3
 		double length() const { return sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
 		double sq_length() const { return (e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
 		void normalize() { *this = *this * (1.0f / length()); }
+
 		void set(double a, double b, double c)
 		{
 			e[0] = a;
 			e[1] = b;
 			e[2] = c;
 		}
-		void set(const Vec3 &v)
-		{
-			e[0] = v.x();
-			e[1] = v.y();
-			e[2] = v.z();
-		}
-		void set(double a)
-		{
-			e[0] = e[1] = e[2] = a;
-		}
-		void set(double *a)
-		{
-		    e[0] = a[0];
-		    e[1] = a[1];
-		    e[2] = a[2];
-		}
-		void set(const Point &p);
 
 		/**
 		 * Producto escalar de vectores

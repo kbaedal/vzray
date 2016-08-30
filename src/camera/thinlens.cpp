@@ -17,9 +17,9 @@ void ThinLens::set(Point a_center, Vec3 a_dir, Vec3 a_up, double a_aperture,
 
 	uvw.init_from_wv(-dir, up);
 
-	u.set(uvw.u());
-	v.set(uvw.v());
-	w.set(uvw.w());
+	u = uvw.u();
+	v = uvw.v();
+	w = uvw.w();
 
 	corner = center + u0 * u + v0 * v - dist * w;
 
@@ -34,11 +34,11 @@ Ray ThinLens::get_ray(double x, double y, double sx, double sy)
 	Vec3	ray_dir;
 
 	// Auxiliares para los calculos
-	t_udir.set(uvw.u());
-	t_vdir.set(uvw.v());
+	t_udir = uvw.u();
+	t_vdir = uvw.v();
 
-	t_xdir.set(x_dir);
-	t_ydir.set(y_dir);
+	t_xdir = x_dir;
+	t_ydir = y_dir;
 
 	// Calculamos un punto en la lente. Será el punto base del rayo.
 	lens_point = center + 2.0f * (sx - 0.5f) * lens_radius * t_udir +
@@ -48,7 +48,7 @@ Ray ThinLens::get_ray(double x, double y, double sx, double sy)
 	img_plane = corner + x * t_xdir + y * t_ydir;
 
 	// Obtenemos el vector del rayo.
-	ray_dir.set(img_plane - lens_point);
+	ray_dir = img_plane - lens_point;
 	ray_dir.normalize();
 
 	return Ray(lens_point, ray_dir);

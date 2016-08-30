@@ -10,15 +10,14 @@ class RGB
 {
 	public:
 		// Constructores
-		RGB() { R = G = B = 0.0f; }
-		RGB(double c) { set(c, c, c); }
+		RGB() : RGB(0.0f, 0.0f, 0.0f) {}
+		RGB(double c) : RGB(c, c, c) {}
+		RGB(double *c) : RGB(c[0], c[1], c[2]) {}
 		RGB(double a_r, double a_g, double a_b)
 		{
-			set(a_r, a_g, a_b);
-		}
-		RGB(double *c)
-		{
-		    set(c[0], c[1], c[2]);
+			R = a_r;
+			G = a_g;
+			B = a_b;
 		}
 
 		// Operadores unarios
@@ -53,20 +52,6 @@ class RGB
 		friend RGB operator*(RGB a, double f) { return RGB(a.R * f, a.G * f, a.B * f); }
 		friend RGB operator*(double f, RGB a) { return RGB(a.R * f, a.G * f, a.B * f); }
 		friend RGB operator/(RGB a, double f) { return RGB(a.R / f, a.G / f, a.B / f); }
-
-		// Otras operaciones
-		void set(double a_r, double a_g, double a_b)
-		{
-			R = a_r;
-			G = a_g;
-			B = a_b;
-		}
-		void set(const RGB &rgb)
-		{
-			R = rgb.r();
-			G = rgb.g();
-			B = rgb.b();
-		}
 
 		/**
 		 * @brief Acota los valores entre un minimo y un maximo.

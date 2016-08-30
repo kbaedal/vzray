@@ -8,7 +8,9 @@ Point Ray::get_point(const double dist) const
 void Ray::refresh_inv()
 {
 	// Inverted direction and signs, for ray-box tests
-	i_dir.set(1.f/dir.x(), 1.f/dir.y(), 1.f/dir.z());
+	i_dir.e[0] = 1.0f/dir.x();
+	i_dir.e[1] = 1.0f/dir.y();
+	i_dir.e[2] = 1.0f/dir.z();
 
 	// Sign could be 0 or 1 (int values for false and true)
 	sign[0] = (i_dir.x() < 0.f);

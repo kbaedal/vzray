@@ -33,7 +33,7 @@ bool Parallelogram::hit(const Ray &r, double min_dist, double max_dist, HitRecor
 	if(t > max_dist || t < min_dist) return false;
 
 	hit_plane = r.get_point(t);
-	offset.set(hit_plane - base);
+	offset = hit_plane - base;
 
 	u1 = dot(u_normal, offset) / u.length();
 	if(u1 < 0.0f || u1 > 1.0f) return false;
@@ -68,7 +68,7 @@ bool Parallelogram::shadow_hit(const Ray &r, double min_dist, double max_dist) c
 	if(t > max_dist || t < min_dist) return false;
 
 	hit_plane = r.get_point(t);
-	offset.set(hit_plane - base);
+	offset = hit_plane - base;
 
 	u1 = dot(u_normal, offset) / u.length();
 	if(u1 < 0.0f || u1 > 1.0f) return false;

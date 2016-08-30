@@ -40,8 +40,8 @@ bool MeshTriangle::hit(const Ray &r, double min_dist, double max_dist, HitRecord
 		}
 		else {
 			// No normal for each vertex, interpolate points
-			v10.set(p1 - p0);
-			v20.set(p2 - p0);
+			v10 = p1 - p0;
+			v20 = p2 - p0;
 
 			hit.normal = versor(cross(v10, v20));
 		}

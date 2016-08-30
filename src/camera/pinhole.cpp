@@ -16,12 +16,13 @@ void Pinhole::set(Point a_pos, Vec3 a_dir, Vec3 a_up,
 
 	uvw.init_from_wv(-dir, up);
 
-	u.set(uvw.u());
-	v.set(uvw.v());
-	w.set(uvw.w());
+	u = uvw.u();
+	v = uvw.v();
+	w = uvw.w();
 
 	//m_p3Corner = pos + m_u0 * m_uvw.u() + m_v0 * m_uvw.v() - m_dDist * m_uvw.w();
-	corner = pos + u0 * u + v0 * v - dist * w;
+	//corner = pos + u0 * u + v0 * v - dist * w;
+	corner = pos + u0 * Point(uvw.u()) + v0 * Point(uvw.v()) - dist * Point(uvw.w());
 
 	x_dir = (u1 - u0) * uvw.u();
 	y_dir = (v1 - v0) * uvw.v();
@@ -37,17 +38,14 @@ Ray Pinhole::get_ray(double x, double y, double sx, double sy)
     if((sx < 0.0f) || (sx > 1.0f) || (sy < 0.0f) || (sy > 1.0f))
         std::clog << "Bad sub-ray (" << sx << ", " << sy << ")\n";
 
-	Point 	img_plane,                  // Destino en el plano de imagen del rayo.
-            t_xdir, t_ydir, t_pushdir;  // Convertiremos los vectores a puntos.
+	Point 	img_plane;  // Destino en el plano de imagen del rayo.
+
 	Vec3	ray_dir;
 
-	t_xdir.set(x_dir);
-	t_ydir.set(y_dir);
-	img_plane = corner + x * t_xdir + y * t_ydir;
+	img_plane = corner + x * Point(x_dir) + y * Point(y_dir);
 
-	ray_dir.set(img_plane - pos);
+	ray_dir = img_plane - pos;
 	ray_dir.normalize();
-	t_pushdir.set(ray_dir);
 
-	return Ray(pos + push * t_pushdir, ray_dir);
+	return Ray(pos + push * Point(ray_dir), ray_dir);
 }

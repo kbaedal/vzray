@@ -134,7 +134,7 @@ RGB WhittedRenderer::direct_light(Point p, Scene *scene, HitRecord &hit_r)
 
 		if(light->get_random_point(p, &rng, light_point)) {
 			// Direccion desde el punto de interseccion a la luz a testear.
-			light_dir.set(light_point - p);
+			light_dir = light_point - p;
 			// Distancia entre ambos puntos.
 			light_dist = light_dir.length();
 			// Vector normalizado, para el rayo de testeo.

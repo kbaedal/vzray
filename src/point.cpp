@@ -4,18 +4,34 @@
 #include "randomc/randomc.h"
 #include "onb.h"
 
-Point::Point(const Vec3 &v)
+Point::Point(const Vec3 &v) : Point(v.x(), v.y(), v.z())
+{
+
+}
+
+Point &Point::operator=(const Vec3 &v)
 {
     e[0] = v.x();
     e[1] = v.y();
     e[2] = v.z();
+
+    return *this;
 }
 
-Point &Point::operator+=(Point const &p)
+Point &Point::operator+=(const Point &p)
 {
     e[0] += p.e[0];
     e[1] += p.e[1];
     e[2] += p.e[2];
+
+    return *this;
+}
+
+Point &Point::operator-=(const Point &p)
+{
+    e[0] -= p.e[0];
+    e[1] -= p.e[1];
+    e[2] -= p.e[2];
 
     return *this;
 }
@@ -54,7 +70,7 @@ Point operator*(Point p, double f)
 
 Point operator*(double f, Point p)
 {
-	return Point(p.x() * f, p.y() * f, p.z() * f);
+	return p * f;
 }
 
 Point operator/(Point p, double f)
@@ -62,11 +78,4 @@ Point operator/(Point p, double f)
     double inv = 1.0f / f;
 
 	return Point(p.x() * inv, p.y() * inv, p.z() * inv);
-}
-
-void Point::set(const Vec3 &v)
-{
-	e[0] = v.x();
-	e[1] = v.y();
-	e[2] = v.z();
 }

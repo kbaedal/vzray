@@ -7,8 +7,8 @@ bool Triangle::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hi
 	Vec3	dir10, dir20, temp_normal;
 
 	if(isecaux::test_ray_triangle(r, p0, p1, p2, min_dist, max_dist, dist))	{
-		dir10.set(p1 - p0);
-		dir20.set(p2 - p0);
+		dir10 = p1 - p0;
+		dir20 = p2 - p0;
 
 		temp_normal = cross(dir10, dir20);
 		temp_normal.normalize();

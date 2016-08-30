@@ -106,8 +106,8 @@ Cylinder::Cylinder(Point a_bottom, Point a_top, double a_radius, Material *a_mat
 				ang_rad,		// Angulo en radianes entre los ejes
 				angle;			// Angulo en grados sexagesiamales.
 
-		cyl_axis.set(top - bottom);
-		length = cyl_axis.length();
+		cyl_axis    = top - bottom;
+		length      = cyl_axis.length();
 
 		aux.set(bottom, versor(cyl_axis));
 

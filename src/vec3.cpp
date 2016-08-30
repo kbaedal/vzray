@@ -8,11 +8,9 @@
 #include "randomc/randomc.h"
 #include "onb.h"
 
-Vec3::Vec3(const Point &p)
+Vec3::Vec3(const Point &p) : Vec3(p.x(), p.y(), p.z())
 {
-    e[0] = p.x();
-    e[1] = p.y();
-    e[2] = p.z();
+
 }
 
 std::ostream &operator<<(std::ostream &os, const Vec3 &v)
@@ -22,11 +20,29 @@ std::ostream &operator<<(std::ostream &os, const Vec3 &v)
 	return os;
 }
 
-Vec3 &Vec3::operator+=(Vec3 const &v)
+Vec3 &Vec3::operator=(const Point &p)
+{
+    e[0] = p.x();
+    e[1] = p.y();
+    e[2] = p.z();
+
+    return *this;
+}
+
+Vec3 &Vec3::operator+=(const Vec3 &v)
 {
     e[0] += v.e[0];
     e[1] += v.e[1];
     e[2] += v.e[2];
+
+    return *this;
+}
+
+Vec3 &Vec3::operator-=(const Vec3 &v)
+{
+    e[0] -= v.e[0];
+    e[1] -= v.e[1];
+    e[2] -= v.e[2];
 
     return *this;
 }
@@ -58,7 +74,7 @@ Vec3 operator*(Vec3 v, double f)
 
 Vec3 operator*(double f, Vec3 v)
 {
-	return Vec3(v.x() * f, v.y() * f, v.z() * f);
+	return v * f;
 }
 
 Vec3 operator/(Vec3 v, double f)
@@ -66,13 +82,6 @@ Vec3 operator/(Vec3 v, double f)
     double inv = 1.0f / f;
 
 	return Vec3(v.x() * inv, v.y() * inv, v.z() * inv);
-}
-
-void Vec3::set(const Point &p)
-{
-	e[0] = p.x();
-	e[1] = p.y();
-	e[2] = p.z();
 }
 
 double dot(Vec3 const &v1, Vec3 const &v2)

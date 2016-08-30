@@ -55,7 +55,7 @@ bool Sphere::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit)
 	Vec3	normal;
 
 	if(isecaux::test_ray_sphere(r_obj_space, min_dist, max_dist, dist)) {
-		normal.set(r_obj_space.get_point(dist));
+		normal = r_obj_space.get_point(dist);
 
 		hit.dist 	    = dist;
 		hit.normal      = versor(trans->normal_to_scene(normal));
@@ -115,7 +115,7 @@ bool Sphere::get_random_point(const Point &view_pos, CRandomMersenne *rng, Point
 
 		Vec3 k_i(cos_phi * sin_alpha, sin_phi * sin_alpha, cos_alpha);
 
-		w.set(center - pos);
+		w = center - pos;
 		uvw.init_from_w(w);
 		dir_to_light = k_i.x() * uvw.u() + k_i.y() * uvw.v() + k_i.z() * uvw.w();
 

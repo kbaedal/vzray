@@ -23,7 +23,7 @@ Image::Image(int a_width, int a_height, const RGB &a_color)
 		pixels[i] = new Contrib[height];
 
         for(int j = 0; j < height; j++) {
-			pixels[i][j][0].set(a_color);
+			pixels[i][j][0] = a_color;
 		}
 	}
 }
@@ -42,7 +42,7 @@ bool Image::set(int a_width, int a_height, const RGB &a_color)
 	if(a_width < 0 || a_width > width) return false;
 	if(a_height < 0 || a_height > height) return false;
 
-	pixels[a_width][a_height][0].set(a_color);
+	pixels[a_width][a_height][0] = a_color;
 
 	return true;
 }
@@ -62,7 +62,7 @@ bool Image::get(int a_width, int a_height, RGB &a_color)
 	if(a_width < 0 || a_width > width) return false;
 	if(a_height < 0 || a_height > height) return false;
 
-	a_color.set(pixels[a_width][a_height][0]);
+	a_color = pixels[a_width][a_height][0];
 
 	return true;
 }
@@ -130,7 +130,7 @@ void Image::create_final_img()
 {
     for(int y = 0; y < height; ++y) {
         for(int x = 0; x < width; ++x) {
-            pixels[x][y][0].set(0.0f, 0.0f, 0.0f);
+            pixels[x][y][0] = RGB(0.0f);
 
             // Acumulamos los resultados.
             for(int z = 1; z < 4; ++z)
