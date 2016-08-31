@@ -20,8 +20,6 @@ void Pinhole::set(Point a_pos, Vec3 a_dir, Vec3 a_up,
 	v = uvw.v();
 	w = uvw.w();
 
-	//m_p3Corner = pos + m_u0 * m_uvw.u() + m_v0 * m_uvw.v() - m_dDist * m_uvw.w();
-	//corner = pos + u0 * u + v0 * v - dist * w;
 	corner = pos + u0 * Point(uvw.u()) + v0 * Point(uvw.v()) - dist * Point(uvw.w());
 
 	x_dir = (u1 - u0) * uvw.u();

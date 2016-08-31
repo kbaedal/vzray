@@ -8,7 +8,6 @@
 #include "directrenderer.h"
 
 #include "randomc/randomc.h"
-#include "material/dielectricmaterial.h"
 #include "scene/scene.h"
 
 const double DirectRenderer::kepsilon    = 1e-2;
