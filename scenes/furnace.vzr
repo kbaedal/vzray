@@ -28,10 +28,12 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<high_corner>2, 2</high_corner>
 		<push>0</push>
 	</camera>	
+	<!--
 	<image>
 		<res_x>202</res_x>
 		<res_y>202</res_y>
 	</image>
+	-->
 </config>
 
 <!-- Fin de la cabecera -->

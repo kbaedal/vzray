@@ -2096,7 +2096,7 @@
 1446723349 source:c:\develop\projects\vzraycb\src\onb.cpp
 	"onb.h"
 
-1472568520 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
+1472744584 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -2195,7 +2195,7 @@
 	"ray.h"
 	"rgb.h"
 
-1472122131 c:\develop\projects\vzraycb\src\renderer\directrenderer.h
+1472742732 c:\develop\projects\vzraycb\src\renderer\directrenderer.h
 	<vector>
 	<string>
 	"renderer.h"
@@ -2445,7 +2445,7 @@
 	"vzray.h"
 	"statistics.h"
 
-1472567698 source:c:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
+1472744017 source:c:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -2454,10 +2454,9 @@
 	<vector>
 	"directrenderer.h"
 	"randomc/randomc.h"
-	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
-1472567716 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
+1472744757 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -2468,7 +2467,7 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1472122098 c:\develop\projects\vzraycb\src\renderer\whittedrenderer.h
+1472743874 c:\develop\projects\vzraycb\src\renderer\whittedrenderer.h
 	<vector>
 	<string>
 	"renderer.h"

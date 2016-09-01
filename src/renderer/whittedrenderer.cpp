@@ -35,7 +35,7 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
         // Y el ambiente.
         color += hit_r.material->ambient();
 
-        if(++depth < max_depth + 1) { // Aumentamos depth
+        if(depth < max_depth) {
             // Calculamos el punto de interseccion.
             Point intersection { r.get_point(hit_r.dist) };
 
@@ -49,7 +49,7 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
                 // Nuevo rayo:
                 Ray refl_ray(intersection + (kepsilon * Point(refl_dir)), refl_dir);
 
-                return color += get_color(refl_ray, scene, min_dist, max_dist, depth);
+                return color += get_color(refl_ray, scene, min_dist, max_dist, depth + 1);
             }
             if(hit_r.material->is_transmissive()) {
                 // Material transmisivo.
@@ -81,7 +81,7 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
                         // Nuevo rayo:
                         Ray refl_ray(intersection + (kepsilon * Point(refl_dir)), refl_dir);
 
-                        return color += get_color(refl_ray, scene, min_dist, max_dist, depth);
+                        return color += get_color(refl_ray, scene, min_dist, max_dist, depth + 1);
                     }
                 }
 
@@ -97,12 +97,20 @@ RGB WhittedRenderer::get_color(Ray r, Scene *scene, double min_dist, double max_
                 Ray     refl_ray(intersection + (kepsilon * Point(refl_dir)), refl_dir),
                         refr_ray(intersection + (kepsilon * Point(refr_dir)), refr_dir);
 
-                return color += get_color(refl_ray, scene, min_dist, max_dist, depth) * fresnel +
-                    get_color(refr_ray, scene, min_dist, max_dist, depth) * (1.0f - fresnel);
+                return color += get_color(refl_ray, scene, min_dist, max_dist, depth + 1) * fresnel +
+                    get_color(refr_ray, scene, min_dist, max_dist, depth + 1) * (1.0f - fresnel);
             }
             else { // Superficie difusa.
-                // Calculamos color y devolvemos.
-                return color += this->direct_light(intersection, scene, hit_r);
+                if(depth == 1) {
+                    // Suavizado de sombras solo en rayos de la camara.
+                    for(int i = 0; i < shadow_samps; ++i)
+                        color += this->direct_light(intersection, scene, hit_r) * (1.0f / shadow_samps);
+
+                    return color;
+                }
+                else {
+                    return color += this->direct_light(intersection, scene, hit_r);
+                }
             }
         }
     }
@@ -129,46 +137,47 @@ RGB WhittedRenderer::direct_light(Point p, Scene *scene, HitRecord &hit_r)
             diffuse;
 	bool 	shadow_hit;
 
-	for(int i = 0; i < scene->get_num_lights(); i++) {
+
+    for(int i = 0; i < scene->get_num_lights(); i++) {
         Shape *light = scene->get_light(i);
 
-		if(light->get_random_point(p, &rng, light_point)) {
-			// Direccion desde el punto de interseccion a la luz a testear.
-			light_dir = light_point - p;
-			// Distancia entre ambos puntos.
-			light_dist = light_dir.length();
-			// Vector normalizado, para el rayo de testeo.
-			light_dir.normalize();
+        if(light->get_random_point(p, &rng, light_point)) {
+            // Direccion desde el punto de interseccion a la luz a testear.
+            light_dir = light_point - p;
+            // Distancia entre ambos puntos.
+            light_dist = light_dir.length();
+            // Vector normalizado, para el rayo de testeo.
+            light_dir.normalize();
 
-			shadow_ray.set(p + kepsilon * Point(light_dir), light_dir);
+            shadow_ray.set(p + kepsilon * Point(light_dir), light_dir);
 
             // Se supone que tanto la normal como la direccion están normalizados.
-			diffuse = dot(hit_r.normal, shadow_ray.direction());
+            diffuse = dot(hit_r.normal, shadow_ray.direction());
 
-			/// NO SE YO...
-			if(diffuse < 0.0) // Si negativo, normal apunta en la direccion contraria a la luz.
+            /// NO SE YO...
+            if(diffuse < 0.0) // Si negativo, normal apunta en la direccion contraria a la luz.
                 diffuse = -diffuse;
             /// PUES ESO.
 
-			shadow_hit = false;
-			int j = 0;
-			while(!shadow_hit && j < scene->get_num_objs()) {
+            shadow_hit = false;
+            int j = 0;
+            while(!shadow_hit && j < scene->get_num_objs()) {
                 Shape *test_obj = scene->get_object(j);
-				if(test_obj != light) {
-					if(test_obj->shadow_hit(shadow_ray, kepsilon, light_dist))
-						shadow_hit = true;
-				}
-				++j;
-			}
-			if(!shadow_hit) {
-				if(hit_r.material != NULL) {
-					Vec2 v2(0.0f);
-					Vec3 v3(0.0f);
-					diffuse_color += hit_r.material->radiance() * light->get_material()->radiance() * diffuse;
-				}
-			}
-		}
-	}
+                if(test_obj != light) {
+                    if(test_obj->shadow_hit(shadow_ray, kepsilon, light_dist))
+                        shadow_hit = true;
+                }
+                ++j;
+            }
+            if(!shadow_hit) {
+                if(hit_r.material != NULL) {
+                    Vec2 v2(0.0f);
+                    Vec3 v3(0.0f);
+                    diffuse_color += hit_r.material->radiance() * light->get_material()->radiance() * diffuse;
+                }
+            }
+        }
+    }
 
 	return diffuse_color;
 }
