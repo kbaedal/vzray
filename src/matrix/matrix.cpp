@@ -48,6 +48,65 @@ Matrix4x4 &Matrix4x4::operator+=(Matrix4x4 const &m)
     return *this;
 }
 
+Matrix4x4 &Matrix4x4::operator-=(Matrix4x4 const &m)
+{
+    for(int i = 0; i < 4; ++i)
+        for(int j = 0; j < 4; ++j)
+            e[i][j] -= m.e[i][j];
+
+    return *this;
+}
+
+Matrix4x4 &Matrix4x4::operator*=(Matrix4x4 const &m)
+{
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            double sum = 0.0;
+            for(int k = 0; k < 4; k++)
+				sum += e[i][k] * m.e[k][j];
+
+           e[i][j] = sum;
+        }
+    }
+
+    return *this;
+}
+
+Matrix4x4 &Matrix4x4::operator*=(double v)
+{
+    for(int i = 0; i < 4; i++)
+		for(int j = 0; j < 4; j++)
+			e[i][j] *= v;
+
+    return *this;
+}
+
+Matrix4x4 &Matrix4x4::operator/=(double v)
+{
+    // Si intentamos dividir por 0.0, devolvemos la matriz identidad.
+    if( v != 0.0f) {
+        double inv = 1.0 / v;
+
+        for(int i = 0; i < 4; i++)
+            for(int j = 0; j < 4; j++)
+                e[i][j] *= inv;
+    }
+    else {
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(i==j)
+                    e[i][j] = 1.0;
+                else
+                    e[i][j] = 0.0;
+            }
+        }
+
+        std::clog << "----\nMatriz: Division por 0.\n---\n" << std::endl;
+    }
+
+    return *this;
+}
+
 Matrix4x4 Matrix4x4::get_inv()
 {
 	// Aplicaremos el método de cálculo por determinates:
@@ -109,6 +168,7 @@ Matrix4x4 Matrix4x4::get_cofactor()
 
 Matrix4x4 operator+(Matrix4x4 m1, const Matrix4x4 &m2)
 {
+    /*
 	Matrix4x4 mtemp;
 
     for(int i = 0; i < 4; i++)
@@ -116,10 +176,14 @@ Matrix4x4 operator+(Matrix4x4 m1, const Matrix4x4 &m2)
             mtemp.e[i][j] = m1.e[i][j] + m2.e[i][j];
 
     return mtemp;
+    */
+
+    return m1 += m2;
 }
 
 Matrix4x4 operator-(Matrix4x4 m1, const Matrix4x4 &m2)
 {
+    /*
 	Matrix4x4 mtemp;
 
     for(int i = 0; i < 4; i++)
@@ -127,10 +191,14 @@ Matrix4x4 operator-(Matrix4x4 m1, const Matrix4x4 &m2)
             mtemp.e[i][j] = m1.e[i][j] - m2.e[i][j];
 
     return mtemp;
+    */
+
+    return m1 -= m2;
 }
 
 Matrix4x4 operator*(Matrix4x4 m1, const Matrix4x4 &m2)
 {
+    /*
     Matrix4x4 mtemp;
 
     for(int i = 0; i < 4; i++) {
@@ -142,8 +210,9 @@ Matrix4x4 operator*(Matrix4x4 m1, const Matrix4x4 &m2)
             mtemp.e[i][j] = sum;
         }
     }
+    */
 
-    return mtemp;
+    return m1 *= m2;
 }
 
 Matrix4x4 operator/(Matrix4x4 m1, const Matrix4x4 &m2)
@@ -158,9 +227,10 @@ Matrix4x4 operator/(Matrix4x4 m1, const Matrix4x4 &m2)
     return mres;
 }
 
+/*
 Vec3 Matrix4x4::transform(const Vec3 &v)
 {
-	double   componentes[4],
+	double  componentes[4],
             nuevas_comp[4],
             res;
 
@@ -183,7 +253,9 @@ Vec3 Matrix4x4::transform(const Vec3 &v)
 
     return Vec3(nuevas_comp[0], nuevas_comp[1], nuevas_comp[2]);
 }
+*/
 
+/*
 Point Matrix4x4::transform(const Point &p)
 {
 	double   componentes[4],
@@ -210,9 +282,11 @@ Point Matrix4x4::transform(const Point &p)
 
     return Point(nuevas_comp[0], nuevas_comp[1], nuevas_comp[2]);
 }
+*/
 
 Matrix4x4 operator*(Matrix4x4 m, double v)
 {
+    /*
 	Matrix4x4 mtemp;
 
 	for(int i = 0; i < 4; i++)
@@ -220,10 +294,14 @@ Matrix4x4 operator*(Matrix4x4 m, double v)
 			mtemp.e[i][j] = m.e[i][j] * v;
 
 	return mtemp;
+	*/
+
+	return m *= v;
 }
 
 Matrix4x4 operator/(Matrix4x4 m, double v)
 {
+    /*
 	Matrix4x4 mtemp;
 
 	if(v != 0.0) {
@@ -235,6 +313,9 @@ Matrix4x4 operator/(Matrix4x4 m, double v)
 	}
 
 	return mtemp;
+	*/
+
+	return m /= v;
 }
 
 double Matrix4x4::determinant()
@@ -291,4 +372,46 @@ double Matrix4x4::cofactor(int x, int y)
 		det = 0.0f;
 
 	return det;
+}
+
+void Matrix4x4::transform(double *v)
+{
+    // Multiplicamos una matriz de 4 filas y 1 columna
+    // por una matriz de 4 filas y 4 columnas.
+    for(int j = 0; j < 4; ++j) {
+        double sum = 0.0f;
+
+        for(int i = 0; i < 4; ++i) {
+            sum += e[j][i] * v[i];
+        }
+        v[j] = sum;
+    }
+}
+
+Vec3 Matrix4x4::transform_pos(const Vec3 &pos)
+{
+    double  v[4];
+
+    v[0] = pos.x();
+    v[1] = pos.y();
+    v[2] = pos.z();
+    v[3] = 1.0f;
+
+    transform(v);
+
+    return Vec3(v[0], v[1], v[2]);
+}
+
+Vec3 Matrix4x4::transform_vec(const Vec3 &vec)
+{
+    double v[4];
+
+    v[0] = vec.x();
+    v[1] = vec.y();
+    v[2] = vec.z();
+    v[3] = 0.0f;
+
+    transform(v);
+
+    return Vec3(v[0], v[1], v[2]);
 }

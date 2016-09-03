@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if(scene_desc_file.empty() || (argc < 2)) {
+	if((scene_desc_file.empty() || (argc < 2)) && !(globales.options & Global_opts::kglb_do_test)) {
 		muestra_ayuda(argv[0]);
 		return 0;
 	}

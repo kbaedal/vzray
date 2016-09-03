@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-class Point;
+//class Point;
 
 /**
  * Manejo de vectores de 3 coordenadas.
@@ -17,12 +17,12 @@ class Vec3
 		Vec3(double a) : Vec3(a, a, a) { }
 		Vec3() : Vec3(0.0f) { }
 		Vec3(const Vec3 &v) : Vec3(v.x(), v.y(), v.z()) { }
-		Vec3(const Point &p);
+		//Vec3(const Point &p);
 
 		// Operadores aritmeticos unarios
 		const Vec3 &operator+() const { return *this; }
 		Vec3 operator-() const { return Vec3(-e[0], -e[1], -e[2]); }
-		Vec3 &operator=(const Point &p);
+		//Vec3 &operator=(const Point &p);
 		Vec3 &operator+=(const Vec3 &v);
 		Vec3 &operator-=(const Vec3 &v);
 

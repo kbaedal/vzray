@@ -8,10 +8,12 @@
 #include "randomc/randomc.h"
 #include "onb.h"
 
+/*
 Vec3::Vec3(const Point &p) : Vec3(p.x(), p.y(), p.z())
 {
 
 }
+*/
 
 std::ostream &operator<<(std::ostream &os, const Vec3 &v)
 {
@@ -20,6 +22,7 @@ std::ostream &operator<<(std::ostream &os, const Vec3 &v)
 	return os;
 }
 
+/*
 Vec3 &Vec3::operator=(const Point &p)
 {
     e[0] = p.x();
@@ -28,6 +31,7 @@ Vec3 &Vec3::operator=(const Point &p)
 
     return *this;
 }
+*/
 
 Vec3 &Vec3::operator+=(const Vec3 &v)
 {

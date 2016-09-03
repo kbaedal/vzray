@@ -3,10 +3,15 @@
 
 #include <iostream>
 
-class Vec3;
+#include "vec3.h"
+
+typedef Vec3 Point;
+//class Vec3;
 /**
  * Manejo de puntos de 3 coordenadas.
  */
+
+/*
 class Point
 {
 	public:
@@ -54,5 +59,6 @@ class Point
 		// Componentes
 		double e[3];
 };
+*/
 
 #endif // __POINT_H__

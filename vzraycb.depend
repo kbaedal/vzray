@@ -1952,8 +1952,9 @@
 	<cmath>
 	"point.h"
 
-1472575407 c:\develop\projects\vzraycb\src\point.h
+1472891980 c:\develop\projects\vzraycb\src\point.h
 	<iostream>
+	"vec3.h"
 
 1472634373 source:c:\develop\projects\vzraycb\src\camera\pinhole.cpp
 	"camera/pinhole.h"
@@ -1974,7 +1975,7 @@
 	"point.h"
 	"material/material.h"
 
-1472568336 c:\develop\projects\vzraycb\src\vec3.h
+1472891935 c:\develop\projects\vzraycb\src\vec3.h
 	<cmath>
 	<iostream>
 
@@ -2071,17 +2072,17 @@
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1448473483 source:c:\develop\projects\vzraycb\src\matrix\matrix.cpp
+1472901710 source:c:\develop\projects\vzraycb\src\matrix\matrix.cpp
 	<vector>
 	"matrix/matrix.h"
 
-1448539830 c:\develop\projects\vzraycb\src\matrix\matrix.h
+1472903405 c:\develop\projects\vzraycb\src\matrix\matrix.h
 	<iostream>
 	<iomanip>
 	"vec3.h"
 	"point.h"
 
-1446723349 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
+1472901231 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
 	<cstdlib>
 	"matrix/transform.h"
 
@@ -2096,7 +2097,7 @@
 1446723349 source:c:\develop\projects\vzraycb\src\onb.cpp
 	"onb.h"
 
-1472744584 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
+1472748141 source:c:\develop\projects\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -2272,7 +2273,7 @@
 	"rgb.h"
 	"shapes/shape.h"
 
-1472575420 source:c:\develop\projects\vzraycb\src\point.cpp
+1472899866 source:c:\develop\projects\vzraycb\src\point.cpp
 	"point.h"
 	"vec3.h"
 	"randomc/randomc.h"
@@ -2412,7 +2413,7 @@
 1448622885 source:c:\develop\projects\vzraycb\src\statistics.cpp
 	"statistics.h"
 
-1446723210 source:c:\develop\projects\vzraycb\src\test.cpp
+1472901922 source:c:\develop\projects\vzraycb\src\test.cpp
 	"test.h"
 	"matrix/matrix.h"
 	"matrix/transform.h"
@@ -2422,7 +2423,7 @@
 1446723350 source:c:\develop\projects\vzraycb\src\vec2.cpp
 	"vec2.h"
 
-1472570184 source:c:\develop\projects\vzraycb\src\vec3.cpp
+1472891963 source:c:\develop\projects\vzraycb\src\vec3.cpp
 	<cmath>
 	<ctime>
 	<cstdio>
@@ -2431,7 +2432,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1472054060 source:c:\develop\projects\vzraycb\src\vzray.cpp
+1472901600 source:c:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2456,7 +2457,7 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1472744757 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
+1472748077 source:c:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>

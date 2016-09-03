@@ -4,6 +4,7 @@
 #include "randomc/randomc.h"
 #include "onb.h"
 
+/*
 Point::Point(const Vec3 &v) : Point(v.x(), v.y(), v.z())
 {
 
@@ -79,3 +80,4 @@ Point operator/(Point p, double f)
 
 	return Point(p.x() * inv, p.y() * inv, p.z() * inv);
 }
+*/

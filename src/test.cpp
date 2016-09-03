@@ -31,28 +31,32 @@ bool Test::launch_test()
 	std::clog << M << "\n";
 
 	P.set(5, 5, 5);
-	std::clog << "Transformando punto: " << P << "\n";
-	P = T.mtx.transform(P);
-	std::clog << "Punto Transformado: " << P << "\n";
-	P = T.inv.transform(P);
-	std::clog << "Punto Destransformado: " << P << "\n";
+	std::clog << "Transformando punto:    " << P << "\n";
+	//P = T.mtx.transform(P);
+	P = T.mtx.transform_pos(P);
+	std::clog << "Punto Transformado:     " << P << "\n";
+	//P = T.inv.transform(P);
+	P = T.inv.transform_pos(P);
+	std::clog << "Punto Destransformado:  " << P << "\n";
 
 	V.set(0, 0, 1);
-	std::clog << "Transformando vector: " << V << "\n";
-	V = T.mtx.transform(V);
-	std::clog << "Vector Transformado: " << V << "\n";
-	V = T.inv.transform(V);
+	std::clog << "Transformando vector:   " << V << "\n";
+	//V = T.mtx.transform(V);
+	V = T.mtx.transform_vec(V);
+	std::clog << "Vector Transformado:    " << V << "\n";
+	//V = T.inv.transform(V);
+	V = T.inv.transform_vec(V);
 	std::clog << "Vector Destransformado: " << V << "\n";
 
 	R.orig = P;
 	R.dir = V;
 	R.refresh_inv();
 
-	std::clog << "Transformando Rayo: " << R << "\n";
+	std::clog << "Transformando Rayo:     " << R << "\n";
 	R = T.scene_to_object(R);
-	std::clog << "Rayo Transformado: " << R << "\n";
+	std::clog << "Rayo Transformado:      " << R << "\n";
 	R = T.object_to_scene(R);
-	std::clog << "Punto Destransformado: " << R << "\n";
+	std::clog << "Punto Destransformado:  " << R << "\n";
 
 	std::clog << "Test finalizado.\n";
 

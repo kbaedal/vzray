@@ -71,19 +71,23 @@ class Matrix4x4 {
         double determinant();
 
         /**
-         * \brief Aplicamos la matriz a un vector, a los que no les afectan traslaciones.
-         */
-        Vec3 transform(const Vec3 &v);
-
-        /**
          * \brief Aplicamos la matriz a un punto, a los que sí les afectan traslaciones.
          */
-        Point transform(const Point &p);
+        Vec3 transform_pos(const Vec3 &pos);
+
+        /**
+         * \brief Aplicamos la matriz a un vector, a los que no les afectan traslaciones.
+         */
+        Vec3 transform_vec(const Vec3 &vec);
 
         // Operadores aritmeticos unarios
 		const Matrix4x4 &operator+() const { return *this; }
 		Matrix4x4 operator-() const;
 		Matrix4x4 &operator+=(Matrix4x4 const &m);
+        Matrix4x4 &operator-=(Matrix4x4 const &m);
+        Matrix4x4 &operator*=(Matrix4x4 const &m);
+        Matrix4x4 &operator*=(double v);
+        Matrix4x4 &operator/=(double v);
 
         // Operadores atitmeticos binarios
         friend Matrix4x4 operator+(Matrix4x4 m1, const Matrix4x4 &m2);
@@ -100,7 +104,7 @@ class Matrix4x4 {
 
         friend inline std::ostream &operator<<(std::ostream &os, const Matrix4x4 &m)
         {
-            os << "Matrix4x4<";
+            os << "Matrix4x4<" << std::endl;
             for(int i = 0; i < 4; ++i) {
                 for(int j = 0; j < 4; ++j) {
                     os << std::setw(11) << std::setprecision(5) << ((fabs(m.e[i][j]) < .00001) ? 0.0f : m.e[i][j]) << " ";
@@ -123,6 +127,9 @@ class Matrix4x4 {
             double a21, double a22, double a23,
             double a31, double a32, double a33
         );
+
+        // Aplica la matriz al array de 4 doubles pasado.
+        void transform(double *v);
 };
 
 #endif // __MATRIX_HPP__

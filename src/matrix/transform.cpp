@@ -175,10 +175,17 @@ void Transform::free_transform(const Matrix4x4 &m)
 
 Ray Transform::scene_to_object(const Ray &r)
 {
+    /*
 	Ray t(
 		inv.transform(r.origin()),
 		inv.transform(r.direction())
 	);
+	*/
+
+	Ray t(
+       inv.transform_pos(r.origin()),
+       inv.transform_vec(r.direction())
+    );
 
 	t.refresh_inv();
 
@@ -187,19 +194,27 @@ Ray Transform::scene_to_object(const Ray &r)
 
 Point Transform::scene_to_object(const Point &p)
 {
-	return inv.transform(p);
+	//return inv.transform(p);
+	return inv.transform_pos(p);
 }
 
 Vec3 Transform::normal_to_scene(const Vec3 &n)
 {
-	return inv.get_trans().transform(n);
+	//return inv.get_trans().transform(n);
+	return inv.get_trans().transform_vec(n);
 }
 
 Ray Transform::object_to_scene(const Ray &r)
 {
+    /*
 	Ray t(
 		mtx.transform(r.origin()),
 		mtx.transform(r.direction())
+	);
+	*/
+	Ray t(
+		mtx.transform_pos(r.origin()),
+		mtx.transform_vec(r.direction())
 	);
 
 	t.refresh_inv();
@@ -209,7 +224,8 @@ Ray Transform::object_to_scene(const Ray &r)
 
 Point Transform::object_to_scene(const Point &p)
 {
-	return mtx.transform(p);
+	//return mtx.transform(p);
+	return mtx.transform_pos(p);
 }
 
 AABB Transform::update_AABB(const AABB &b)
@@ -248,7 +264,8 @@ AABB Transform::update_AABB(const AABB &b)
 
 	// Transformamos:
 	for(int i = 0; i < 8; i++)
-		v[i] = mtx.transform(v[i]);
+		//v[i] = mtx.transform(v[i]);
+		v[i] = mtx.transform_pos(v[i]);
 
 	// Crearemos tres arrays de floats. En cada uno metermos todas
 	// las coordenadas de los puntos (en uno las x, en otro las y, etc.)
