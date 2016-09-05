@@ -14,6 +14,11 @@ Matrix4x4::Matrix4x4()
     }
 }
 
+Matrix4x4::Matrix4x4(const Matrix4x4 &m)
+{
+    *this = m;
+}
+
 void Matrix4x4::set(double m[4][4])
 {
 	for(int i = 0; i < 4; i++)
@@ -34,7 +39,8 @@ Matrix4x4 Matrix4x4::operator-() const
 
     for(int i = 0; i < 4; ++i)
         for(int j = 0; j < 4; ++j)
-			m.e[i][j] = -e[i][j];
+            if(m.e[i][j] != 0.0f)
+                m.e[i][j] = -e[i][j];
 
     return m;
 }
@@ -59,15 +65,19 @@ Matrix4x4 &Matrix4x4::operator-=(Matrix4x4 const &m)
 
 Matrix4x4 &Matrix4x4::operator*=(Matrix4x4 const &m)
 {
+    Matrix4x4 mt(*this);
+
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
             double sum = 0.0;
             for(int k = 0; k < 4; k++)
 				sum += e[i][k] * m.e[k][j];
 
-           e[i][j] = sum;
+            mt.e[i][j] = sum;
         }
     }
+
+    *this = mt;
 
     return *this;
 }
@@ -77,6 +87,28 @@ Matrix4x4 &Matrix4x4::operator*=(double v)
     for(int i = 0; i < 4; i++)
 		for(int j = 0; j < 4; j++)
 			e[i][j] *= v;
+
+    return *this;
+}
+
+Matrix4x4 &Matrix4x4::operator/=(const Matrix4x4 &m)
+{
+    /*
+    Matrix4x4 mres, mtemp;
+
+    mtemp = m2;
+    mtemp.invert();
+
+    mres = m1 * mtemp;
+
+    return mres;
+    */
+
+    Matrix4x4 mt {m};
+
+    mt.invert();
+
+    *this *= mt;
 
     return *this;
 }
@@ -168,55 +200,22 @@ Matrix4x4 Matrix4x4::get_cofactor()
 
 Matrix4x4 operator+(Matrix4x4 m1, const Matrix4x4 &m2)
 {
-    /*
-	Matrix4x4 mtemp;
-
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++)
-            mtemp.e[i][j] = m1.e[i][j] + m2.e[i][j];
-
-    return mtemp;
-    */
-
     return m1 += m2;
 }
 
 Matrix4x4 operator-(Matrix4x4 m1, const Matrix4x4 &m2)
 {
-    /*
-	Matrix4x4 mtemp;
-
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++)
-            mtemp.e[i][j] = m1.e[i][j] - m2.e[i][j];
-
-    return mtemp;
-    */
-
-    return m1 -= m2;
+	return m1 -= m2;
 }
 
 Matrix4x4 operator*(Matrix4x4 m1, const Matrix4x4 &m2)
 {
-    /*
-    Matrix4x4 mtemp;
-
-    for(int i = 0; i < 4; i++) {
-        for(int j = 0; j < 4; j++) {
-            double sum = 0.0;
-            for(int k = 0; k < 4; k++)
-				sum += m1.e[i][k] * m2.e[k][j];
-
-            mtemp.e[i][j] = sum;
-        }
-    }
-    */
-
     return m1 *= m2;
 }
 
 Matrix4x4 operator/(Matrix4x4 m1, const Matrix4x4 &m2)
 {
+    /*
     Matrix4x4 mres, mtemp;
 
     mtemp = m2;
@@ -225,83 +224,24 @@ Matrix4x4 operator/(Matrix4x4 m1, const Matrix4x4 &m2)
     mres = m1 * mtemp;
 
     return mres;
+    */
+    return m1 /= m2;
 }
-
-/*
-Vec3 Matrix4x4::transform(const Vec3 &v)
-{
-	double  componentes[4],
-            nuevas_comp[4],
-            res;
-
-    componentes[0] = v.x();
-    componentes[1] = v.y();
-    componentes[2] = v.z();
-    componentes[3] = 0.0;
-
-    for(int i = 0; i < 4; i++) {
-        res = 0.0;
-
-        for(int j = 0; j < 4; j++)
-            res += e[i][j] * componentes[j];
-
-        if((res > 0.0) || (res < 0.0))
-            nuevas_comp[i] = res;
-        else
-            nuevas_comp[i] = 0.0f;
-    }
-
-    return Vec3(nuevas_comp[0], nuevas_comp[1], nuevas_comp[2]);
-}
-*/
-
-/*
-Point Matrix4x4::transform(const Point &p)
-{
-	double   componentes[4],
-            nuevas_comp[4],
-            res;
-
-    componentes[0] = p.x();
-    componentes[1] = p.y();
-    componentes[2] = p.z();
-    componentes[3] = 1.0;
-
-    for(int i = 0; i < 4; i++) {
-        res = 0.0;
-
-        for(int j = 0; j < 4; j++) {
-            res += e[i][j] * componentes[j];
-        }
-
-        if((res > 0.0) or (res < 0.0))
-            nuevas_comp[i] = res;
-        else
-            nuevas_comp[i] = 0.0f;
-    }
-
-    return Point(nuevas_comp[0], nuevas_comp[1], nuevas_comp[2]);
-}
-*/
 
 Matrix4x4 operator*(Matrix4x4 m, double v)
 {
-    /*
-	Matrix4x4 mtemp;
+    Matrix4x4 mtemp;
 
 	for(int i = 0; i < 4; i++)
 		for(int j = 0; j < 4; j++)
 			mtemp.e[i][j] = m.e[i][j] * v;
 
 	return mtemp;
-	*/
-
-	return m *= v;
+	//return m *= v;
 }
 
 Matrix4x4 operator/(Matrix4x4 m, double v)
 {
-    /*
 	Matrix4x4 mtemp;
 
 	if(v != 0.0) {
@@ -313,9 +253,7 @@ Matrix4x4 operator/(Matrix4x4 m, double v)
 	}
 
 	return mtemp;
-	*/
-
-	return m /= v;
+	//return m /= v;
 }
 
 double Matrix4x4::determinant()

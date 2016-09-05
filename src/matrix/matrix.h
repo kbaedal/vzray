@@ -14,6 +14,7 @@ class Matrix4x4 {
     public:
 
         Matrix4x4();
+        Matrix4x4(const Matrix4x4 &m);
         Matrix4x4(double m[4][4])
         {
 			set(m);
@@ -87,6 +88,7 @@ class Matrix4x4 {
         Matrix4x4 &operator-=(Matrix4x4 const &m);
         Matrix4x4 &operator*=(Matrix4x4 const &m);
         Matrix4x4 &operator*=(double v);
+        Matrix4x4 &operator/=(Matrix4x4 const &m);
         Matrix4x4 &operator/=(double v);
 
         // Operadores atitmeticos binarios

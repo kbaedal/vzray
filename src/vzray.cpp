@@ -136,7 +136,6 @@ int main(int argc, char *argv[])
                 print_time("\n\nRender Time: ", static_cast<float>(render_ticks)/CLOCKS_PER_SEC);
                 print_statistics();
 
-
                 if(output_file.empty()) {
                     std::string	temp;
 
@@ -191,43 +190,30 @@ bool start_render(Globals *globales)
 	if(globales->options & Global_opts::kglb_show_aabb)
 		globales->scene->show_AABB();
 
+    // Una divisón y n multiplicaciones se hacen mas
+    // rapido que n divisiones.
+    double samp_div = 1.0f / globales->samples_per_pixel;
+
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
 		for(int j = 0; j < globales->res_y; j++) {
-			RGB pixel_color(0.0f, 0.0f, 0.0f);
+			RGB pixel_color(0.0f);
 
 			//i = globales->res_x/2; j = globales->res_y/2;
 			//i=50; j=250;
 			//std::clog << "StartRender::Shooting ray!" << endl;
-			if(globales->samples_per_pixel > 1) {
-                // Una divisón y n multiplicaciones se hacen mas
-                // rapido que n divisiones.
-                double samp_div = 1.0f / globales->samples_per_pixel;
 
-				for(int k = 0; k < globales->samples_per_pixel; ++k) {
-					// std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
-					double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
-                            cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
-                            cam_sx = rng.Random(),
-                            cam_sy = rng.Random();
-
-                    Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
-
-					pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * samp_div;
-				}
-			}
-			else
-			{
-			    double  cam_x = static_cast<double>(i)/static_cast<double>(globales->res_x),
-                        cam_y = static_cast<double>(j)/static_cast<double>(globales->res_y),
+            for(int k = 0; k < globales->samples_per_pixel; ++k) {
+                //std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
+                double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
+                        cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
                         cam_sx = rng.Random(),
                         cam_sy = rng.Random();
 
-				Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
+                Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
 
-				//pixel_color = pixel_color + globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
-				pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1);
-			}
+                pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * samp_div;
+            }
 
 			//std::clog << "RgbPixelColor: " << pixel_color << endl;
 			globales->image->set(i, j, pixel_color);
