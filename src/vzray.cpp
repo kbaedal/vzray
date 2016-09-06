@@ -192,7 +192,16 @@ bool start_render(Globals *globales)
 
     // Una divisón y n multiplicaciones se hacen mas
     // rapido que n divisiones.
-    double samp_div = 1.0f / globales->samples_per_pixel;
+    double              samp_div = 1.0f / globales->samples_per_pixel;
+
+    // Generamos las posiciones de muestreo.
+    std::vector<Vec2>   pix_samp, cam_samp;
+
+    // Tanto para los pixels comopara los rayos de la camara.
+    for(int k = 0; k < globales->samples_per_pixel; ++k) {
+        pix_samp.push_back(Vec2(rng.Random() - 0.5f, rng.Random() - 0.5f));
+        cam_samp.push_back(Vec2(rng.Random(), rng.Random()));
+    }
 
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
@@ -205,12 +214,11 @@ bool start_render(Globals *globales)
 
             for(int k = 0; k < globales->samples_per_pixel; ++k) {
                 //std::clog << "Sampling (i, j, k) = (" << i << ", " << j << ", " << k << ")" << std::endl;
-                double  cam_x = (static_cast<double>(i) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_x)),
-                        cam_y = (static_cast<double>(j) + rng.Random() - 0.5f)/(static_cast<double>(globales->res_y)),
-                        cam_sx = rng.Random(),
-                        cam_sy = rng.Random();
 
-                Ray r = globales->camera->get_ray(cam_x, cam_y, cam_sx, cam_sy);
+                double  cam_x = (static_cast<double>(i) + pix_samp[k].x()) / static_cast<double>(globales->res_x),
+                        cam_y = (static_cast<double>(j) + pix_samp[k].y()) / static_cast<double>(globales->res_y);
+
+                Ray r = globales->camera->get_ray(cam_x, cam_y, cam_samp[k].x(), cam_samp[k].y());
 
                 pixel_color += globales->renderer->get_color(r, globales->scene, .00001f, 1e5, 1) * samp_div;
             }

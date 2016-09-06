@@ -13,13 +13,10 @@ class Vec2
 {
 	public:
 		// Constructores
-		Vec2(double a, double b)
-		{
-			this->set(a, b);
-		}
-		Vec2(double a) { this->set(a); }
-		Vec2() { e[0] = e[1] = 0.f; }
-		Vec2(const Vec2 &v) { this->set(v); }
+		Vec2(double a, double b) : e { a, b} { }
+		Vec2(double a) : Vec2(a, a) { }
+		Vec2() : Vec2(0.0f, 0.0f) { }
+		Vec2(const Vec2 &v) : Vec2(v.x(), v.y()) { }
 
 		// Operadores aritmeticos.
 		const Vec2 &operator+() const { return *this; }
@@ -43,15 +40,6 @@ class Vec2
 		{
 			e[0] = a;
 			e[1] = b;
-		}
-		void set(const Vec2 &v)
-		{
-			e[0] = v.x();
-			e[1] = v.y();
-		}
-		void set(double a)
-		{
-			e[0] = e[1] = a;
 		}
 
 		// Acceso rapido a los componentes.
