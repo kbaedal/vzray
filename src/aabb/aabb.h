@@ -3,7 +3,9 @@
 
 #include <cmath>
 
+#include "vec3.h"
 #include "point.h"
+#include "ray.h"
 
 /**
  * \class Clase para el manejo de Axis Aligned Bounding Boxes.
@@ -45,6 +47,24 @@ class AABB
 		 * \param p Punto a comprobar.
 		 */
 		bool inside(const Point &p);
+
+		/**
+		 * \brief Comprueba si un rayo interesecta la AABB.
+		 *
+		 * \param r Rayo a comprobar.
+		 * \param min_dist Distancia mínima a comprobar.
+		 * \param max_dist Distancia máxima a comprobar.
+		 */
+		bool hit(const Ray &r, double min_dist, double max_dist) const;
+
+		/**
+		 * \brief Devuelve el punto central de la AABB, el centroide.
+		 *
+		 */
+		Vec3 centroid() const
+		{
+		    return ((minimo + maximo) / 2.0f);
+		};
 
 		/**
 		 * \brief Calcula una nueva AABB que contenga a las dos AABB pasadas

@@ -197,7 +197,7 @@ bool start_render(Globals *globales)
     // Generamos las posiciones de muestreo.
     std::vector<Vec2>   pix_samp, cam_samp;
 
-    // Tanto para los pixels comopara los rayos de la camara.
+    // Tanto para los pixels como para los rayos de la camara.
     for(int k = 0; k < globales->samples_per_pixel; ++k) {
         pix_samp.push_back(Vec2(rng.Random() - 0.5f, rng.Random() - 0.5f));
         cam_samp.push_back(Vec2(rng.Random(), rng.Random()));

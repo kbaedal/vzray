@@ -23,19 +23,22 @@ Scene::~Scene()
     // Objetos.
     for(size_t i = 0; i < shapes.size(); ++i) {
         if(shapes[i] != nullptr) {
-            delete shapes[i]->s;
+            //delete shapes[i]->s;
             delete shapes[i];
+            shapes[i] = nullptr;
         }
     }
 
     // Luces.
     // Solo borramos los nodos, puesto que los objetos ya han sido
     // borrados en la lista de objetos.
+    /*
     for(size_t i = 0; i < lights.size(); ++i) {
         if(lights[i] != nullptr) {
             delete lights[i];
         }
     }
+    */
 
     // Texturas.
     for(size_t i = 0; i < textures.size(); ++i) {
@@ -56,21 +59,20 @@ Scene::~Scene()
 
 bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)
 {
-    Shape_node *new_node = new Shape_node;
+    //Shape_node *new_node = new Shape_node;
 
 	for(size_t i = 0; i < materials.size(); ++i) {
         if(materials[i]->id == material_id) {
             new_object->set_material(materials[i]->m);
 
-            new_node->s = new_object;
+            //new_node->s = new_object;
 
-            if(is_light) {
-                shapes.push_back(new_node);
-                lights.push_back(new_node);
-            }
-            else {
-                shapes.push_back(new_node);
-            }
+            //shapes.push_back(new_node);
+            shapes.push_back(new_object);
+
+            if(is_light)
+                //lights.push_back(new_node);
+                lights.push_back(new_object);
 
             return true;
         }
@@ -154,7 +156,8 @@ bool Scene::nearest_intersection(Ray r, double min_dist, double max_dist, HitRec
     ++Statistics::num_primary_rays;
 
     for(size_t i = 0; i < shapes.size(); ++i) {
-        if(shapes[i]->s->hit(r, min_dist, max_dist, hit_r)) {
+        //if(shapes[i]->s->hit(r, min_dist, max_dist, hit_r)) {
+        if(shapes[i]->hit(r, min_dist, max_dist, hit_r)) {
             max_dist    = hit_r.dist;
             is_hit      = true;
         }

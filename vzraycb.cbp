@@ -43,6 +43,8 @@
 		</Compiler>
 		<Unit filename="src/aabb/aabb.cpp" />
 		<Unit filename="src/aabb/aabb.h" />
+		<Unit filename="src/bvh/bvh.cpp" />
+		<Unit filename="src/bvh/bvh.h" />
 		<Unit filename="src/camera/camera.h" />
 		<Unit filename="src/camera/pinhole.cpp" />
 		<Unit filename="src/camera/pinhole.h" />

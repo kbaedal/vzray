@@ -1,5 +1,9 @@
 #include "aabb/aabb.h"
 
+#include "vec3.h"
+#include "point.h"
+#include "ray.h"
+
 void AABB::set(const Point &a_min, const Point &a_max)
 {
 	minimo.e[0] = std::min(a_min.x(), a_max.x());
@@ -31,6 +35,34 @@ bool AABB::inside(const Point &p)
 				return true;
 
 	return false;
+}
+
+bool AABB::hit(const Ray &r, double min_dist, double max_dist) const
+{
+	double t1 = (minimo.x() - r.origin().x()) * r.inv_dir().x();
+	double t2 = (maximo.x() - r.origin().x()) * r.inv_dir().x();
+	double t3 = (minimo.y() - r.origin().y()) * r.inv_dir().y();
+	double t4 = (maximo.y() - r.origin().y()) * r.inv_dir().y();
+	double t5 = (minimo.z() - r.origin().z()) * r.inv_dir().z();
+	double t6 = (maximo.z() - r.origin().z()) * r.inv_dir().z();
+
+	double tmin = std::max(std::max(std::min(t1, t2), std::min(t3, t4)), std::min(t5, t6));
+	double tmax = std::min(std::min(std::max(t1, t2), std::max(t3, t4)), std::max(t5, t6));
+
+	// If tmax < 0, ray (line) is intersecting the box, but the whole box is behind us
+	if (tmax < 0.0f)
+		return false;
+
+	// If tmin > tmax, ray doesn't intersect box.
+	if (tmin > tmax)
+		return false;
+
+	// Hit out of range.
+	if((tmin < min_dist) || (tmin > max_dist))
+		return false;
+
+    // Ray intersects the box.
+	return true;
 }
 
 AABB surround(const AABB &b1, const AABB &b2)

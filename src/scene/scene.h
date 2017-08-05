@@ -96,13 +96,15 @@ class Scene {
 		int get_num_objs() { return shapes.size(); };
 
 		// Devuelve el elemento i-ésimo de la lista de objetos.
-		Shape *get_object(int i) { return shapes[i]->s; };
+		//Shape *get_object(int i) { return shapes[i]->s; };
+		Shape *get_object(int i) { return shapes[i]; };
 
 		// Devuelve el numero de luces de la escena.
 		int get_num_lights() { return lights.size(); };
 
 		// Devuelve el elemento i-ésimo de la lista de luces.
-		Shape *get_light(int i) { return lights[i]->s; };
+		//Shape *get_light(int i) { return lights[i]->s; };
+		Shape *get_light(int i) { return lights[i]; };
 
 		// Cambia el color de ambiente de la escena.
 		void set_ambient_color(const RGB &color) { ambient_color = color; }
@@ -120,10 +122,12 @@ class Scene {
 		bool show_AABB();
 
 	private:
-		std::vector<Shape_node *>     shapes;
-		std::vector<Shape_node *>     lights;
-		std::vector<Material_node *>  materials;
-		std::vector<Texture_node *>   textures;
+		//std::vector<Shape_node *>     shapes;
+		//std::vector<Shape_node *>     lights;
+		std::vector<Shape *>            shapes;
+		std::vector<Shape *>            lights;
+		std::vector<Material_node *>    materials;
+		std::vector<Texture_node *>     textures;
 
 		RGB ambient_color,
             bg_color;
