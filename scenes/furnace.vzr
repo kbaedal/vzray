@@ -138,14 +138,13 @@ Fichero de descripción de escena de VZRay v0.0.1
 	
 	<!-- Objects -->
 	
-	<!-- Light sphere 
+	<!-- Light sphere -->
 	<object>
 		<type>sphere</type>
 		<center>0,2.82842,0</center>
 		<radius>1.41421</radius>
 		<material>Light</material>
 	</object>
-	-->
 	
 	<object>
 		<type>sphere</type>
@@ -154,11 +153,20 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<material>DiffuseWhite</material>
 	</object>
 	
+	<!--
 	<object>
 		<type>plane</type>
 		<base>0, -1.41421, 0</base>
 		<normal>0, 1, 0</normal>
 		<material>DiffuseWhite</material>
 	</object>	
+	-->
+	
+	<object>
+		<type>box</type>
+		<min>-100, -1.41421, -100</min>
+		<max>100, -100, 100</max>
+		<material>DiffuseWhite</material>
+	</object>
 	
 </scene>

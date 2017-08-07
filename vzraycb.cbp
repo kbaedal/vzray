@@ -52,6 +52,8 @@
 		<Unit filename="src/camera/thinlens.h" />
 		<Unit filename="src/image.cpp" />
 		<Unit filename="src/image.h" />
+		<Unit filename="src/log.cpp" />
+		<Unit filename="src/log.h" />
 		<Unit filename="src/material/dielectricmaterial.cpp" />
 		<Unit filename="src/material/dielectricmaterial.h" />
 		<Unit filename="src/material/diffusematerial.cpp" />

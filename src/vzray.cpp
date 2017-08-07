@@ -1,11 +1,13 @@
 #include <cmath>
-#include <cstdlib>
 #include <cstdio>
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <ctime>
+#include <cstdlib>
 #include <cstring>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 #include "parser/parser.h"
 
@@ -13,6 +15,7 @@
 
 #include "vzray.h"
 #include "statistics.h"
+#include "log.h"
 
 // Máscaras para los flags.
 // Declaradas como extern. En la definición es reduntante, y no necesario.
@@ -33,10 +36,15 @@ static void muestra_ayuda(std::string name)
 				<< std::endl;
 }
 
-// Prints info of render process.
+// Render process info and log
 void imprime_info(int linea_act, int lineas_tot);
 void print_time(string head, double ticks);
 void print_statistics();
+/*
+std::streambuf *redirect_clog(std::fstream &log_file);
+void restore_clog(std::streambuf *backup, std::fstream &log_file);
+void log_message(const std::string &str);
+*/
 
 // Intiating data structures
 bool init_data(Globals *globales);
@@ -67,7 +75,7 @@ int main(int argc, char *argv[])
                 output_file_dir,
                 output_file_path;
 
-	bool end_status;
+    bool end_status;
 
 	if(argc > 1) {
 		for(int i = 1; i < argc; ++i) {
@@ -105,16 +113,6 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	else {
-        std::streambuf *log_buf, *backup;
-        std::fstream log;
-
-        // Redirigiremos clog a un fichero para escribir cosas interesantes en él.
-        log.open("log.txt", std::fstream::out);
-
-        backup = std::clog.rdbuf();	// Backup del streambuf de clog
-
-        log_buf = log.rdbuf();      // Obtenemos el streambuf del fichero
-        std::clog.rdbuf(log_buf);	// Redirigimos clog
 
         if(globales.options & Global_opts::kglb_do_test) {
             Test test;
@@ -161,9 +159,6 @@ int main(int argc, char *argv[])
                 }
             }
         }
-
-        std::clog.rdbuf(backup);		// Restauramos el streambuf de clog
-        log.close();					// Cerramos el fichero de log.
     }
 
 	if(end_status)
@@ -184,7 +179,7 @@ bool start_render(Globals *globales)
 				<< " - Illumination strategy: \t" << globales->renderer->renderer_type()
 				<< std::endl << std::endl;
 
-	std::clog 	<< "Enter: Main render loop.\n";
+
 
 	// Si se indica, mostramos las AABB
 	if(globales->options & Global_opts::kglb_show_aabb)
@@ -194,6 +189,8 @@ bool start_render(Globals *globales)
     // rapido que n divisiones.
     double              samp_div = 1.0f / globales->samples_per_pixel;
 
+    log_handler.message("Generando muestras...");
+
     // Generamos las posiciones de muestreo.
     std::vector<Vec2>   pix_samp, cam_samp;
 
@@ -202,6 +199,10 @@ bool start_render(Globals *globales)
         pix_samp.push_back(Vec2(rng.Random() - 0.5f, rng.Random() - 0.5f));
         cam_samp.push_back(Vec2(rng.Random(), rng.Random()));
     }
+
+    log_handler.message("   ... hecho.");
+
+    log_handler.message("Enter: Main render loop.");
 
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
@@ -230,7 +231,7 @@ bool start_render(Globals *globales)
 		}
 	}
 
-	std::clog << "Exit: Main render loop.\n";
+	log_handler.message("Exit: Main render loop.");
 
 	return true;
 }
@@ -296,7 +297,9 @@ bool start_render_v2(Globals *globales)
 		}
 	}
 
-	std::clog << "Exit: Main render loop.\n";
+	//std::clog << "Exit: Main render loop.\n";
+	//log_message("Exit: Main render loop.");
+	log_handler.message("Exit: Main render loop.");
 
 	return true;
 }
@@ -408,3 +411,37 @@ bool save_file(Globals *globales, std::string output_file, int type)
 
 	return true;
 }
+
+/*
+std::streambuf *redirect_clog(std::fstream &log_file)
+{
+    // Redirigiremos clog a un fichero para escribir cosas interesantes en él.
+    log_file.open("log.txt", std::fstream::out);
+
+    std::streambuf *backup = std::clog.rdbuf();	// Backup del streambuf de clog
+
+    std::streambuf *log_buf = log_file.rdbuf(); // Obtenemos el streambuf del fichero
+    std::clog.rdbuf(log_buf);	// Redirigimos clog
+
+    return backup;
+}
+
+void restore_clog(std::streambuf *backup, std::fstream &log_file)
+{
+    std::clog.rdbuf(backup);    // Restauramos el streambuf de clog
+    log_file.close();			// Cerramos el fichero de log.
+}
+
+void log_message(const std::string &str)
+{
+    auto t  = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "[%d-%m-%Y %H:%M:%S] ");
+    auto time_str = oss.str();
+    time_str += str;
+
+    std::clog << time_str << std::endl;
+}
+*/

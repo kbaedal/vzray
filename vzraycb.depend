@@ -1945,7 +1945,7 @@
 	"onb.h"
 	"statistics.h"
 
-1501860454 source:c:\develop\projects\vzraycb\src\aabb\aabb.cpp
+1501925280 source:c:\develop\projects\vzraycb\src\aabb\aabb.cpp
 	"aabb/aabb.h"
 	"vec3.h"
 	"point.h"
@@ -2437,15 +2437,17 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1482948950 source:c:\develop\projects\vzraycb\src\vzray.cpp
+1502116040 source:c:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
-	<cstdlib>
 	<cstdio>
-	<iostream>
-	<fstream>
-	<vector>
-	<ctime>
+	<cstdlib>
 	<cstring>
+	<ctime>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<sstream>
+	<vector>
 	"parser/parser.h"
 	"test.h"
 	"vzray.h"
@@ -3021,11 +3023,21 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1501860606 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
+1501924826 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>
 	"bvh/bvh.h"
 
-1501860528 c:\develop\projects\vzraycb\src\bvh\bvh.h
+1501924792 c:\develop\projects\vzraycb\src\bvh\bvh.h
 	"shapes/shape.h"
 	"aabb/aabb.h"
+
+1502122067 source:c:\develop\projects\vzraycb\src\log.cpp
+	"log.h"
+
+1502122071 c:\develop\projects\vzraycb\src\log.h
+	<ctime>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<sstream>
 
