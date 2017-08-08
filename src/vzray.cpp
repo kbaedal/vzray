@@ -193,9 +193,9 @@ bool start_render(Globals *globales)
 
     // Una divisón y n multiplicaciones se hacen mas
     // rapido que n divisiones.
-    double              samp_div = 1.0f / globales->samples_per_pixel;
+    double  samp_div = 1.0f / globales->samples_per_pixel;
 
-    log_handler.message("Generando muestras...");
+    log_handler << "Generando muestras...";
 
     // Generamos las posiciones de muestreo.
     std::vector<Vec2>   pix_samp, cam_samp;

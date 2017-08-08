@@ -1951,7 +1951,7 @@
 	"point.h"
 	"ray.h"
 
-1501925274 c:\develop\projects\vzraycb\src\aabb\aabb.h
+1502212340 c:\develop\projects\vzraycb\src\aabb\aabb.h
 	<cmath>
 	"vec3.h"
 	"point.h"
@@ -2087,9 +2087,10 @@
 	"vec3.h"
 	"point.h"
 
-1472901231 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
+1502212039 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
 	<cstdlib>
 	"matrix/transform.h"
+	"log.h"
 
 1446723349 c:\develop\projects\vzraycb\src\matrix\transform.h
 	<iostream>
@@ -2305,10 +2306,11 @@
 1448386670 source:c:\develop\projects\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1501863104 source:c:\develop\projects\vzraycb\src\scene\scene.cpp
+1502209635 source:c:\develop\projects\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"
+	"log.h"
 	"ray.h"
 	"shapes/shape.h"
 	"aabb/aabb.h"
@@ -2318,10 +2320,11 @@
 	"textures/simpletexture.h"
 	"material/material.h"
 	"material/diffusematerial.h"
+	"material/dielectricmaterial.h"
 
 1446723210 c:\develop\projects\vzraycb\src\statistics.h
 
-1446723350 source:c:\develop\projects\vzraycb\src\shapes\box.cpp
+1502208922 source:c:\develop\projects\vzraycb\src\shapes\box.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2397,7 +2400,7 @@
 	"isecaux.h"
 	"statistics.h"
 
-1472567858 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
+1502209905 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2408,6 +2411,7 @@
 	<float.h>
 	"sphere.h"
 	"isecaux.h"
+	"log.h"
 	"onb.h"
 	"randomc/randomc.h"
 
@@ -2437,7 +2441,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1502116040 source:c:\develop\projects\vzraycb\src\vzray.cpp
+1502205880 source:c:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdio>
 	<cstdlib>
@@ -2452,6 +2456,7 @@
 	"test.h"
 	"vzray.h"
 	"statistics.h"
+	"log.h"
 
 1472744017 source:c:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
@@ -3035,10 +3040,10 @@
 	"shapes/shape.h"
 	"aabb/aabb.h"
 
-1502122067 source:c:\develop\projects\vzraycb\src\log.cpp
+1502205058 source:c:\develop\projects\vzraycb\src\log.cpp
 	"log.h"
 
-1502122071 c:\develop\projects\vzraycb\src\log.h
+1502205062 c:\develop\projects\vzraycb\src\log.h
 	<ctime>
 	<fstream>
 	<iomanip>

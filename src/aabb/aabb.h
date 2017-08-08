@@ -30,6 +30,7 @@ class AABB
 			minimo = p;
 			maximo = p;
 		}
+		AABB(const AABB &aabb) : AABB(aabb.minimo, aabb.maximo) { }
 
 		void set(const Point &a_min, const Point &a_max);
 

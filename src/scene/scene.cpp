@@ -4,6 +4,8 @@
 
 #include "statistics.h"
 
+#include "log.h"
+
 #include "ray.h"
 #include "shapes/shape.h"
 #include "aabb/aabb.h"
@@ -15,6 +17,7 @@
 
 #include "material/material.h"
 #include "material/diffusematerial.h"
+#include "material/dielectricmaterial.h"
 
 Scene::~Scene()
 {
@@ -236,14 +239,51 @@ bool Scene::show_AABB()
 		this->addObject(pShape, "AABB_Material", false);
 	}
 
-	// Y las añadimos como objetos con un material transparente
-	//~ for(int i = 0; i < (vertexArray.size()); i += 2) {
-		//~ pShape = new Box(vertexArray[i], vertexArray[i+1], NULL);
-		//~ this->addObject(pShape, "AABB_Material", false);
-	//~ }
+    // Y las añadimos como objetos con un material transparente
+    //for(int i = 0; i < (vertexArray.size()); i += 2) {
+    //   pShape = new Box(vertexArray[i], vertexArray[i+1], NULL);
+    //	 this->addObject(pShape, "AABB_Material", false);
+    //}
 
 	return true;
 	*/
+	log_handler << "AABBOXEANDO ...";
+
+	//Shape   *pBox;
+	Shape   *pSph;
+	AABB    abBox;
+
+	Texture *pTexture = new SimpleTexture(RGB(0.0f, 1.0f, 0.0f));
+	this->add_texture(pTexture, "AABB_Texture");
+
+	Material *pMaterial = new DiffuseMaterial(this->get_texture("AABB_Texture"));
+	this->add_material(pMaterial, "AABB_Texture", "AABB_Material");
+
+	// Almacenamos todas las abBox que tengamos en la escena, excepto
+	// si están sin inicializar.
+
+	size_t j = shapes.size();   // Tamaño de nuestra lista de objetos. Vamos a añadir más,
+                                // así que comprobaremos solo hasta este punto. Lo que este
+                                // más allá serán los nuevos objetos añadidos.
+	for( size_t i = 0; i < j; ++i ) {
+		if( !shapes[i]->get_material()->is_light() && shapes[i]->apply_bounds()) {
+            abBox = shapes[i]->get_AABB();
+
+            log_handler << "AÑADIENDO AABB";
+            std::clog << abBox.minimo;
+            std::clog << abBox.maximo;
+
+			//pBox = new Box(abBox.minimo, abBox.maximo, nullptr);
+
+			//this->add_object(pBox, "AABB_Material", false);
+
+			pSph = new Sphere(abBox.minimo, 1.0f, nullptr);
+			this->add_object(pSph, "AABB_Material", false);
+
+			pSph = new Sphere(abBox.maximo, 1.0f, nullptr);
+			this->add_object(pSph, "AABB_Material", false);
+		}
+	}
 
 	return false;
 }

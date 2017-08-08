@@ -26,6 +26,12 @@ class Log_Handler {
             to_file = b;
         }
 
+   		// Para poder utilizar el operador <<.
+		void operator<<(const std::string &str)
+		{
+		    this->message(str);
+		}
+
     private:
         void redirect_clog(const std::string &file_name);
         void restore_clog();

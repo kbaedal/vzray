@@ -58,7 +58,7 @@ Box::Box(const Point &a_minimo, const Point &a_maximo, Material *a_material)
 	trans->translate(centroid);
 
 	// Iniciamos nuestra bbox con los valores iniciales del cubo.
-	aabb.set(Point(-10.f), Point(1.0f));
+	aabb.set(Point(-1.0f), Point(1.0f));
 
 	// Y la adaptamos a las transformaciones iniciales.
 	aabb = trans->update_AABB(aabb);
