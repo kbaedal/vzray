@@ -2487,17 +2487,23 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\aabb\aabb.cpp
+1501969505 source:d:\develop\projects\vzraycb\src\aabb\aabb.cpp
 	"aabb/aabb.h"
-
-1472157143 d:\develop\projects\vzraycb\src\aabb\aabb.h
-	<cmath>
+	"vec3.h"
 	"point.h"
+	"ray.h"
 
-1472157143 d:\develop\projects\vzraycb\src\point.h
+1501969505 d:\develop\projects\vzraycb\src\aabb\aabb.h
+	<cmath>
+	"vec3.h"
+	"point.h"
+	"ray.h"
+
+1472977219 d:\develop\projects\vzraycb\src\point.h
 	<iostream>
+	"vec3.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\camera\pinhole.cpp
+1472678789 source:d:\develop\projects\vzraycb\src\camera\pinhole.cpp
 	"camera/pinhole.h"
 
 1472157143 d:\develop\projects\vzraycb\src\camera\pinhole.h
@@ -2516,17 +2522,17 @@
 	"point.h"
 	"material/material.h"
 
-1472333853 d:\develop\projects\vzraycb\src\vec3.h
+1472977219 d:\develop\projects\vzraycb\src\vec3.h
 	<cmath>
 	<iostream>
 
-1472328212 d:\develop\projects\vzraycb\src\material\material.h
+1472503310 d:\develop\projects\vzraycb\src\material\material.h
 	"rgb.h"
 	"vec3.h"
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1472157143 d:\develop\projects\vzraycb\src\rgb.h
+1472587937 d:\develop\projects\vzraycb\src\rgb.h
 	<iostream>
 
 1472157143 d:\develop\projects\vzraycb\src\textures\texture.h
@@ -2534,7 +2540,7 @@
 	"vec2.h"
 	"rgb.h"
 
-1472157143 d:\develop\projects\vzraycb\src\vec2.h
+1473186804 d:\develop\projects\vzraycb\src\vec2.h
 	<math.h>
 	<iostream>
 
@@ -2546,7 +2552,7 @@
 	<math.h>
 	"vec3.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\camera\thinlens.cpp
+1472678789 source:d:\develop\projects\vzraycb\src\camera\thinlens.cpp
 	"camera/thinlens.h"
 
 1472157143 d:\develop\projects\vzraycb\src\camera\thinlens.h
@@ -2556,7 +2562,7 @@
 	"ray.h"
 	"camera/camera.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\image.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\image.cpp
 	<cmath>
 	"image.h"
 
@@ -2570,7 +2576,7 @@
 	"vec3.h"
 	<stdio.h>
 
-1472328212 d:\develop\projects\vzraycb\src\material\dielectricmaterial.h
+1472503310 d:\develop\projects\vzraycb\src\material\dielectricmaterial.h
 	"material/material.h"
 	"rgb.h"
 	"vec3.h"
@@ -2613,17 +2619,17 @@
 	"textures/texture.h"
 	"randomc/randomc.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\matrix\matrix.cpp
+1473186804 source:d:\develop\projects\vzraycb\src\matrix\matrix.cpp
 	<vector>
 	"matrix/matrix.h"
 
-1472157143 d:\develop\projects\vzraycb\src\matrix\matrix.h
+1473186804 d:\develop\projects\vzraycb\src\matrix\matrix.h
 	<iostream>
 	<iomanip>
 	"vec3.h"
 	"point.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\matrix\transform.cpp
+1472977219 source:d:\develop\projects\vzraycb\src\matrix\transform.cpp
 	<cstdlib>
 	"matrix/transform.h"
 
@@ -2638,7 +2644,7 @@
 1472157143 source:d:\develop\projects\vzraycb\src\onb.cpp
 	"onb.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\parser\parser.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\parser\parser.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -2693,7 +2699,7 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1472157143 d:\develop\projects\vzraycb\src\scene\scene.h
+1501969505 d:\develop\projects\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
 	"material/material.h"
@@ -2826,7 +2832,7 @@
 	"rgb.h"
 	"shapes/shape.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\point.cpp
+1472977219 source:d:\develop\projects\vzraycb\src\point.cpp
 	"point.h"
 	"vec3.h"
 	"randomc/randomc.h"
@@ -2835,10 +2841,10 @@
 1472157143 source:d:\develop\projects\vzraycb\src\randomc\randomc.cpp
 	"randomc/randomc.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\ray.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\ray.cpp
 	"ray.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
+1472678789 source:d:\develop\projects\vzraycb\src\renderer\directrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -2847,7 +2853,6 @@
 	<vector>
 	"directrenderer.h"
 	"randomc/randomc.h"
-	"material/dielectricmaterial.h"
 	"scene/scene.h"
 
 1472157143 source:d:\develop\projects\vzraycb\src\renderer\pathrenderer.cpp
@@ -2865,7 +2870,7 @@
 1472157143 source:d:\develop\projects\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\scene\scene.cpp
+1501969505 source:d:\develop\projects\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"
@@ -2899,7 +2904,7 @@
 	"vec3.h"
 	"point.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\shapes\cylinder.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\shapes\cylinder.cpp
 	<cmath>
 	"isecaux.h"
 	"cylinder.h"
@@ -2927,13 +2932,13 @@
 	"mesh.h"
 	<cmath>
 
-1472157143 source:d:\develop\projects\vzraycb\src\shapes\meshtriangle.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\shapes\meshtriangle.cpp
 	<cstdio>
 	"isecaux.h"
 	"mesh.h"
 	"meshtriangle.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\shapes\parallelogram.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\shapes\parallelogram.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -2957,7 +2962,7 @@
 	"isecaux.h"
 	"statistics.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\shapes\sphere.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2971,14 +2976,14 @@
 	"onb.h"
 	"randomc/randomc.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\shapes\triangle.cpp
+1472587937 source:d:\develop\projects\vzraycb\src\shapes\triangle.cpp
 	"shapes/isecaux.h"
 	"shapes/triangle.h"
 
 1472157143 source:d:\develop\projects\vzraycb\src\statistics.cpp
 	"statistics.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\test.cpp
+1472977219 source:d:\develop\projects\vzraycb\src\test.cpp
 	"test.h"
 	"matrix/matrix.h"
 	"matrix/transform.h"
@@ -2988,7 +2993,7 @@
 1472157143 source:d:\develop\projects\vzraycb\src\vec2.cpp
 	"vec2.h"
 
-1472333978 source:d:\develop\projects\vzraycb\src\vec3.cpp
+1472977219 source:d:\develop\projects\vzraycb\src\vec3.cpp
 	<cmath>
 	<ctime>
 	<cstdio>
@@ -3011,7 +3016,7 @@
 	"vzray.h"
 	"statistics.h"
 
-1472333945 source:d:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
+1472755406 source:d:\develop\projects\vzraycb\src\renderer\whittedrenderer.cpp
 	<math.h>
 	<stdlib.h>
 	<stdio.h>
@@ -3019,7 +3024,6 @@
 	<fstream>
 	<vector>
 	"whittedrenderer.h"
-	"material/dielectricmaterial.h"
 	"randomc/randomc.h"
 	"scene/scene.h"
 
@@ -3040,4 +3044,12 @@
 	<iomanip>
 	<iostream>
 	<sstream>
+
+1501969505 source:d:\develop\projects\vzraycb\src\bvh\bvh.cpp
+	<vector>
+	"bvh/bvh.h"
+
+1501969505 d:\develop\projects\vzraycb\src\bvh\bvh.h
+	"shapes/shape.h"
+	"aabb/aabb.h"
 

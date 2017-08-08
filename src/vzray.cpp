@@ -77,6 +77,8 @@ int main(int argc, char *argv[])
 
     bool end_status;
 
+    log_handler.message("main - Comprobando argumentos...");
+
 	if(argc > 1) {
 		for(int i = 1; i < argc; ++i) {
 			if(argv[i][0] == '-') { // Procesamos las opciones.
@@ -108,6 +110,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	log_handler.message("main -    ... hecho.");
+
 	if((scene_desc_file.empty() || (argc < 2)) && !(globales.options & Global_opts::kglb_do_test)) {
 		muestra_ayuda(argv[0]);
 		return 0;
@@ -119,7 +123,9 @@ int main(int argc, char *argv[])
             end_status = test.launch_test();
         }
         else {
+            log_handler.message("main - Leyendo archivo...");
             end_status = parse_file(&globales, scene_desc_file);
+            log_handler.message("main -     ... hecho.");
             if(end_status) {
                 render_ticks = clock();
 

@@ -1,10 +1,5 @@
 #include "log.h"
 
-Log_Handler::Log_Handler(const std::string &file_name)
-{
-    redirect_clog(file_name);
-}
-
 void Log_Handler::redirect_clog(const std::string &file_name)
 {
     // Redirigiremos clog a un fichero para escribir cosas interesantes en él.
@@ -19,20 +14,25 @@ void Log_Handler::redirect_clog(const std::string &file_name)
 void Log_Handler::restore_clog()
 {
     std::clog.rdbuf(backup_clog);    // Restauramos el streambuf de clog
-    log_file.close();			// Cerramos el fichero de log.
+    log_file.close();			     // Cerramos el fichero de log.
 }
 
 void Log_Handler::message(const std::string &str)
 {
-    auto t  = std::time(nullptr);
-    auto tm = *std::localtime(&t);
+    if( to_file ) {
+        auto t  = std::time(nullptr);
+        auto tm = *std::localtime(&t);
 
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "[%d-%m-%Y %H:%M:%S] ");
-    auto time_str = oss.str();
-    time_str += str;
+        std::ostringstream oss;
+        oss << std::put_time(&tm, "[%d-%m-%Y %H:%M:%S] ");
+        auto time_str = oss.str();
+        time_str += str;
 
-    std::clog << time_str << std::endl;
+        std::clog << time_str << std::endl;
+    }
 }
 
+// Creamos un objeto global, declarado como extern en el fichero cabecera.
+// Bastará con hacer include "log.h" para tener acceso a las funciones de log
+// desde cualquier punto del programa.
 Log_Handler log_handler;
