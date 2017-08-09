@@ -1951,7 +1951,7 @@
 	"point.h"
 	"ray.h"
 
-1502212340 c:\develop\projects\vzraycb\src\aabb\aabb.h
+1502266459 c:\develop\projects\vzraycb\src\aabb\aabb.h
 	<cmath>
 	"vec3.h"
 	"point.h"
@@ -2087,7 +2087,7 @@
 	"vec3.h"
 	"point.h"
 
-1502212039 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
+1502266459 source:c:\develop\projects\vzraycb\src\matrix\transform.cpp
 	<cstdlib>
 	"matrix/transform.h"
 	"log.h"
@@ -2158,16 +2158,17 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1501860651 c:\develop\projects\vzraycb\src\scene\scene.h
+1502295202 c:\develop\projects\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
+	"bvh/bvh.h"
 	"material/material.h"
 	"shapes/shape.h"
 	"textures/texture.h"
 	"ray.h"
 	"rgb.h"
 
-1447350467 c:\develop\projects\vzraycb\src\shapes\shape.h
+1502266459 c:\develop\projects\vzraycb\src\shapes\shape.h
 	"vec3.h"
 	"point.h"
 	"ray.h"
@@ -2306,7 +2307,7 @@
 1448386670 source:c:\develop\projects\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1502209635 source:c:\develop\projects\vzraycb\src\scene\scene.cpp
+1502291945 source:c:\develop\projects\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"
@@ -2400,7 +2401,7 @@
 	"isecaux.h"
 	"statistics.h"
 
-1502209905 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
+1502266459 source:c:\develop\projects\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2411,7 +2412,6 @@
 	<float.h>
 	"sphere.h"
 	"isecaux.h"
-	"log.h"
 	"onb.h"
 	"randomc/randomc.h"
 
@@ -2441,7 +2441,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1502205880 source:c:\develop\projects\vzraycb\src\vzray.cpp
+1502278717 source:c:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdio>
 	<cstdlib>
@@ -3039,13 +3039,14 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1501924826 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
+1502278148 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>
 	"bvh/bvh.h"
 
-1501924792 c:\develop\projects\vzraycb\src\bvh\bvh.h
+1502292711 c:\develop\projects\vzraycb\src\bvh\bvh.h
 	"shapes/shape.h"
 	"aabb/aabb.h"
+	"log.h"
 
 1502205058 source:c:\develop\projects\vzraycb\src\log.cpp
 	"log.h"

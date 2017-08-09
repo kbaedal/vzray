@@ -58,6 +58,9 @@ Scene::~Scene()
             delete materials[i];
         }
     }
+
+    if(bvh != nullptr)
+        delete bvh;
 }
 
 bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)
@@ -158,8 +161,8 @@ bool Scene::nearest_intersection(Ray r, double min_dist, double max_dist, HitRec
 
     ++Statistics::num_primary_rays;
 
+    /*
     for(size_t i = 0; i < shapes.size(); ++i) {
-        //if(shapes[i]->s->hit(r, min_dist, max_dist, hit_r)) {
         if(shapes[i]->hit(r, min_dist, max_dist, hit_r)) {
             max_dist    = hit_r.dist;
             is_hit      = true;
@@ -167,6 +170,8 @@ bool Scene::nearest_intersection(Ray r, double min_dist, double max_dist, HitRec
     }
 
 	return is_hit;
+	*/
+	return this->bvh->hit(r, min_dist, max_dist, hit_r);
 }
 
 bool Scene::shadow_intersection(Ray r, double min_dist, double max_dist)

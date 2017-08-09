@@ -185,17 +185,21 @@ bool start_render(Globals *globales)
 				<< " - Illumination strategy: \t" << globales->renderer->renderer_type()
 				<< std::endl << std::endl;
 
-
-
 	// Si se indica, mostramos las AABB
 	if(globales->options & Global_opts::kglb_show_aabb)
 		globales->scene->show_AABB();
+
+    log_handler << "start_render:: Generando BVH...";
+
+    globales->scene->create_bvh();
+
+    log_handler << "start_render::      ... hecho.";
 
     // Una divisón y n multiplicaciones se hacen mas
     // rapido que n divisiones.
     double  samp_div = 1.0f / globales->samples_per_pixel;
 
-    log_handler << "Generando muestras...";
+    log_handler << "start_render:: Generando muestras...";
 
     // Generamos las posiciones de muestreo.
     std::vector<Vec2>   pix_samp, cam_samp;
@@ -206,9 +210,9 @@ bool start_render(Globals *globales)
         cam_samp.push_back(Vec2(rng.Random(), rng.Random()));
     }
 
-    log_handler.message("   ... hecho.");
+    log_handler.message("start_render::   ... hecho.");
 
-    log_handler.message("Enter: Main render loop.");
+    log_handler.message("start_render:: Entrando en el bucle principal...");
 
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
@@ -237,7 +241,7 @@ bool start_render(Globals *globales)
 		}
 	}
 
-	log_handler.message("Exit: Main render loop.");
+	log_handler.message("start_render:  ... Fin del bucle principal.");
 
 	return true;
 }

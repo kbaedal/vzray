@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "bvh/bvh.h"
+
 #include "material/material.h"
 #include "shapes/shape.h"
 #include "textures/texture.h"
@@ -51,7 +53,10 @@ class Texture_node {
 
 class Scene {
 	public:
-		Scene()	{}
+		Scene()
+		{
+		    bvh = nullptr;
+		};
 		~Scene();
 
 		/***
@@ -118,6 +123,14 @@ class Scene {
 		// Obtiene el color de fondo.
 		RGB get_bg_color() const { return bg_color; }
 
+		// Crea la jerarquía de volumenes para la escena.
+		bool create_bvh()
+		{
+		    bvh = new BVH(shapes, 0, shapes.size() - 1, 0);
+
+		    return true;
+		};
+
 		// Incluye entre los elementos a mostrar las AABB.
 		bool show_AABB();
 
@@ -131,6 +144,8 @@ class Scene {
 
 		RGB ambient_color,
             bg_color;
+
+        BVH     *bvh;
 };
 
 #endif // __SCENE_HPP__
