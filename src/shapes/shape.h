@@ -34,7 +34,10 @@ class Shape
 			aabb = t.update_AABB(aabb);
 		}
 
-		AABB get_AABB() { return aabb; }
+		AABB get_AABB()
+		{
+		    return aabb;
+        }
 
 		void set_shadow(bool a_shadow) { shadow = a_shadow; }
 		bool cast_shadow() { return shadow; }

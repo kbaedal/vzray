@@ -176,81 +176,7 @@ bool Scene::shadow_intersection(Ray r, double min_dist, double max_dist)
 
 bool Scene::show_AABB()
 {
-    /*
-	std::vector<Point>	vertexArray;
-	std::vector<Point>	sphereArray;
-	Shape				*pShape;
-	AABB				abBox;
-
-	Texture 			*pTexture;
-	Material			*pMaterial;
-
-	// Almacenamos todas las abBox que tengamos en la escena, excepto
-	// si están sin inicializar.
-	for(int i = 0; i < this->getNumObjs(); i++) {
-		pShape = this->getObject(i);
-
-		if(!pShape->getMaterial()->isLight() && pShape->applyBounds()) {
-			abBox = pShape->getAABB();
-			vertexArray.push_back(abBox.m_p3Min);
-			vertexArray.push_back(abBox.m_p3Max);
-		}
-	}
-
-	// Añadimos la textura para nuestro material de las AABB
-	pTexture = new SimpleTexture(RGB(1.f, 0.f, 0.f));
-	this->addTexture(pTexture, "AABB_Texture");
-
-	// Y ahora el material
-	pMaterial = new DiffuseMaterial(this->getTexture("AABB_Texture"));
-	this->addMaterial(pMaterial, "AABB_Texture", "AABB_Material");
-
-	// Para cada par de vertices (una abBox), creamos ocho puntos
-	// que serán las esquinas en coordenadas del mundo de la abBox,
-	// en las que colocaremos esferas.
-	for(unsigned int i = 0; i < (vertexArray.size()); i += 2) {
-		sphereArray.push_back(vertexArray[i]);
-		sphereArray.push_back(vertexArray[i+1]);
-
-		sphereArray.push_back(Point(vertexArray[i+1].x(),	vertexArray[i].y(), 	vertexArray[i].z()));
-		sphereArray.push_back(Point(vertexArray[i].x(), 	vertexArray[i+1].y(),	vertexArray[i].z()));
-		sphereArray.push_back(Point(vertexArray[i+1].x(), vertexArray[i+1].y(), 	vertexArray[i].z()));
-		sphereArray.push_back(Point(vertexArray[i].x(), 	vertexArray[i].y(), 	vertexArray[i+1].z()));
-		sphereArray.push_back(Point(vertexArray[i+1].x(), vertexArray[i].y(), 	vertexArray[i+1].z()));
-		sphereArray.push_back(Point(vertexArray[i].x(), 	vertexArray[i+1].y(), 	vertexArray[i+1].z()));
-
-		std::clog << "Sphering..." << std::endl;
-		std::clog << vertexArray[i] << std::endl;
-		std::clog << vertexArray[i+1] << std::endl;
-		std::clog << Point(vertexArray[i+1].x(),	vertexArray[i].y(), 	vertexArray[i].z()) << std::endl;
-		std::clog << Point(vertexArray[i].x(), 	vertexArray[i+1].y(),	vertexArray[i].z()) << std::endl;
-		std::clog << Point(vertexArray[i+1].x(), vertexArray[i+1].y(), 	vertexArray[i].z()) << std::endl;
-		std::clog << Point(vertexArray[i].x(), 	vertexArray[i].y(), 	vertexArray[i+1].z()) << std::endl;
-		std::clog << Point(vertexArray[i+1].x(), vertexArray[i].y(), 	vertexArray[i+1].z()) << std::endl;
-		std::clog << Point(vertexArray[i].x(), 	vertexArray[i+1].y(), 	vertexArray[i+1].z()) << std::endl;
-
-	}
-
-	// Y las añadimos como objetos a la lista, con un radio de 0.1
-
-	for(unsigned int i = 0; i < (sphereArray.size()); i++) {
-		pShape = new Sphere(sphereArray[i], 0.1f, NULL);
-		pShape->setShadow(false);
-		this->addObject(pShape, "AABB_Material", false);
-	}
-
-    // Y las añadimos como objetos con un material transparente
-    //for(int i = 0; i < (vertexArray.size()); i += 2) {
-    //   pShape = new Box(vertexArray[i], vertexArray[i+1], NULL);
-    //	 this->addObject(pShape, "AABB_Material", false);
-    //}
-
-	return true;
-	*/
-	log_handler << "AABBOXEANDO ...";
-
-	//Shape   *pBox;
-	Shape   *pSph;
+	Shape   *pBox;
 	AABB    abBox;
 
 	Texture *pTexture = new SimpleTexture(RGB(0.0f, 1.0f, 0.0f));
@@ -269,19 +195,9 @@ bool Scene::show_AABB()
 		if( !shapes[i]->get_material()->is_light() && shapes[i]->apply_bounds()) {
             abBox = shapes[i]->get_AABB();
 
-            log_handler << "AÑADIENDO AABB";
-            std::clog << abBox.minimo;
-            std::clog << abBox.maximo;
+			pBox = new Box(abBox.minimo, abBox.maximo, nullptr);
 
-			//pBox = new Box(abBox.minimo, abBox.maximo, nullptr);
-
-			//this->add_object(pBox, "AABB_Material", false);
-
-			pSph = new Sphere(abBox.minimo, 1.0f, nullptr);
-			this->add_object(pSph, "AABB_Material", false);
-
-			pSph = new Sphere(abBox.maximo, 1.0f, nullptr);
-			this->add_object(pSph, "AABB_Material", false);
+			this->add_object(pBox, "AABB_Material", false);
 		}
 	}
 

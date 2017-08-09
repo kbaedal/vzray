@@ -21,16 +21,9 @@ class AABB
 			minimo.set(INFINITY, INFINITY, INFINITY);
 			maximo.set(-INFINITY, -INFINITY, -INFINITY);
 		}
-		AABB(const Point &a_min, const Point &a_max)
-		{
-			this->set(minimo, maximo);
-		}
-		AABB(const Point &p)
-		{
-			minimo = p;
-			maximo = p;
-		}
-		AABB(const AABB &aabb) : AABB(aabb.minimo, aabb.maximo) { }
+		AABB(const Point &a_min, const Point &a_max) : minimo(a_min), maximo(a_max) {};
+		AABB(const Point &p): minimo(p), maximo(p) {};
+		AABB(const AABB &aabb) : minimo(aabb.minimo), maximo(aabb.maximo) {};
 
 		void set(const Point &a_min, const Point &a_max);
 

@@ -9,8 +9,8 @@ const double Transform::kmin_value   = 0.00001;
 
 int compare_float(const void * a, const void * b)
 {
-	double f1 = *reinterpret_cast<const float*>(a);
-    double f2 = *reinterpret_cast<const float*>(b);
+	double f1 = *reinterpret_cast<const double*>(a);
+    double f2 = *reinterpret_cast<const double*>(b);
     if(f1 < f2) return -1;
     if(f1 > f2) return 1;
     return 0;
@@ -226,7 +226,6 @@ Ray Transform::object_to_scene(const Ray &r)
 
 Point Transform::object_to_scene(const Point &p)
 {
-	//return mtx.transform(p);
 	return mtx.transform_pos(p);
 }
 
@@ -250,7 +249,8 @@ AABB Transform::update_AABB(const AABB &b)
 	// cuales son los máximos y mínimos de cada coordenada. Devolvemos
 	// una nueva bbox con estos valores.
 
-	Point v[8];
+	Point   v[8];
+	AABB    t;
 
 	// Mínimo y máximo:
 	v[0] = b.minimo;
@@ -266,7 +266,6 @@ AABB Transform::update_AABB(const AABB &b)
 
 	// Transformamos:
 	for(int i = 0; i < 8; i++)
-		//v[i] = mtx.transform(v[i]);
 		v[i] = mtx.transform_pos(v[i]);
 
 	// Crearemos tres arrays de floats. En cada uno metermos todas
@@ -280,37 +279,17 @@ AABB Transform::update_AABB(const AABB &b)
 		x[i] = v[i].x();
 		y[i] = v[i].y();
 		z[i] = v[i].z();
-		std::clog << v[i] << std::endl;
 	}
 
-	Point minp(x[0], y[0], z[0]);
-	Point maxp(x[0], y[0], z[0]);
-	std::clog << "Min-Max" << minp << maxp << std::endl;
-	for(int i = 1; i < 8; i++) {
-        if(x[i] < minp.x())
-            minp.e[0] = x[i];
-        if(x[i] > maxp.x())
-            maxp.e[0] = x[i];
+	std::qsort(x, 8, sizeof(double), compare_float);
+	std::qsort(y, 8, sizeof(double), compare_float);
+	std::qsort(z, 8, sizeof(double), compare_float);
 
-        if(y[i] < minp.y())
-            minp.e[1] = y[i];
-        if(y[i] > maxp.y())
-            maxp.e[1] = y[i];
-
-        if(z[i] < minp.z())
-            minp.e[2] = z[i];
-        if(z[i] > maxp.z())
-            maxp.e[2] = z[i];
-	}
-	std::clog << "Min-Max" << minp << maxp << std::endl;
-
-	//std::qsort(x, 8, sizeof(double), compare_float);
-	//std::qsort(y, 8, sizeof(double), compare_float);
-	//std::qsort(z, 8, sizeof(double), compare_float);
+	t.minimo.set(x[0], y[0], z[0]);
+	t.maximo.set(x[7], y[7], z[7]);
 
 	// Valores ordenados, solo nos queda devolver la bbox
-	//return AABB(Point(x[0], y[0], z[0]), Point(x[7], y[7], z[7]));
-	return AABB(minp, maxp);
+	return t;
 }
 
 std::ostream& operator<<(std::ostream &os, const Transform &t)

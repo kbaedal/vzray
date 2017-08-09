@@ -11,8 +11,6 @@
 #include "sphere.h"
 #include "isecaux.h"
 
-#include "log.h"
-
 #include "onb.h"
 #include "randomc/randomc.h"
 
@@ -38,12 +36,8 @@ Sphere::Sphere(Point a_center, double a_radius, Material *a_material)
 		// Iniciamos nuestra bbox
 		aabb.set(Point(-1.0f), Point(1.0f));
 
-		std::clog << "AABB SPHERE PRE-TR: " << aabb.minimo << ", " << aabb.maximo << std::endl;
-
 		// Y le aplicamos la transformación.
 		aabb = trans->update_AABB(aabb);
-
-		std::clog << "AABB SPHERE POS-TR: " << aabb.minimo << ", " << aabb.maximo << std::endl;
 
 		center 	    = Point(0.0f);
 		radius 	    = 1.0f;
