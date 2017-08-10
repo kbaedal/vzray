@@ -94,3 +94,10 @@ AABB surround(const AABB &b, const Point &p)
 
 	return temp;
 }
+
+std::ostream &operator<<(std::ostream &os, const AABB &ab)
+{
+	os << "AABBMin " << ab.minimo << ", AABBMax " << ab.maximo;
+
+	return os;
+}

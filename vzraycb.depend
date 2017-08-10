@@ -1945,13 +1945,13 @@
 	"onb.h"
 	"statistics.h"
 
-1501925280 source:c:\develop\projects\vzraycb\src\aabb\aabb.cpp
+1502378771 source:c:\develop\projects\vzraycb\src\aabb\aabb.cpp
 	"aabb/aabb.h"
 	"vec3.h"
 	"point.h"
 	"ray.h"
 
-1502266459 c:\develop\projects\vzraycb\src\aabb\aabb.h
+1502378715 c:\develop\projects\vzraycb\src\aabb\aabb.h
 	<cmath>
 	"vec3.h"
 	"point.h"
@@ -2158,7 +2158,7 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1502295202 c:\develop\projects\vzraycb\src\scene\scene.h
+1502379157 c:\develop\projects\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
 	"bvh/bvh.h"
@@ -3039,9 +3039,10 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1502278148 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
+1502378950 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>
 	"bvh/bvh.h"
+	"log.h"
 
 1502292711 c:\develop\projects\vzraycb\src\bvh\bvh.h
 	"shapes/shape.h"

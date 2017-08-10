@@ -80,6 +80,8 @@ class AABB
 		 */
 		friend AABB surround(const AABB &b, const Point &p);
 
+		friend std::ostream &operator<<(std::ostream &os, const AABB &ab);
+
 		Point 	minimo,     ///< Punto mínimo de la AABB.
 				maximo;	    ///< Punto máximo de la AABB.
 

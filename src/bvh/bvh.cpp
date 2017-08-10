@@ -22,12 +22,17 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         izq = shapes_list[i0];
         der = shapes_list[i1];
 
+        log_handler << "BVH:Constructor general: Dos objetos: aabb:";
+        std::clog << "[__-__-____ __:__:__] BVH:Constructor general: Dos objetos: aabb: i0: " << i0 << ", " << shapes_list[i0]->get_AABB() << std::endl;
+        std::clog << "[__-__-____ __:__:__] BVH:Constructor general: Dos objetos: aabb: i1: " << i1 << ", " << shapes_list[i1]->get_AABB() << std::endl;
         aabb = surround(shapes_list[i0]->get_AABB(), shapes_list[i1]->get_AABB());
+
+        log_handler << "BVH:Constructor general: Dos objetos. Saliendo.";
     }
     else { // Tres o más, subdividimos.
-        log_handler << "BVH:Constructor general: Tres o más objetos.";
+        log_handler << "BVH:Constructor general: Tres o más objetos - Entrando.";
 
-        for( int i = i0; i <= i1; ++i)
+        for( int i = i0; i < i1; ++i)
             aabb = surround(aabb, shapes_list[i]->get_AABB());
 
         log_handler << "BVH:Constructor general: AABB general:";
@@ -42,11 +47,16 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         // Reordenamos la lista de objetos de acuerdo al pivote elegido.
         int div = divide_space(shapes_list, i0, i1, pivot, (axis % 3));
 
+        std::clog << "(i0, i1, div): " << i0 << ", " << i1 << ", " << div << std::endl << std::flush;
+
         // Generamos nuevas ramas para nuestro árbol con la nueva lista.
         //izq = create_subtree(shapes_list, i0, div, 0);
         //der = create_subtree(shapes_list, div+1, i1, 0);
-        izq = new BVH(shapes_list, i0, div, (axis + 1) % 3);
-        der = new BVH(shapes_list, (div + 1), i1, (axis + 1) % 3);
+        izq = new BVH(shapes_list, i0, div - 1, (axis + 1) % 3);
+        der = new BVH(shapes_list, div, i1, (axis + 1) % 3);
+
+        log_handler << "BVH:Constructor general: Tres o más objetos - Saliendo. ";
+        std::clog << std::flush;
     }
 }
 
@@ -113,5 +123,8 @@ int BVH::divide_space(std::vector<Shape *> &shapes_list, int i0, int i1, double 
         }
     }
 
-    return (i0 + dev_index - 1);
+    // Si todos los objetos quedan a un lado, partimos por la mitad.
+    if( (dev_index == 0) || ((i0 + dev_index) == i1) ) dev_index = (i1 - i0) / 2;
+
+    return (i0 + dev_index);
 }
