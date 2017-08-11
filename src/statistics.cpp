@@ -12,4 +12,6 @@ namespace Statistics
     int     num_primitives      = 0;
     int     num_prim_tests      = 0;
     int     num_prim_isecs      = 0;
+
+    int     id_esfera           = 0;
 }

@@ -15,6 +15,9 @@ namespace Statistics
     extern int      num_primitives;
     extern int      num_prim_tests;
     extern int      num_prim_isecs;
+
+    // EXPERIMENTOS
+    extern int      id_esfera;
 }
 
 #endif // STATISTICS_H_INCLUDED

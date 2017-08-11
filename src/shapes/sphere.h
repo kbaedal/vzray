@@ -30,6 +30,8 @@ class Sphere : public Shape
 	//private:
 		Point			center;
 		double 			radius;
+
+		int id; // TLAMPA
 };
 
 #endif // __SPHERE_HPP__
