@@ -20,17 +20,27 @@ class Log_Handler {
             restore_clog();
         };
 
-        void message(const std::string &msg);
         void enable(bool b = true)
         {
             to_file = b;
         }
 
-   		// Para poder utilizar el operador <<.
-		void operator<<(const std::string &str)
-		{
-		    this->message(str);
-		}
+		template<class T>
+        Log_Handler &operator<<(const T &dato)
+        {
+            if( to_file ) {
+                auto t  = std::time(nullptr);
+                auto tm = *std::localtime(&t);
+
+                std::ostringstream oss;
+                oss << std::put_time(&tm, "[%d-%m-%Y %H:%M:%S] ");
+                auto time_str = oss.str();
+
+                std::clog << time_str << dato << std::endl;
+            }
+
+            return *this;
+        }
 
     private:
         void redirect_clog(const std::string &file_name);

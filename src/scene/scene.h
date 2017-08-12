@@ -127,7 +127,7 @@ class Scene {
 		bool create_bvh()
 		{
 		    log_handler << "IMPRIMIENDO AABB DE TODOS LOS OBJETOS:";
-		    for(int i = 0; i < shapes.size(); ++i) {
+		    for(size_t i = 0; i < shapes.size(); ++i) {
                 std::clog << "i = " << i << ", " << shapes[i]->get_AABB() << std::endl;
 		    }
 

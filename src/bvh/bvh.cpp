@@ -23,8 +23,9 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         der = shapes_list[i1];
 
         log_handler << "BVH:Constructor general: Dos objetos: aabb:";
-        std::clog << "[__-__-____ __:__:__] BVH:Constructor general: Dos objetos: aabb: i0: " << i0 << ", " << shapes_list[i0]->get_AABB() << std::endl;
-        std::clog << "[__-__-____ __:__:__] BVH:Constructor general: Dos objetos: aabb: i1: " << i1 << ", " << shapes_list[i1]->get_AABB() << std::endl;
+        log_handler << "BVH:Constructor general: Dos objetos: aabb: i0: " << i0 << ", " << shapes_list[i0]->get_AABB();
+
+        log_handler << "BVH:Constructor general: Dos objetos: aabb: i1: " << i1 << ", " << shapes_list[i1]->get_AABB();
         aabb = surround(shapes_list[i0]->get_AABB(), shapes_list[i1]->get_AABB());
 
         log_handler << "BVH:Constructor general: Dos objetos. Saliendo.";
@@ -36,7 +37,7 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
             aabb = surround(aabb, shapes_list[i]->get_AABB());
 
         log_handler << "BVH:Constructor general: AABB general:";
-        std::clog << aabb.minimo << ", " << aabb.maximo << std::endl << std::flush;
+        std::clog << aabb << std::endl << std::flush;
 
         // Partimos por el eje indicado
         //double pivot = (aabb.maximo.e[axis % 3] - aabb.minimo.e[axis % 3]) / 2.0f;

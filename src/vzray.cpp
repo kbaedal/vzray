@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 
     bool end_status;
 
-    log_handler.message("main - Comprobando argumentos...");
+    log_handler << "main - Comprobando argumentos...";
 
 	if(argc > 1) {
 		for(int i = 1; i < argc; ++i) {
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	log_handler.message("main -    ... hecho.");
+	log_handler << "main -    ... hecho.";
 
 	if((scene_desc_file.empty() || (argc < 2)) && !(globales.options & Global_opts::kglb_do_test)) {
 		muestra_ayuda(argv[0]);
@@ -123,9 +123,9 @@ int main(int argc, char *argv[])
             end_status = test.launch_test();
         }
         else {
-            log_handler.message("main - Leyendo archivo...");
+            log_handler << "main - Leyendo archivo...";
             end_status = parse_file(&globales, scene_desc_file);
-            log_handler.message("main -     ... hecho.");
+            log_handler << "main -     ... hecho.";
             if(end_status) {
                 render_ticks = clock();
 
@@ -210,9 +210,9 @@ bool start_render(Globals *globales)
         cam_samp.push_back(Vec2(rng.Random(), rng.Random()));
     }
 
-    log_handler.message("start_render::   ... hecho.");
+    log_handler << "start_render::   ... hecho.";
 
-    log_handler.message("start_render:: Entrando en el bucle principal...");
+    log_handler << "start_render:: Entrando en el bucle principal...";
 
 	for(int i = 0; i < globales->res_x; i++) {
 		imprime_info(i+1, globales->res_x);
@@ -241,7 +241,7 @@ bool start_render(Globals *globales)
 		}
 	}
 
-	log_handler.message("start_render:  ... Fin del bucle principal.");
+	log_handler << "start_render:  ... Fin del bucle principal.";
 
 	return true;
 }
@@ -307,9 +307,7 @@ bool start_render_v2(Globals *globales)
 		}
 	}
 
-	//std::clog << "Exit: Main render loop.\n";
-	//log_message("Exit: Main render loop.");
-	log_handler.message("Exit: Main render loop.");
+	log_handler << "Exit: Main render loop.";
 
 	return true;
 }

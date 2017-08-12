@@ -17,21 +17,6 @@ void Log_Handler::restore_clog()
     log_file.close();			     // Cerramos el fichero de log.
 }
 
-void Log_Handler::message(const std::string &str)
-{
-    if( to_file ) {
-        auto t  = std::time(nullptr);
-        auto tm = *std::localtime(&t);
-
-        std::ostringstream oss;
-        oss << std::put_time(&tm, "[%d-%m-%Y %H:%M:%S] ");
-        auto time_str = oss.str();
-        time_str += str;
-
-        std::clog << time_str << std::endl;
-    }
-}
-
 // Creamos un objeto global, declarado como extern en el fichero cabecera.
 // Bastará con hacer include "log.h" para tener acceso a las funciones de log
 // desde cualquier punto del programa.

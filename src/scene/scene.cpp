@@ -157,7 +157,7 @@ Material *Scene::get_material(std::string material_id)
 
 bool Scene::nearest_intersection(Ray r, double min_dist, double max_dist, HitRecord &hit_r)
 {
-	bool is_hit = false;
+	//bool is_hit = false;
 
     ++Statistics::num_primary_rays;
 
