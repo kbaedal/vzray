@@ -6,8 +6,7 @@
 
 BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
 {
-    log_handler << "BVH:Constructor general: Entrando.";
-    std::clog << "(i0, i1) : " << i0 << ", " << i1 << std::endl;
+    log_handler << "BVH:Constructor general: Entrando. (i0, i1) : " << i0 << ", " << i1;
 
     if( i1 - i0 == 0 ) { // Un elemento en la lista.
         log_handler << "BVH:Constructor general: Un solo objeto.";
@@ -22,7 +21,6 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         izq = shapes_list[i0];
         der = shapes_list[i1];
 
-        log_handler << "BVH:Constructor general: Dos objetos: aabb:";
         log_handler << "BVH:Constructor general: Dos objetos: aabb: i0: " << i0 << ", " << shapes_list[i0]->get_AABB();
 
         log_handler << "BVH:Constructor general: Dos objetos: aabb: i1: " << i1 << ", " << shapes_list[i1]->get_AABB();
@@ -36,19 +34,17 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         for( int i = i0; i < i1; ++i)
             aabb = surround(aabb, shapes_list[i]->get_AABB());
 
-        log_handler << "BVH:Constructor general: AABB general:";
-        std::clog << aabb << std::endl << std::flush;
+        log_handler << "BVH:Constructor general: AABB general:" << aabb;
 
         // Partimos por el eje indicado
         //double pivot = (aabb.maximo.e[axis % 3] - aabb.minimo.e[axis % 3]) / 2.0f;
         double pivot = (aabb.minimo.e[axis % 3] + aabb.maximo.e[axis % 3]) / 2.0f;
-        log_handler << "BVH:Constructor general: Calculando pivote:";
-        std::clog << "(pivote, eje): " << pivot << ", " << axis << std::endl << std::flush;
+        log_handler << "BVH:Constructor general: Calculando pivote: (pivote, eje): " << pivot << ", " << axis;
 
         // Reordenamos la lista de objetos de acuerdo al pivote elegido.
         int div = divide_space(shapes_list, i0, i1, pivot, (axis % 3));
 
-        std::clog << "(i0, i1, div): " << i0 << ", " << i1 << ", " << div << std::endl << std::flush;
+        log_handler << "(i0, i1, div): " << i0 << ", " << i1 << ", " << div;
 
         // Generamos nuevas ramas para nuestro árbol con la nueva lista.
         //izq = create_subtree(shapes_list, i0, div, 0);
@@ -57,7 +53,6 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         der = new BVH(shapes_list, div, i1, (axis + 1) % 3);
 
         log_handler << "BVH:Constructor general: Tres o más objetos - Saliendo. ";
-        std::clog << std::flush;
     }
 }
 

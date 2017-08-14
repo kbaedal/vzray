@@ -3039,7 +3039,7 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1502532825 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
+1502722984 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>
 	"bvh/bvh.h"
 	"log.h"
@@ -3049,10 +3049,10 @@
 	"aabb/aabb.h"
 	"log.h"
 
-1502532921 source:c:\develop\projects\vzraycb\src\log.cpp
+1502533134 source:c:\develop\projects\vzraycb\src\log.cpp
 	"log.h"
 
-1502533145 c:\develop\projects\vzraycb\src\log.h
+1502724393 c:\develop\projects\vzraycb\src\log.h
 	<ctime>
 	<fstream>
 	<iomanip>
