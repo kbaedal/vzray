@@ -21,3 +21,7 @@ void Log_Handler::restore_clog()
 // Bastará con hacer include "log.h" para tener acceso a las funciones de log
 // desde cualquier punto del programa.
 Log_Handler log_handler;
+
+structlog LOGCFG = {};
+LOGCFG.headers = true;
+LOGCFG.level = DEBUG;
