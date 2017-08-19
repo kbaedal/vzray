@@ -2492,13 +2492,13 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1501969505 source:d:\develop\projects\vzraycb\src\aabb\aabb.cpp
+1503092174 source:d:\develop\projects\vzraycb\src\aabb\aabb.cpp
 	"aabb/aabb.h"
 	"vec3.h"
 	"point.h"
 	"ray.h"
 
-1502230460 d:\develop\projects\vzraycb\src\aabb\aabb.h
+1503092174 d:\develop\projects\vzraycb\src\aabb\aabb.h
 	<cmath>
 	"vec3.h"
 	"point.h"
@@ -2705,9 +2705,10 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1501969505 d:\develop\projects\vzraycb\src\scene\scene.h
+1503128365 d:\develop\projects\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
+	"bvh/bvh.h"
 	"material/material.h"
 	"shapes/shape.h"
 	"textures/texture.h"
@@ -2876,7 +2877,7 @@
 1472157143 source:d:\develop\projects\vzraycb\src\rgb.cpp
 	"rgb.h"
 
-1502231034 source:d:\develop\projects\vzraycb\src\scene\scene.cpp
+1503092174 source:d:\develop\projects\vzraycb\src\scene\scene.cpp
 	<vector>
 	"scene.h"
 	"statistics.h"
@@ -2892,7 +2893,7 @@
 	"material/diffusematerial.h"
 	"material/dielectricmaterial.h"
 
-1472157143 d:\develop\projects\vzraycb\src\statistics.h
+1503092174 d:\develop\projects\vzraycb\src\statistics.h
 
 1502217953 source:d:\develop\projects\vzraycb\src\shapes\box.cpp
 	<cmath>
@@ -2970,7 +2971,7 @@
 	"isecaux.h"
 	"statistics.h"
 
-1502229471 source:d:\develop\projects\vzraycb\src\shapes\sphere.cpp
+1502231227 source:d:\develop\projects\vzraycb\src\shapes\sphere.cpp
 	<cmath>
 	<cstdlib>
 	<cstdio>
@@ -2981,7 +2982,6 @@
 	<float.h>
 	"sphere.h"
 	"isecaux.h"
-	"log.h"
 	"onb.h"
 	"randomc/randomc.h"
 
@@ -2989,7 +2989,7 @@
 	"shapes/isecaux.h"
 	"shapes/triangle.h"
 
-1472157143 source:d:\develop\projects\vzraycb\src\statistics.cpp
+1503092174 source:d:\develop\projects\vzraycb\src\statistics.cpp
 	"statistics.h"
 
 1472977219 source:d:\develop\projects\vzraycb\src\test.cpp
@@ -3011,7 +3011,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1502217953 source:d:\develop\projects\vzraycb\src\vzray.cpp
+1503094084 source:d:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdio>
 	<cstdlib>
@@ -3060,18 +3060,20 @@
 	<sstream>
 	<iostream>
 
-1501969505 source:d:\develop\projects\vzraycb\src\bvh\bvh.cpp
+1503128165 source:d:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>
 	"bvh/bvh.h"
-
-1501969505 d:\develop\projects\vzraycb\src\bvh\bvh.h
-	"shapes/shape.h"
-	"aabb/aabb.h"
-
-1502134693 source:d:\develop\projects\vzraycb\src\log.cpp
 	"log.h"
 
-1502217953 d:\develop\projects\vzraycb\src\log.h
+1503094084 d:\develop\projects\vzraycb\src\bvh\bvh.h
+	"shapes/shape.h"
+	"aabb/aabb.h"
+	"log.h"
+
+1503093890 source:d:\develop\projects\vzraycb\src\log.cpp
+	"log.h"
+
+1503093790 d:\develop\projects\vzraycb\src\log.h
 	<ctime>
 	<fstream>
 	<iomanip>

@@ -126,12 +126,15 @@ class Scene {
 		// Crea la jerarquía de volumenes para la escena.
 		bool create_bvh()
 		{
-		    log_handler << "IMPRIMIENDO AABB DE TODOS LOS OBJETOS:";
-		    for(size_t i = 0; i < shapes.size(); ++i) {
-                std::clog << "i = " << i << ", " << shapes[i]->get_AABB() << std::endl;
-		    }
+		    LOG() << "scene::create_bvh: Entrando - IMPRIMIENDO AABB DE TODOS LOS OBJETOS:";
+		    for(size_t i = 0; i < shapes.size(); ++i)
+                LOG(DEBUG) << "i = " << i << ", " << shapes[i]->get_AABB();
 
 		    bvh = new BVH(shapes, 0, shapes.size() - 1, 0);
+
+		    LOG() << "scene::create_bvh: Saliendo - IMPRIMIENDO AABB DE TODOS LOS OBJETOS:";
+		    for(size_t i = 0; i < shapes.size(); ++i)
+                LOG(DEBUG) << "i = " << i << ", " << shapes[i]->get_AABB();
 
 		    return true;
 		};

@@ -24,7 +24,7 @@ class BVH : public Shape {
         BVH();
         BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis);
         BVH(Shape *s1, Shape *s2) {
-            log_handler << "BVH::CONSTRUCTOR DOS OBJETOS.";
+            LOG() << "BVH::CONSTRUCTOR DOS OBJETOS.";
 
             izq = s1;
             der = s2;
