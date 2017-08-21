@@ -66,7 +66,7 @@ class LOG {
 
         ~LOG()
         {
-            if(opened) {
+            if( opened ) {
                 std::clog << std::endl << std::flush;
             }
 

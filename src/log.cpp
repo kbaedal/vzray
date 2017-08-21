@@ -5,4 +5,3 @@
 // acceder a la configuración y modificarla en cualquier momento.
 
 structlog LOGCFG;
-

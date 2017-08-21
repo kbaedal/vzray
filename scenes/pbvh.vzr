@@ -122,6 +122,13 @@ Fichero de descripción de escena de VZRay v0.0.1
 	
 	<!-- Objects -->
 	
+	<object>
+		<type>sphere</type>
+		<center>50,65.10,81.6</center>
+		<radius>1.5</radius>
+		<material>Light</material>
+	</object>
+	
 	<!-- Mirror sphere -->
 	<object>
 		<type>sphere</type>
@@ -164,12 +171,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<material>Light</material>
 	</object>
 	-->
-	<object>
-		<type>sphere</type>
-		<center>50,65.10,81.6</center>
-		<radius>1.5</radius>
-		<material>Light</material>
-	</object>
+	
 	
 	
 </scene>

@@ -45,7 +45,7 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         int div = divide_space(shapes_list, i0, i1, pivot, (axis % 3));
 
         LOG() << "(i0, i1, div): " << i0 << ", " << i1 << ", " << div;
-        for(size_t x = i0; x <= i1; ++x)
+        for(int x = i0; x <= i1; ++x)
             LOG() << "   AABB(" << x << "): " << shapes_list[x]->get_AABB();
 
         // Generamos nuevas ramas para nuestro árbol con la nueva lista.
@@ -113,7 +113,7 @@ int BVH::divide_space(std::vector<Shape *> &shapes_list, int i0, int i1, double 
             LOG() << "BVH::divide_space:    Cambiando (" << i << ") por (" << i + dev_index << ")";
             // Si está a la izquierda
             temp            = shapes_list[i];
-            shapes_list[i]  = shapes_list[i + dev_index];
+            shapes_list[i]  = shapes_list[i0 + dev_index];
             shapes_list[i0 + dev_index] = temp;
             ++dev_index;
 
