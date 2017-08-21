@@ -59,8 +59,10 @@ Scene::~Scene()
         }
     }
 
+    /*
     if(bvh != nullptr)
         delete bvh;
+    */
 }
 
 bool Scene::add_object(Shape *new_object, std::string material_id, bool is_light)

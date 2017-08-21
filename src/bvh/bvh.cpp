@@ -66,7 +66,11 @@ bool BVH::hit(const Ray &r, double min_dist, double max_dist, HitRecord &hit) co
     // Si el rayo pasa por la aabb, comprobamos las ramas.
     if( aabb.hit(r, min_dist, max_dist) ) {
         h_izq = izq->hit(r, min_dist, max_dist, hit);
-        h_der = der->hit(r, min_dist, hit.dist, hit);
+
+        if( h_izq )
+            max_dist = hit.dist;
+
+        h_der = der->hit(r, min_dist, max_dist, hit);
     }
 
     return ( h_izq || h_der );

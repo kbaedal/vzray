@@ -2158,7 +2158,7 @@
 	"image.h"
 	"renderer/renderer.h"
 
-1502524762 c:\develop\projects\vzraycb\src\scene\scene.h
+1503303725 c:\develop\projects\vzraycb\src\scene\scene.h
 	<string>
 	<vector>
 	"bvh/bvh.h"
@@ -2441,7 +2441,7 @@
 	"randomc/randomc.h"
 	"onb.h"
 
-1502533082 source:c:\develop\projects\vzraycb\src\vzray.cpp
+1503303725 source:c:\develop\projects\vzraycb\src\vzray.cpp
 	<cmath>
 	<cstdio>
 	<cstdlib>
@@ -3039,26 +3039,25 @@
 	"randomc/randomc.h"
 	"scene/scene.h"
 
-1503047320 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
+1503304206 source:c:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>
 	"bvh/bvh.h"
 	"log.h"
 
-1502292711 c:\develop\projects\vzraycb\src\bvh\bvh.h
+1503303725 c:\develop\projects\vzraycb\src\bvh\bvh.h
 	"shapes/shape.h"
 	"aabb/aabb.h"
 	"log.h"
 
-1502533134 source:c:\develop\projects\vzraycb\src\log.cpp
+1503303725 source:c:\develop\projects\vzraycb\src\log.cpp
 	"log.h"
 
-1503075666 c:\develop\projects\vzraycb\src\log.h
+1503303725 c:\develop\projects\vzraycb\src\log.h
 	<ctime>
 	<fstream>
 	<iomanip>
 	<iostream>
 	<sstream>
-	<iostream>
 
 1503128165 source:d:\develop\projects\vzraycb\src\bvh\bvh.cpp
 	<vector>

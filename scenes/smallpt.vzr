@@ -1,6 +1,6 @@
 <!--
 
-Fichero de descripci贸n de escena de VZRay v0.0.1
+Fichero de descripci髇 de escena de VZRay v0.0.1
 
 -->
 
@@ -9,13 +9,13 @@ Fichero de descripci贸n de escena de VZRay v0.0.1
 <!-- 
 	Cabecera, para configurar el renderer a usar, la camara, la imagen
 	a generar, etc. En definitiva, todos los datos necesarios para
-	producir la imagen excepto la definici贸n geom茅trica de la escena.
+	producir la imagen excepto la definici髇 geom閠rica de la escena.
 -->
 
 <config>
 	<renderer>
 		<type>whitted</type>
-		<samples>2</samples>		
+		<samples>9</samples>		
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -37,7 +37,7 @@ Fichero de descripci贸n de escena de VZRay v0.0.1
 
 <!-- Fin de la cabecera -->
 
-<!-- Inicio de la descripci贸n de la escena. -->
+<!-- Inicio de la descripci髇 de la escena. -->
 
 <scene>
 	<!-- Textures -->

@@ -15,7 +15,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 <config>
 	<renderer>
 		<type>whitted</type>
-		<samples>2</samples>		
+		<samples>9</samples>		
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -132,7 +132,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 	<!-- Mirror sphere -->
 	<object>
 		<type>sphere</type>
-		<center>27, 16.5, 47</center>
+		<center>27, 20.5, 47</center>
 		<radius>16.5</radius>
 		<!-- <material>Specular</material> -->
 		<material>DiffuseWhite</material>
@@ -140,27 +140,27 @@ Fichero de descripción de escena de VZRay v0.0.1
 	
 	<object>
 		<type>sphere</type>
-		<center>73, 16.5, 47</center>
+		<center>73, 12.5, 47</center>
 		<radius>16.5</radius>
 		<!-- <material>Specular</material> -->
-		<material>DiffuseWhite</material>
+		<material>DiffuseRed</material>
 	</object>
 	
 	<!-- Glass sphere -->
 	<object>
 		<type>sphere</type>
-		<center>73, 16.5, 78</center>
+		<center>73, 24.5, 78</center>
 		<radius>16.5</radius>
 		<!-- <material>Dielectric</material> -->
-		<material>DiffuseWhite</material>
+		<material>DiffuseGreen</material>
 	</object>
 	
 	<object>
 		<type>sphere</type>
-		<center>27, 16.5, 78</center>
+		<center>27, 6.5, 78</center>
 		<radius>16.5</radius>
 		<!-- <material>Dielectric</material> -->
-		<material>DiffuseWhite</material>
+		<material>DiffuseBlue</material>
 	</object>
 		
 	<!-- Light sphere 
