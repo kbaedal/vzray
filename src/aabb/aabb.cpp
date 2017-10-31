@@ -15,7 +15,7 @@ void AABB::set(const Point &a_min, const Point &a_max)
 	maximo.e[2] = std::max(a_min.z(), a_max.z());
 }
 
-bool AABB::overlaps(const AABB &b)
+bool AABB::overlaps(const AABB &b) const
 {
 	bool x, y, z;
 
@@ -27,7 +27,7 @@ bool AABB::overlaps(const AABB &b)
 }
 
 
-bool AABB::inside(const Point &p)
+bool AABB::inside(const Point &p) const
 {
 	if((p.x() >= minimo.x()) && (p.x() <= maximo.x()))
 		if((p.y() >= minimo.y()) && (p.y() <= maximo.y()))
@@ -39,6 +39,9 @@ bool AABB::inside(const Point &p)
 
 bool AABB::hit(const Ray &r, double min_dist, double max_dist) const
 {
+    if ( this->inside(r.origin()) )
+        return true;
+        
 	double t1 = (minimo.x() - r.origin().x()) * r.inv_dir().x();
 	double t2 = (maximo.x() - r.origin().x()) * r.inv_dir().x();
 	double t3 = (minimo.y() - r.origin().y()) * r.inv_dir().y();

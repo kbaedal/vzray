@@ -28,11 +28,15 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
 
         LOG() << "BVH:Constructor general: Dos objetos. Saliendo.";
     }
-    else { // Tres o más, subdividimos.
-        LOG() << "BVH:Constructor general: Tres o más objetos - Entrando.";
+    else { // Tres o mÃ¡s, subdividimos.
+        LOG() << "BVH:Constructor general: Tres o mÃ¡s objetos (" << i0 << ", " << i1 << ", " << axis << ") - Entrando.";
 
-        for( int i = i0; i < i1; ++i)
+        for( int i = i0; i <= i1; ++i) {
+            LOG() << "BVH:Constructor general:3oM: aabb original: " << aabb;
+            LOG() << "BVH:Constructor general:3oM: aabb a surrondear: " << shapes_list[i]->get_AABB();
             aabb = surround(aabb, shapes_list[i]->get_AABB());
+            LOG() << "BVH:Constructor general:3oM: aabb surrondeada: " << aabb;
+        }
 
         LOG() << "BVH:Constructor general: AABB general:" << aabb;
 
@@ -44,17 +48,18 @@ BVH::BVH(std::vector<Shape *> &shapes_list, int i0, int i1, int axis)
         // Reordenamos la lista de objetos de acuerdo al pivote elegido.
         int div = divide_space(shapes_list, i0, i1, pivot, (axis % 3));
 
-        LOG() << "(i0, i1, div): " << i0 << ", " << i1 << ", " << div;
+        LOG() << "Espacio dividido: (i0, i1, div): (" << i0 << ", " << i1 << ", " << div << ")";
+        
         for(int x = i0; x <= i1; ++x)
             LOG() << "   AABB(" << x << "): " << shapes_list[x]->get_AABB();
 
-        // Generamos nuevas ramas para nuestro árbol con la nueva lista.
+        // Generamos nuevas ramas para nuestro Ã¡rbol con la nueva lista.
         //izq = create_subtree(shapes_list, i0, div, 0);
         //der = create_subtree(shapes_list, div+1, i1, 0);
         izq = new BVH(shapes_list, i0, div - 1, (axis + 1) % 3);
         der = new BVH(shapes_list, div, i1, (axis + 1) % 3);
 
-        LOG() << "BVH:Constructor general: Tres o más objetos - Saliendo. ";
+        LOG() << "BVH:Constructor general: Tres o mÃ¡s objetos - Saliendo. ";
     }
 }
 
@@ -111,11 +116,14 @@ int BVH::divide_space(std::vector<Shape *> &shapes_list, int i0, int i1, double 
         LOG() << "BVH::divide_space: Calculando centroide.";
 
         centroid = shapes_list[i]->get_AABB().centroid().e[axis];
+        
+        LOG() << "BVH::divide_space: aabb del objeto: " << shapes_list[i]->get_AABB();
+        LOG() << "BVH::divide_space: Centroide en eje (" << axis << "): " << centroid << " - Pivote: " << pivot;
 
         if( centroid < pivot ) {
             LOG() << "BVH::divide_space: Centroide a la izquierda.";
             LOG() << "BVH::divide_space:    Cambiando (" << i << ") por (" << i + dev_index << ")";
-            // Si está a la izquierda
+            // Si estÃ¡ a la izquierda
             temp            = shapes_list[i];
             shapes_list[i]  = shapes_list[i0 + dev_index];
             shapes_list[i0 + dev_index] = temp;

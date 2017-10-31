@@ -14,6 +14,11 @@
 #include "onb.h"
 #include "randomc/randomc.h"
 
+#ifndef M_PI
+    #define M_PI (3.14159265358979323846)
+#endif
+
+
 Sphere::Sphere(Point a_center, double a_radius, Material *a_material)
 {
 		// El radio lo aplicaremos como una transformacion de escalado

@@ -159,21 +159,32 @@ Material *Scene::get_material(std::string material_id)
 
 bool Scene::nearest_intersection(Ray r, double min_dist, double max_dist, HitRecord &hit_r)
 {
-	//bool is_hit = false;
-
+    int abimc { 0 };    // Algoritmo de Busqueda de Intersección Más Cercana
+    bool is_hit = false;
+    
     ++Statistics::num_primary_rays;
 
-    /*
-    for(size_t i = 0; i < shapes.size(); ++i) {
-        if(shapes[i]->hit(r, min_dist, max_dist, hit_r)) {
-            max_dist    = hit_r.dist;
-            is_hit      = true;
-        }
-    }
+    switch (abimc) {
+        case 0:// Brute force search for nearest intersection.
+            for(size_t i = 0; i < shapes.size(); ++i) {
+                if(shapes[i]->hit(r, min_dist, max_dist, hit_r)) {
+                    max_dist    = hit_r.dist;
+                    is_hit      = true;
+                }
+            }
 
-	return is_hit;
-	*/
-	return this->bvh->hit(r, min_dist, max_dist, hit_r);
+            break;
+        case 1: // BVH search.
+            is_hit = this->bvh->hit(r, min_dist, max_dist, hit_r);
+            break;
+        case 2: // BSP search.
+            break;
+        default:
+            is_hit = false;
+            break;
+    }
+    
+    return is_hit;
 }
 
 bool Scene::shadow_intersection(Ray r, double min_dist, double max_dist)

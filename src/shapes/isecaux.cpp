@@ -57,12 +57,12 @@ Vec3 isecaux::get_box_normal(Point p)
 	else if((fabs(p.z()) > fabs(p.y())) && (fabs(p.z()) > fabs(p.x())))
 		coord = 2;
 
-	return (p.e[coord] > 0) ? n[coord] : -1 * n[coord];
+	return (p.e[coord] > 0.0f) ? n[coord] : -1.0f * n[coord];
 };
 
 bool isecaux::solve_quadratic(double a, double b, double c, double &t0, double &t1)
 {
-	double discr = b * b - 4.f * a * c;
+	double discr = b * b - 4.0f * a * c;
 
 	if (discr <= 0.0f) // Sin soluciones
 		return false;

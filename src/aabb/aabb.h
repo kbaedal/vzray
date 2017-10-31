@@ -32,7 +32,7 @@ class AABB
 		 *
 		 * \param bb AABB a comprobar.
 		 */
-		bool overlaps(const AABB &b);
+		bool overlaps(const AABB &b) const;
 
 		/**
 		 * \brief Calcula si un punto está dentro del espacio delimitado
@@ -40,7 +40,7 @@ class AABB
 		 *
 		 * \param p Punto a comprobar.
 		 */
-		bool inside(const Point &p);
+		bool inside(const Point &p) const;
 
 		/**
 		 * \brief Comprueba si un rayo interesecta la AABB.

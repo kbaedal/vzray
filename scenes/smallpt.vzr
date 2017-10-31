@@ -15,7 +15,7 @@ Fichero de descripción de escena de VZRay v0.0.1
 <config>
 	<renderer>
 		<type>whitted</type>
-		<samples>9</samples>		
+		<samples>16</samples>		
 		<max_depth>5</max_depth>
 	</renderer>
 	<camera>
@@ -201,6 +201,5 @@ Fichero de descripción de escena de VZRay v0.0.1
 		<center>50,-99918.4,81.6</center>
 		<radius>100000</radius>
 		<material>DiffuseWhite</material>
-	</object>
-	
+	</object>	
 </scene>

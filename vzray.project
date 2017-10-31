@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="vzray" Version="10.0.0" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+  </Plugins>
+  <Reconciliation>
+    <Regexes/>
+    <Excludepaths/>
+    <Ignorefiles/>
+    <Extensions>
+      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp]]>
+    </Extensions>
+    <Topleveldir>../vzray</Topleveldir>
+  </Reconciliation>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="sources">
+    <VirtualDirectory Name="aabb">
+      <File Name="src/aabb/aabb.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="bvh">
+      <File Name="src/bvh/bvh.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="camera">
+      <File Name="src/camera/pinhole.cpp"/>
+      <File Name="src/camera/thinlens.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="material">
+      <File Name="src/material/dielectricmaterial.cpp"/>
+      <File Name="src/material/diffusematerial.cpp"/>
+      <File Name="src/material/lightmaterial.cpp"/>
+      <File Name="src/material/specularmaterial.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="matrix">
+      <File Name="src/matrix/matrix.cpp"/>
+      <File Name="src/matrix/transform.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="parser">
+      <File Name="src/parser/parser.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="randomc">
+      <File Name="src/randomc/randomc.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="renderer">
+      <File Name="src/renderer/directrenderer.cpp"/>
+      <File Name="src/renderer/pathrenderer.cpp"/>
+      <File Name="src/renderer/whittedrenderer.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="scene">
+      <File Name="src/scene/scene.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="shapes">
+      <File Name="src/shapes/box.cpp"/>
+      <File Name="src/shapes/cylinder.cpp"/>
+      <File Name="src/shapes/disc.cpp"/>
+      <File Name="src/shapes/isecaux.cpp"/>
+      <File Name="src/shapes/mesh.cpp"/>
+      <File Name="src/shapes/meshtriangle.cpp"/>
+      <File Name="src/shapes/parallelogram.cpp"/>
+      <File Name="src/shapes/plane.cpp"/>
+      <File Name="src/shapes/sphere.cpp"/>
+      <File Name="src/shapes/triangle.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="textures"/>
+    <VirtualDirectory Name="utils"/>
+    <File Name="src/image.cpp"/>
+    <File Name="src/log.cpp"/>
+    <File Name="src/onb.cpp"/>
+    <File Name="src/point.cpp"/>
+    <File Name="src/ray.cpp"/>
+    <File Name="src/rgb.cpp"/>
+    <File Name="src/statistics.cpp"/>
+    <File Name="src/test.cpp"/>
+    <File Name="src/vec2.cpp"/>
+    <File Name="src/vec3.cpp"/>
+    <File Name="src/vzray.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="headers">
+    <VirtualDirectory Name="aabb">
+      <File Name="src/aabb/aabb.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="bvh">
+      <File Name="src/bvh/bvh.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="camera">
+      <File Name="src/camera/camera.h"/>
+      <File Name="src/camera/pinhole.h"/>
+      <File Name="src/camera/thinlens.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="material">
+      <File Name="src/material/dielectricmaterial.h"/>
+      <File Name="src/material/diffusematerial.h"/>
+      <File Name="src/material/lightmaterial.h"/>
+      <File Name="src/material/material.h"/>
+      <File Name="src/material/specularmaterial.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="parser">
+      <File Name="src/parser/parser.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="matrix">
+      <File Name="src/matrix/matrix.h"/>
+      <File Name="src/matrix/transform.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="randomc">
+      <File Name="src/randomc/randomc.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="renderer">
+      <File Name="src/renderer/directrenderer.h"/>
+      <File Name="src/renderer/pathrenderer.h"/>
+      <File Name="src/renderer/renderer.h"/>
+      <File Name="src/renderer/whittedrenderer.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="scene">
+      <File Name="src/scene/scene.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="shapes">
+      <File Name="src/shapes/box.h"/>
+      <File Name="src/shapes/cylinder.h"/>
+      <File Name="src/shapes/disc.h"/>
+      <File Name="src/shapes/isecaux.h"/>
+      <File Name="src/shapes/mesh.h"/>
+      <File Name="src/shapes/meshtriangle.h"/>
+      <File Name="src/shapes/parallelogram.h"/>
+      <File Name="src/shapes/plane.h"/>
+      <File Name="src/shapes/shape.h"/>
+      <File Name="src/shapes/sphere.h"/>
+      <File Name="src/shapes/triangle.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="textures">
+      <File Name="src/textures/simpletexture.h"/>
+      <File Name="src/textures/texture.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="utils">
+      <File Name="src/utils/dllist.h"/>
+    </VirtualDirectory>
+    <File Name="src/image.h"/>
+    <File Name="src/log.h"/>
+    <File Name="src/onb.h"/>
+    <File Name="src/point.h"/>
+    <File Name="src/ray.h"/>
+    <File Name="src/rgb.h"/>
+    <File Name="src/statistics.h"/>
+    <File Name="src/test.h"/>
+    <File Name="src/vec2.h"/>
+    <File Name="src/vec3.h"/>
+    <File Name="src/vzray.h"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="MinGW ( TDM-GCC-32 )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-std=c++14;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <IncludePath Value="./src"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="./bin/$(ConfigurationName)/$(ProjectName)" IntermediateDirectory="./obj" Command="./bin/$(ConfigurationName)/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin/$(ConfigurationName)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="MinGW ( TDM-GCC-32 )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
