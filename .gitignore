@@ -7,3 +7,4 @@ bin/
 doc/
 html/
 obj/
+.codelite/

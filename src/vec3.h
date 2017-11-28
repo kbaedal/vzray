@@ -32,6 +32,12 @@ class Vec3
 		friend Vec3 operator*(Vec3 v, double f);
 		friend Vec3 operator*(double f, Vec3 v);
 		friend Vec3 operator/(Vec3 v, double f);
+        
+        // Producto escalar de dos vectores.
+        friend float operator*(const Vec3 &v1, const Vec3 &v2);
+        
+        // Producto vectorial
+        friend Vec3 operator^(Vec3 v1, const Vec3 &v2);
 
 		// Operadores logicos
 		friend bool operator==(const Vec3 &v1, const Vec3 &v2);
@@ -79,7 +85,7 @@ class Vec3
 		 *
 		 * \param v3In Vector incidente sobre la superficie.
 		 * \param v3Normal Vector normal en el punto de interseccion.
-		 * \return La direccion de la reflexiÛn.
+		 * \return La direccion de la reflexi√≥n.
 		 */
 		friend Vec3 reflect(
 			const Vec3 &in, 	// Incoming vector
@@ -88,13 +94,13 @@ class Vec3
 
 		/**
 		 * \brief Calcula el vector refractado correspondiente a las
-		 * caracterÌsticas de las superficies y el vector incidente.
+		 * caracter√≠sticas de las superficies y el vector incidente.
 		 *
 		 * \param v3In Vector incidente sobre la superficie.
 		 * \param v3Normal Vector normal en el punto de interseccion.
 		 * \param dExtIOR Indice de refraccion del medio externo.
-		 * \param dIntIOR Indice de refracciÛn del medio interno.
-		 * \return La direccion de la refracciÛn.
+		 * \param dIntIOR Indice de refracci√≥n del medio interno.
+		 * \return La direccion de la refracci√≥n.
 		 */
 		friend Vec3 refract(
 			const Vec3 &in, 		// Incoming vector
@@ -104,7 +110,7 @@ class Vec3
 		);
 
 		/**
-		 * \brief Calcula si se produce reflexiÛn interna total.
+		 * \brief Calcula si se produce reflexi√≥n interna total.
 		 *
 		 * \param in Vector incidente sobre la superficie.
 		 * \param norm Vector normal en el punto de interseccion.
@@ -119,7 +125,7 @@ class Vec3
 
 		/**
 		 * \brief Calcula un vector normalizado en una direccion aleatoria
-		 * que estar· dentro del hemisferio definido por v3Dir.
+		 * que estar√° dentro del hemisferio definido por v3Dir.
 		 *
 		 * \param dir Vector que define el hemisferio.
 		 * \param rn1 Numero aleatorio tal que 0.f <= rn1 < 1.f

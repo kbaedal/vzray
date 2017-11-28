@@ -60,4 +60,4 @@ class Globals {
         Renderer 	*renderer;		///< El renderizador, datos sacados del fichero.
 };
 
-#endif // __VZRAY_H
+#endif // __VZRAY_H_
